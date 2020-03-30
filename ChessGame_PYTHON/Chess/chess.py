@@ -890,7 +890,7 @@ def chess_coord_to_pixels(chess_coord):
     else:
         return ((7-x)*square_width, (7-y)*square_height)
 def pixel_coord_to_chess(pixel_coord):
-    x,y = pixel_coord[0]/square_width, pixel_coord[1]/square_height
+    x,y = int(pixel_coord[0]/square_width), int(pixel_coord[1]/square_height)
     #See comments for chess_coord_to_pixels() for an explanation of the
     #conditions seen here:
     if isAI:
@@ -1350,33 +1350,33 @@ square_height = size_of_bg[1]/8
 #Rescale the images so that each piece can fit in a square:
 
 pieces_image = pygame.transform.scale(pieces_image,
-                                      (square_width*6,square_height*2))
+                                      (int(square_width)*6,int(square_height)*2))
 circle_image_green = pygame.transform.scale(circle_image_green,
-                                      (square_width, square_height))
+                                      (int(square_width), int(square_height)))
 circle_image_capture = pygame.transform.scale(circle_image_capture,
-                                      (square_width, square_height))
+                                      (int(square_width), int(square_height)))
 circle_image_red = pygame.transform.scale(circle_image_red,
-                                      (square_width, square_height))
+                                      (int(square_width), int(square_height)))
 greenbox_image = pygame.transform.scale(greenbox_image,
-                                      (square_width, square_height))
+                                      (int(square_width), int(square_height)))
 yellowbox_image = pygame.transform.scale(yellowbox_image,
-                                      (square_width, square_height))
+                                      (int(square_width), int(square_height)))
 circle_image_yellow = pygame.transform.scale(circle_image_yellow,
-                                             (square_width, square_height))
+                                             (int(square_width), int(square_height)))
 circle_image_green_big = pygame.transform.scale(circle_image_green_big,
-                                             (square_width, square_height))
+                                             (int(square_width), int(square_height)))
 withfriend_pic = pygame.transform.scale(withfriend_pic,
-                                      (square_width*4,square_height*4))
+                                      (int(square_width)*4,int(square_height)*4))
 withAI_pic = pygame.transform.scale(withAI_pic,
-                                      (square_width*4,square_height*4))
+                                      (int(square_width)*4,int(square_height)*4))
 playwhite_pic = pygame.transform.scale(playwhite_pic,
-                                      (square_width*4,square_height*4))
+                                      (int(square_width)*4,int(square_height)*4))
 playblack_pic = pygame.transform.scale(playblack_pic,
-                                      (square_width*4,square_height*4))
+                                      (int(square_width)*4,int(square_height)*4))
 flipEnabled_pic = pygame.transform.scale(flipEnabled_pic,
-                                      (square_width*4,square_height*4))
+                                      (int(square_width)*4,int(square_height)*4))
 flipDisabled_pic = pygame.transform.scale(flipDisabled_pic,
-                                      (square_width*4,square_height*4))
+                                      (int(square_width)*4,int(square_height)*4))
 
 
 
