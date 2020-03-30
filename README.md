@@ -20,6 +20,9 @@
  [convolutionnal with Anchor Boxes](https://www.youtube.com/watch?v=RTlwl2bv0Tg) 
  
 # Note
+## Batch Normalization
+   1. Normalize output from activation function $z = \frac{x-m}{s}$
+
 ## convolutionnal with Anchor Boxe.
  
  Losrsque l'on détecte des objets dans une images (elle même découpé en cell) on dessine autour un rectangle. Celui-ci est un "Anchor box". La représentationd ce fait comme ci dessous. 
@@ -36,11 +39,12 @@
  
  Output y : 3\*3\*16  (cell.size.height* cell.size.height* anchorBoxSize * anchorBoxSize.number)
  
- ### Exemple 
+ ### Exemple
  
  ![Image description](Image/AnchorBoxes_Example.png)
  
  
+
  
  
  
