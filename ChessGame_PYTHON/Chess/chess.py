@@ -450,15 +450,15 @@ def drawText(board):
             if board[i][k]=='Oo':
                 board[i][k] = 0
 def isOccupied(board,x,y):
-    if board[int(y)][int(x)] == 0:
+    if board[y][x] == 0:
     #The square has nothing on it.
         return False
     return True
 def isOccupiedby(board,x,y,color):
-    if board[int(y)][int(x)]==0:
+    if board[y][x]==0:
         #the square has nothing on it.
         return False
-    if board[int(y)][int(x)][1] == color[0]:
+    if board[y][x][1] == color[0]:
         #The square has a piece of the color inputted.
         return True
     #The square has a piece of the opposite color.
@@ -1321,23 +1321,23 @@ screen = pygame.display.set_mode((600,600))
 
 #Load all the images:
 #Load the background chess board image:
-background = pygame.image.load('Media/board.png').convert()
+background = pygame.image.load('Media\\board.png').convert()
 #Load an image with all the pieces on it:
-pieces_image = pygame.image.load('Media/Chess_Pieces_Sprite.png').convert_alpha()
-circle_image_green = pygame.image.load('Media/green_circle_small.png').convert_alpha()
-circle_image_capture = pygame.image.load('Media/green_circle_neg.png').convert_alpha()
-circle_image_red = pygame.image.load('Media/red_circle_big.png').convert_alpha()
-greenbox_image = pygame.image.load('Media/green_box.png').convert_alpha()
-circle_image_yellow = pygame.image.load('Media/yellow_circle_big.png').convert_alpha()
-circle_image_green_big = pygame.image.load('Media/green_circle_big.png').convert_alpha()
-yellowbox_image = pygame.image.load('Media/yellow_box.png').convert_alpha()
+pieces_image = pygame.image.load('Media\\Chess_Pieces_Sprite.png').convert_alpha()
+circle_image_green = pygame.image.load('Media\\green_circle_small.png').convert_alpha()
+circle_image_capture = pygame.image.load('Media\\green_circle_neg.png').convert_alpha()
+circle_image_red = pygame.image.load('Media\\red_circle_big.png').convert_alpha()
+greenbox_image = pygame.image.load('Media\\green_box.png').convert_alpha()
+circle_image_yellow = pygame.image.load('Media\\yellow_circle_big.png').convert_alpha()
+circle_image_green_big = pygame.image.load('Media\\green_circle_big.png').convert_alpha()
+yellowbox_image = pygame.image.load('Media\\yellow_box.png').convert_alpha()
 #Menu pictures:
-withfriend_pic = pygame.image.load('Media/withfriend.png').convert_alpha()
-withAI_pic = pygame.image.load('Media/withAI.png').convert_alpha()
-playwhite_pic = pygame.image.load('Media/playWhite.png').convert_alpha()
-playblack_pic = pygame.image.load('Media/playBlack.png').convert_alpha()
-flipEnabled_pic = pygame.image.load('Media/flipEnabled.png').convert_alpha()
-flipDisabled_pic = pygame.image.load('Media/flipDisabled.png').convert_alpha()
+withfriend_pic = pygame.image.load('Media\\withfriend.png').convert_alpha()
+withAI_pic = pygame.image.load('Media\\withAI.png').convert_alpha()
+playwhite_pic = pygame.image.load('Media\\playWhite.png').convert_alpha()
+playblack_pic = pygame.image.load('Media\\playBlack.png').convert_alpha()
+flipEnabled_pic = pygame.image.load('Media\\flipEnabled.png').convert_alpha()
+flipDisabled_pic = pygame.image.load('Media\\flipDisabled.png').convert_alpha()
 
 #Getting sizes:
 #Get background size:
@@ -1349,33 +1349,34 @@ square_height = size_of_bg[1]/8
 
 #Rescale the images so that each piece can fit in a square:
 
-pieces_image = pygame.transform.scale(pieces_image,( int(square_width*6) , int(square_height*2.0) ) )
-
-circle_image_green = pygame.transform.scale(circle_image_green,(int(square_width), int(square_height)))
-
-circle_image_capture = pygame.transform.scale(circle_image_capture,(int(square_width), int(square_height)))
-
-circle_image_red = pygame.transform.scale(circle_image_red,(int(square_width), int(square_height)))
-
-greenbox_image = pygame.transform.scale(greenbox_image,(int(square_width), int(square_height)))
-
-yellowbox_image = pygame.transform.scale(yellowbox_image,(int(square_width), int(square_height)))
-
-circle_image_yellow = pygame.transform.scale(circle_image_yellow,(int(square_width), int(square_height)))
-
-circle_image_green_big = pygame.transform.scale(circle_image_green_big,(int(square_width), int(square_height)))
-
-withfriend_pic = pygame.transform.scale(withfriend_pic,(int(square_width*4),int(square_height*4)))
-
-withAI_pic = pygame.transform.scale(withAI_pic,(int(square_width*4),int(square_height*4)))
-
-playwhite_pic = pygame.transform.scale(playwhite_pic,(int(square_width*4),int(square_height*4)))
-
-playblack_pic = pygame.transform.scale(playblack_pic,(int(square_width*4),int(square_height*4)))
-
-flipEnabled_pic = pygame.transform.scale(flipEnabled_pic,(int(square_width*4),int(square_height*4)))
-
-flipDisabled_pic = pygame.transform.scale(flipDisabled_pic,(int(square_width*4),int(square_height*4)))
+pieces_image = pygame.transform.scale(pieces_image,
+                                      (square_width*6,square_height*2))
+circle_image_green = pygame.transform.scale(circle_image_green,
+                                      (square_width, square_height))
+circle_image_capture = pygame.transform.scale(circle_image_capture,
+                                      (square_width, square_height))
+circle_image_red = pygame.transform.scale(circle_image_red,
+                                      (square_width, square_height))
+greenbox_image = pygame.transform.scale(greenbox_image,
+                                      (square_width, square_height))
+yellowbox_image = pygame.transform.scale(yellowbox_image,
+                                      (square_width, square_height))
+circle_image_yellow = pygame.transform.scale(circle_image_yellow,
+                                             (square_width, square_height))
+circle_image_green_big = pygame.transform.scale(circle_image_green_big,
+                                             (square_width, square_height))
+withfriend_pic = pygame.transform.scale(withfriend_pic,
+                                      (square_width*4,square_height*4))
+withAI_pic = pygame.transform.scale(withAI_pic,
+                                      (square_width*4,square_height*4))
+playwhite_pic = pygame.transform.scale(playwhite_pic,
+                                      (square_width*4,square_height*4))
+playblack_pic = pygame.transform.scale(playblack_pic,
+                                      (square_width*4,square_height*4))
+flipEnabled_pic = pygame.transform.scale(flipEnabled_pic,
+                                      (square_width*4,square_height*4))
+flipDisabled_pic = pygame.transform.scale(flipDisabled_pic,
+                                      (square_width*4,square_height*4))
 
 
 
