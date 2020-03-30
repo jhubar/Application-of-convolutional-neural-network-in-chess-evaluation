@@ -14,3 +14,7 @@
 - interesting read : https://int8.io/chess-position-evaluation-with-convolutional-neural-networks-in-julia/#Chess_position_evaluation_task
 
 - how t use chess library to have the stockfish eval score : https://stackoverflow.com/questions/58556338/python-evaluating-a-board-position-using-stockfish-from-the-python-chess-librar
+
+# video interresante 
+
+ [convolutionnal with Anchor Boxes](https://www.youtube.com/watch?v=RTlwl2bv0Tg) 
