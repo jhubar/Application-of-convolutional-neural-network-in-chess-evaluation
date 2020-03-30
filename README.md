@@ -16,12 +16,24 @@
 - how t use chess library to have the stockfish eval score : https://stackoverflow.com/questions/58556338/python-evaluating-a-board-position-using-stockfish-from-the-python-chess-librar
 
 # video interresante 
-
+ [Batch Norm](https://www.youtube.com/watch?v=em6dfRxYkYU)
  [convolutionnal with Anchor Boxes](https://www.youtube.com/watch?v=RTlwl2bv0Tg) 
  
-# Note
+# Note: Better
+
 ## Batch Normalization
-   1. Normalize output from activation function z=$\frac{n!}{k!(n-k)!}$
+Pour augmenter la rapiditer de l'entrainement, on doit normalisé nos inputs d'entrée. De manière general, la normalization est le faite de normalisé nos input d'entrée.
+La batch normalisation permet a chaque couche d'un réseau d'apprendre par elle-mêm un peu plus indépendamment des autres couches.
+ 1.Nous pouvons utiliser des taux d'apprentissage plus élevés car la normalisation par lots garantit qu'aucune activation   n'est allée vraiment haut ou très bas. Et par là, des choses qui auparavant ne pouvaient pas s'entraîner, elles commenceront à s'entraîner.
+ 1.Il réduit le sur-ajustement car il a un léger effet de régularisation. Semblable au décrochage, il ajoute du bruit aux activations de chaque couche cachée. Par conséquent, si nous utilisons la normalisation par lots, nous utiliserons moins d'abandon, ce qui est une bonne chose car nous n'allons pas perdre beaucoup d'informations. Cependant, nous ne devons pas dépendre uniquement de la normalisation des lots pour la régularisation; nous devrions mieux l'utiliser avec le décrochage.
+
+### Fonctionnnement
+   1. Normalize output from activation function z=(x-m)/s
+   2. Multiply nomalized output by arbitraty parameter,g: z \*g
+   3. Add arbitrary parameter, b, to resulting product: (z\* g) + b
+
+
+## High Resloution Classifier
 
 ## convolutionnal with Anchor Boxe.
  
@@ -44,6 +56,11 @@
  ![Image description](Image/AnchorBoxes_Example.png)
  
  
+ ## Dimention Cluster
+ 
+ 
+ # Note: Faster
+ # Note: Stronger
 
  
  
