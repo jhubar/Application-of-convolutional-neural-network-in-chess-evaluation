@@ -38,7 +38,7 @@
  
  ### Exemple 
  
- ![Image description](Image/AnchorBoxes_Exemple.png)
+ ![Image description](Image/AnchorBoxes_Example.png)
  
  
  
