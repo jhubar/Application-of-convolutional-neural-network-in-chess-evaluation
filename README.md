@@ -21,7 +21,7 @@
  
 # Note
 ## Batch Normalization
-   1. Normalize output from activation function $z = \frac{x-m}{s}$
+   1. Normalize output from activation function $$z = \frac{x-m}{s}$$
 
 ## convolutionnal with Anchor Boxe.
  
