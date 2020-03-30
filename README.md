@@ -23,4 +23,4 @@
  convolutionnal with Anchor Boxe.
  
  Losrsque l'on détecte des objets dans une images (elle même découpé en cell) on dessine autour un rectangle. Celui-ci est un "Anchor box". La représentationd ce fait comme ci dessous. 
- 
+ ![Image description](Image/AnchorBoxes.png)
