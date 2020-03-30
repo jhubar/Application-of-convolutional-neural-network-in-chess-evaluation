@@ -2,7 +2,7 @@
 
 # Reading assignement: [here](https://www.overleaf.com/1241231948txqpkmphvrgq)
 
-# Yolo texte: [here](https://arxiv.org/pdf/1612.08242.pdf)
+# Yolo text: [here](https://arxiv.org/pdf/1612.08242.pdf)
 
 # Proposal project: [here](https://fr.overleaf.com/8691937656zdttxqfydzys)
 
