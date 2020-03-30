@@ -19,8 +19,24 @@
 
  [convolutionnal with Anchor Boxes](https://www.youtube.com/watch?v=RTlwl2bv0Tg) 
  
- # Note
- convolutionnal with Anchor Boxe.
+# Note
+## convolutionnal with Anchor Boxe.
  
  Losrsque l'on détecte des objets dans une images (elle même découpé en cell) on dessine autour un rectangle. Celui-ci est un "Anchor box". La représentationd ce fait comme ci dessous. 
+ 
  ![Image description](Image/AnchorBoxes.png)
+ 
+### Anchore box Algorithm. 
+ 
+ Previously: each object in training image is assigned to grid cell that contains tha object's midpoint. 
+ 
+ Output y : 3*3*8  (cell.size.height* cell.size.height* anchorBoxSize)
+ 
+ With two anchor boxes: each object in training image is assigned to grid cell that contains object's midpoint and anchor box for the grid cell with highest IoU. 
+ 
+ Output y : 3*3*16  (cell.size.height* cell.size.height* anchorBoxSize * anchorBoxSize.number)
+ 
+ 
+ 
+ 
+ 
