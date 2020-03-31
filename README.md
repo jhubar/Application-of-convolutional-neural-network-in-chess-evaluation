@@ -1,5 +1,5 @@
 # Deep-Learning-Project
-
+<img src=Images/starwars_small.gif width=100% />
 # Reading assignement: [here](https://www.overleaf.com/1241231948txqpkmphvrgq)
 
 # Yolo text: [here](https://arxiv.org/pdf/1612.08242.pdf)
@@ -62,8 +62,7 @@ La batch normalisation permet a chaque couche d'un réseau d'apprendre par elle-
  ## Dimention Cluster
  Pour Yolo, on utilise un technique de clustering appelée "Centroid-based" clustering peut gérer seulement des cleusters avec une symétrie sphérique ou elliptique.
 
-![Alt Text](https://cdn-images-1.medium.com/max/640/1*tc8UF-h0nQqUfLC8-0uInQ.gif)
-<img src="https://cdn-images-1.medium.com/max/640/1*tc8UF-h0nQqUfLC8-0uInQ.gif" width="400" height="400" />
+ ![Alt Text](https://media.giphy.com/media/vFKqnCdLPNOKc/giphy.gif)
 
 
  
@@ -71,6 +70,6 @@ La batch normalisation permet a chaque couche d'un réseau d'apprendre par elle-
  # Note: Faster
  # Note: Stronger
 
- ![Alt Text](https://media.giphy.com/media/vFKqnCdLPNOKc/giphy.gif)
+
  
  
