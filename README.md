@@ -63,7 +63,7 @@ La batch normalisation permet a chaque couche d'un réseau d'apprendre par elle-
  Pour Yolo, on utilise un technique de clustering appelée "Centroid-based" clustering peut gérer seulement des cleusters avec une symétrie sphérique ou elliptique.
 
 
-Ref[here](https://towardsdatascience.com/how-to-cluster-in-high-dimensions-4ef693bacc6)
+Ref: [[here](https://towardsdatascience.com/how-to-cluster-in-high-dimensions-4ef693bacc6)]
  
  
  # Note: Faster
