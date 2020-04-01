@@ -144,6 +144,12 @@ def alphabetaMinimax(board, alpha, beta, depth):
     The score associated to the given board (when a move has been done)
     """
     bestScore = -9999
+
+    # Terminal State
+    if board.is_game_over():
+        return evaluate(board)
+
+    # Depth reached
     if depth == 0:
         return quiescentSearch(board, alpha, beta)
 
@@ -152,12 +158,14 @@ def alphabetaMinimax(board, alpha, beta, depth):
         score = -alphabetaMinimax(board, -beta, -alpha, depth - 1)
         board.pop()
 
-        if score >= beta:
-            return score
         if score > bestScore:
             bestScore = score
+
         if score > alpha:
             alpha = score
+
+        if score >= beta:
+            return score
     return bestScore
 
 def quiescentSearch(board, alpha, beta):
