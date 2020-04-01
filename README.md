@@ -69,19 +69,23 @@ Bon comme promis le petit chat.
 
  
  
- # Note: Faster
- # Note: Stronger
+# Note: Faster
+
+Pas besoin d'explication suplémentaire. 
+
+# Note: Stronger
 
 ## Classification. 
-Pour classifier yolo combie des étiquettes dans différents jeux de données poour former une structure **arborescente wordTree**. On peut voir que les feuilles de coco deviennes des parents des feuilles de ImageNet.
+Pour classifier Yolo combie des étiquettes dans différents jeux de données poour former une structure **arborescente wordTree**. On peut voir que les feuilles de coco deviennes des parents des feuilles de ImageNet.
 ![Image description](Image/classification.png)
 ### Explication.
 Nous créons le wordTree ou chaque feuille sortante correspond a une feuille de imageNet et ou chaque noeud parent provient de coco. 
 Avant la création du **WordTree** Yolo prédissait le score d'etre par exemple un biplan.
 Maintenat, avec le **WordTree**, il prédit le score pour le biplan sanchan que c'est un avion. 
 
-$$ score(biplan| avion$$$
- Dés lors on peut appliquer une fonction softmax pour calculer la probabilité des scores des feuilles frere. La différence est donc qu'au lieu d'avoir une opération softmax, Yolo effectue plusieurs opérations softmax pour les enfants de chaque parent.
+                                    score(biplan| avion) 
+ 
+Dés lors on peut appliquer une fonction softmax pour calculer la probabilité des scores des feuilles frere. La différence est donc qu'au lieu d'avoir une opération softmax, Yolo effectue plusieurs opérations softmax pour les enfants de chaque parent.
  
  ![Image description](Image/softmax.png)
  
