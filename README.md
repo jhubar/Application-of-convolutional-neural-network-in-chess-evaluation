@@ -74,7 +74,7 @@ Bon comme promis le petit chat.
 
 Classification. 
 Pour classifier yolo combie des étiquettes dans différents jeux de données poour former une structure **arborescente wordTree**.
-![Image description](Image/classifications.png)
+![Image description](Image/classification.png)
 
  
  
