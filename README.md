@@ -72,6 +72,8 @@ Bon comme promis le petit chat.
  # Note: Faster
  # Note: Stronger
 
+Classification. 
+Pour classifier yolo combie des étiquettes dans différents jeux de données poour former une structure \textbf{arborescente wordTree}.
 
  
  
