@@ -73,7 +73,8 @@ Bon comme promis le petit chat.
  # Note: Stronger
 
 Classification. 
-Pour classifier yolo combie des étiquettes dans différents jeux de données poour former une structure \textbf{arborescente wordTree}.
+Pour classifier yolo combie des étiquettes dans différents jeux de données poour former une structure **arborescente wordTree**.
+![Image description](Image/classification.png)
 
  
  
