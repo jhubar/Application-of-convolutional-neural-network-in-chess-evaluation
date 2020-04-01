@@ -1,5 +1,4 @@
 import chess
-import chess.polyglot
 import chess.svg
 
 pawntable = [
@@ -222,37 +221,3 @@ def searchNextMove(board, depth):
         board.pop()
     return bestMove
 
-def getInput(board):
-    """
-    Ask the user for input and returns the result
-
-    Argument:
-    ---------
-    board : A Board object in which the move will be played
-
-    Return:
-    -------
-    The user input as a string if it is a valid SAN notation and false otherwise
-    """
-    try:
-        move = str(input())
-        return board.parse_san(move)
-    except:
-        return False
-
-
-board = chess.Board()
-print(board)
-
-while not board.is_game_over():
-    print("\nEnter a move: ")
-
-    userMove = getInput(board)
-    while not userMove:
-        print("\nEnter a VALID move: ")
-        userMove = getInput(board)
-
-    board.push(userMove)
-    aiMove = searchNextMove(board, 3)
-    board.push(aiMove)
-    print(board)
