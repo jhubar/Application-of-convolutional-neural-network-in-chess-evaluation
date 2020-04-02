@@ -3,11 +3,11 @@
 
 ## Lien vers les différent rapport
 
-    [Rapport project](https://www.overleaf.com/6328664843mtvcjzzmryzz)
+   •[Rapport project](https://www.overleaf.com/6328664843mtvcjzzmryzz)
 
-    [Rapport reading assignement][here](https://www.overleaf.com/1241231948txqpkmphvrgq)
+   •[Rapport reading assignement][here](https://www.overleaf.com/1241231948txqpkmphvrgq)
 
-    [Proposal project](https://fr.overleaf.com/8691937656zdttxqfydzys)
+   •[Proposal project](https://fr.overleaf.com/8691937656zdttxqfydzys)
 
 
 
