@@ -9,6 +9,7 @@ from PyQt5.QtSvg import QSvgWidget
 from PyQt5.QtWidgets import QApplication, QWidget
 
 from AIChess import searchNextMove
+from AIChess import evaluate
 
 
 class MainWindow(QWidget):
@@ -91,6 +92,7 @@ class MainWindow(QWidget):
                         self.selectedSquare = None
                         self.legalSquares = None
 
+                        print("Player move: ",evaluate(self.board))
                         # Check game end
                         if self.board.is_game_over():
                             print("White wins")
@@ -103,7 +105,7 @@ class MainWindow(QWidget):
 
                         # Make move
                         self.board.push(aiMove)
-
+                        print("AI move: ",evaluate(self.board))
                         # Register last move
                         self.lastMove = aiMove
 
