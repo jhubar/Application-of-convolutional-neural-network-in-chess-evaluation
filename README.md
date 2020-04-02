@@ -1,13 +1,15 @@
 # Deep-Learning-Project
 <img src=Image/starwars_small.gif width=100% />
 
-# Reading assignement: [here](https://www.overleaf.com/1241231948txqpkmphvrgq)
+## Lien vers les différent rapport
 
-# Yolo text: [here](https://arxiv.org/pdf/1612.08242.pdf)
+    [Rapport project](https://www.overleaf.com/6328664843mtvcjzzmryzz)
 
-# Proposal project: [here](https://fr.overleaf.com/8691937656zdttxqfydzys)
+    [Rapport reading assignement][here](https://www.overleaf.com/1241231948txqpkmphvrgq)
 
-# Rapport project: [here](https://www.overleaf.com/6328664843mtvcjzzmryzz)
+    [Proposal project](https://fr.overleaf.com/8691937656zdttxqfydzys)
+
+
 
 
 # Ideas :

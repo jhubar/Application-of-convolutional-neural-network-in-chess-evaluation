@@ -1,3 +1,5 @@
+# [Yolo text](https://arxiv.org/pdf/1612.08242.pdf)
+
 # Note: Better
 
 ## Batch Normalization
