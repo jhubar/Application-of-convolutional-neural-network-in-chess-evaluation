@@ -13,4 +13,5 @@
 - how t use chess library to have the stockfish eval score :[Here](https://stackoverflow.com/questions/58556338/python-evaluating-a-board-position-using-stockfish-from-the-python-chess-librar)
 
 ## Vidéos interresante
-
+ [Batch Normalisations](https://www.youtube.com/watch?v=em6dfRxYkYU)
+ [convolutionnal with Anchor Boxes](https://www.youtube.com/watch?v=RTlwl2bv0Tg)
