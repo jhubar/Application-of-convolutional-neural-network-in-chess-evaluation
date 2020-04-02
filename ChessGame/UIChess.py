@@ -22,10 +22,10 @@ class MainWindow(QWidget):
         Initialize the chessboard.
         """
         super().__init__()
-
         # Window
         self.setWindowTitle("Chess GUI")
         self.setGeometry(200, 200, 600, 600)
+        self.answer = True
 
         # Widget, canvas for the chessboard
         self.widgetSvg = QSvgWidget(parent=self)
@@ -55,6 +55,23 @@ class MainWindow(QWidget):
         # Displays the board
         self.updateBoard()
 
+    def evaluateMove(self):
+        if self.lastMoveScore < self.currentScore:
+            return "a bad move."
+        elif self.lastMoveScore == self.currentScore:
+            return "a not bad move."
+        else:
+            return "a good move."
+
+
+    def whoIsWinning(self):
+        if -self.currentBlackScore < self.currentWhiteScore:
+            return "The whites are winning."
+        elif -self.currentBlackScore == self.currentWhiteScore:
+            return "Black and white are equal ."
+        else:
+            return "The black are winning."
+
     @pyqtSlot(QWidget)
     def mousePressEvent(self, event):
         """
@@ -81,20 +98,30 @@ class MainWindow(QWidget):
 
                     # If there is a previously selected square and
                     # if the selected square belongs to the set of legal squares
+                    if self.answer:
+                        print("Le meilleur move est: ",searchNextMove(self.board,self.depth))
+                        self.answer = False
+
                     if self.legalSquares is not None and square in self.legalSquares:
+                        self.answer = True
                         # Creates move
                         move = chess.Move(self.selectedSquare, square)
-                        print("Player move before push: ",evaluate(self.board))
-                        print("C'est au blanc a jouer")
-                        print("Le meilleur move est: ",searchNextMove(self.board,self.depth))
+                        # save last move score
+                        self.lastMoveScore = evaluate(self.board)
+                        # print("LastMoveScore : ",self.lastMoveScore)
                         # Make move
                         self.board.push(move)
+                        # Save current score
+                        self.currentScore = evaluate(self.board)
+                        self.currentWhiteScore = self.currentScore
+                        # print("CurrentScore : ",self.currentScore)
+                        print("White plays",self.evaluateMove(),"The current score is: ", self.currentScore)
 
                         # Unset temporary variables
                         self.selectedSquare = None
                         self.legalSquares = None
 
-                        print("Player move: ",evaluate(self.board))
+
                         # Check game end
                         if self.board.is_game_over():
                             print("White wins")
@@ -106,9 +133,14 @@ class MainWindow(QWidget):
                         aiMove = searchNextMove(self.board, self.depth)
 
                         # Make move
-                        print("AI player move before push: ",evaluate(self.board))
+                        self.lastBlackScore = evaluate(self.board)
+                        # print("LastMoveScore : ",-self.lastMoveScore)
                         self.board.push(aiMove)
-                        print("AI move: ",evaluate(self.board))
+                        self.currentScore = evaluate(self.board)
+                        self.currentBlackScore = self.currentScore
+                        # print("currentscore : ",-self.currentScore)
+                        print("Black plays", self.evaluateMove() ,"The current score is: ", -self.currentScore)
+                        print(self.whoIsWinning())
                         # Register last move
                         self.lastMove = aiMove
 
