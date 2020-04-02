@@ -65,7 +65,7 @@ class MainWindow(QWidget):
 
 
     def whoIsWinning(self):
-        if -self.currentBlackScore < self.currentWhiteScore:
+        if self.currentBlackScore < self.currentWhiteScore:
             return "The whites are winning."
         elif -self.currentBlackScore == self.currentWhiteScore:
             return "Black and white are equal ."
@@ -115,7 +115,7 @@ class MainWindow(QWidget):
                         self.currentScore = evaluate(self.board)
                         self.currentWhiteScore = self.currentScore
                         # print("CurrentScore : ",self.currentScore)
-                        print("White plays",self.evaluateMove(),"The current score is: ", self.currentScore)
+                        print("White plays",self.evaluateMove(),"The current white score is: ", "%.2f" % round((self.currentWhiteScore/9999)*20,2))
 
                         # Unset temporary variables
                         self.selectedSquare = None
@@ -137,9 +137,9 @@ class MainWindow(QWidget):
                         # print("LastMoveScore : ",-self.lastMoveScore)
                         self.board.push(aiMove)
                         self.currentScore = evaluate(self.board)
-                        self.currentBlackScore = self.currentScore
+                        self.currentBlackScore = -self.currentScore
                         # print("currentscore : ",-self.currentScore)
-                        print("Black plays", self.evaluateMove() ,"The current score is: ", -self.currentScore)
+                        print("Black plays", self.evaluateMove() ,"The current black score is: ", "%.2f" % round((self.currentBlackScore/9999)*20,2))
                         print(self.whoIsWinning())
                         # Register last move
                         self.lastMove = aiMove
