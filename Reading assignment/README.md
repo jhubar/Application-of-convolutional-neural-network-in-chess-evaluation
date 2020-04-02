@@ -1,5 +1,7 @@
 # [Yolo text](https://arxiv.org/pdf/1612.08242.pdf)
 
+# [Rapport](https://www.overleaf.com/1241231948txqpkmphvrgq)
+
 # Note: Better
 
 ## Batch Normalization
