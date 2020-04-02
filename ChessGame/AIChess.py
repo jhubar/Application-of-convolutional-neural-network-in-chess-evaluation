@@ -123,6 +123,7 @@ def evaluate(board):
                            for i in board.pieces(chess.KING, chess.BLACK)])
 
     eval = material + pawnsq + knightsq + bishopsq + rooksq + queensq + kingsq
+    # Bord.turn return true when white plays
     if board.turn:
         return eval
     else:
@@ -228,4 +229,3 @@ def searchNextMove(board, depth):
             alpha = boardValue
         board.pop()
     return bestMove
-

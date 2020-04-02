@@ -84,7 +84,8 @@ class MainWindow(QWidget):
                     if self.legalSquares is not None and square in self.legalSquares:
                         # Creates move
                         move = chess.Move(self.selectedSquare, square)
-
+                        print("Player move before push: ",evaluate(self.board))
+                        print(self.board.turn)
                         # Make move
                         self.board.push(move)
 
@@ -104,6 +105,7 @@ class MainWindow(QWidget):
                         aiMove = searchNextMove(self.board, self.depth)
 
                         # Make move
+                        print("AI player move before push: ",evaluate(self.board))
                         self.board.push(aiMove)
                         print("AI move: ",evaluate(self.board))
                         # Register last move
