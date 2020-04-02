@@ -10,7 +10,7 @@ from PyQt5.QtWidgets import QApplication, QWidget
 
 from AIChess import searchNextMove
 from AIChess import evaluate
-
+from AIChess import searchNextMove
 
 class MainWindow(QWidget):
     """
@@ -85,7 +85,8 @@ class MainWindow(QWidget):
                         # Creates move
                         move = chess.Move(self.selectedSquare, square)
                         print("Player move before push: ",evaluate(self.board))
-                        print(self.board.turn)
+                        print("C'est au blanc a jouer")
+                        print("Le meilleur move est: ",searchNextMove(self.board,self.depth))
                         # Make move
                         self.board.push(move)
 
