@@ -7,4 +7,8 @@ Pour lancer le code avec une profondeur de 3.
 
 
 ## Commentaire.
-La fonction evalute move nous dis si le coup est meiux ou moins bon que le cout jouer précédemment 
+La fonction evalute move nous dis si le coup est meiux ou moins bon que le cout jouer précédemment
+
+## Package a installer.
+
+- pip3 install stockfish
