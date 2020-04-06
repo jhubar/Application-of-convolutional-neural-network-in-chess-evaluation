@@ -1,5 +1,6 @@
 import torch
 import chess
+import chess.pgn
 
 PATH = "./model"
 
@@ -63,6 +64,25 @@ def save(model):
 def load(model):
     torch.load_state_dict(torch.load(PATH))
 
+def loadData():
+    """
+    Loads the data from a pgn file
+    """
+    filePath = "ficsgamesdb_201901_CvC_nomovetimes_120511.pgn"
+
+    pgn = open(filePath)
+
+    games = []
+
+    game = chess.pgn.read_game(pgn)
+
+    while game is not None:
+        games.append(game)
+
+        game = chess.pgn.read_game(pgn)
+
+    print(games[0].end().board().unicode())
+
 def train(dataset):
     # model = train(dataset)
     pass
@@ -77,3 +97,7 @@ def compute(board):
     # eval
     # return
     pass
+
+
+if __name__ == "__main__":
+    loadData()
