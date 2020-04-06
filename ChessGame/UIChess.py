@@ -13,7 +13,7 @@ from PyQt5.QtWidgets import QApplication, QWidget
 
 from AIChess import searchNextMove
 from AIChess import evaluate
-from AIChess import searchNextMove
+from AIChess import deepEvaluation
 
 
 
@@ -120,6 +120,9 @@ class MainWindow(QWidget):
                         self.board.push(move)
                         # Save current score
                         self.currentScore = evaluate(self.board)
+
+                        deepEvaluation(self.board)
+                        
                         self.currentWhiteScore = self.currentScore
                         # print("CurrentScore : ",self.currentScore)
                         print("White plays",self.evaluateMove(),"The current white score is: ", "%.2f" % round((self.currentWhiteScore/9999)*20,2))
