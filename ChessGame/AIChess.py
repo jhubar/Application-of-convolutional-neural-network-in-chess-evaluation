@@ -1,6 +1,8 @@
 import chess
 import chess.svg
 
+from DeepChess import compute
+
 pawntable = [
     0,  0,  0,  0,  0,  0,  0,  0,
     5, 10, 10, -20, -20, 10, 10,  5,
@@ -128,6 +130,9 @@ def evaluate(board):
         return eval
     else:
         return -eval
+
+def deepEvaluation(board):
+    return compute(board)
 
 def alphabetaMinimax(board, alpha, beta, depth):
     """
