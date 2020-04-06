@@ -70,6 +70,8 @@ def train(dataset):
 def compute(board):
     tensor = boardToTensor(board)
 
+    print(tensor)
+
     # model = ...
     # load
     # eval
