@@ -1,8 +1,11 @@
 import sys
 import argparse
 
+import asyncio
 import chess
 import chess.svg
+import chess.engine
+
 
 from PyQt5.QtCore import pyqtSlot, Qt
 from PyQt5.QtSvg import QSvgWidget
@@ -11,6 +14,9 @@ from PyQt5.QtWidgets import QApplication, QWidget
 from AIChess import searchNextMove
 from AIChess import evaluate
 from AIChess import searchNextMove
+
+
+
 
 class MainWindow(QWidget):
     """
@@ -81,6 +87,7 @@ class MainWindow(QWidget):
         Moves must be made according to the rules of chess because
         illegal moves are suppressed.
         """
+
         # If the event is inside the chessboard
         if event.x() <= self.boardSize and event.y() <= self.boardSize and not self.board.is_game_over():
             # If the event is a left click
@@ -130,12 +137,16 @@ class MainWindow(QWidget):
 
                         # AI TURN
                         # AI selection of the best move
-                        aiMove = searchNextMove(self.board, self.depth)
+                        # stockfish
+
+                        result = engine.play(board, chess.engine.Limit(time=0.1))
+                        self.board.push(result.move)
+
 
                         # Make move
-                        self.lastBlackScore = evaluate(self.board)
+                        #self.lastBlackScore = evaluate(self.board)
                         # print("LastMoveScore : ",-self.lastMoveScore)
-                        self.board.push(aiMove)
+                        #self.board.push(aiMove)
                         self.currentScore = evaluate(self.board)
                         self.currentBlackScore = -self.currentScore
                         # print("currentscore : ",-self.currentScore)
@@ -147,6 +158,7 @@ class MainWindow(QWidget):
                         # Check game end
                         if self.board.is_game_over():
                             print("Black wins")
+                            engine.quit()
                             self.updateBoard()
                             return
                     # If first selection of a square or click outside legal moves
@@ -184,6 +196,8 @@ class MainWindow(QWidget):
 
 
 if __name__ == "__main__":
+
+    engine = chess.engine.SimpleEngine.popen_uci("ChessGame/stockfish-11-mac/Mac/stockfish-11-64")
     # Create argument parser
     parser = argparse.ArgumentParser(description="Arguments of the Chess Game")
 
