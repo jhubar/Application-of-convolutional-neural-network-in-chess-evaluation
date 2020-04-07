@@ -6,7 +6,7 @@ import chess
 import chess.svg
 import chess.engine
 
-from Stockfish import get_best_move
+from stockfish import Stockfish
 
 from PyQt5.QtCore import pyqtSlot, Qt
 from PyQt5.QtSvg import QSvgWidget
@@ -109,6 +109,7 @@ class MainWindow(QWidget):
                     # if the selected square belongs to the set of legal squares
                     if self.answer:
                         print("Le meilleur move est: ",searchNextMove(self.board,self.depth))
+                        print("bla bla bla", self.stockfish.get_best_move())
                         self.answer = False
 
                     if self.legalSquares is not None and square in self.legalSquares:
@@ -123,7 +124,7 @@ class MainWindow(QWidget):
                         # Save current score
                         self.currentScore = evaluate(self.board)
 
-                        deepEvaluation(self.board)
+                        # deepEvaluation(self.board)
 
                         self.currentWhiteScore = self.currentScore
                         # print("CurrentScore : ",self.currentScore)
@@ -145,7 +146,8 @@ class MainWindow(QWidget):
                         # stockfish
 
                         # result = engine.play(board, chess.engine.Limit(time=0.1))
-                        # self.board.push(result.move)
+
+                        print("bla bla bla", self.stockfish.get_best_move())
 
 
                         # Make move
@@ -228,7 +230,7 @@ if __name__ == "__main__":
 
     # Create chess game window
     window = MainWindow(depth)
-
+    stockfish = Stockfish()
     # Display window
     window.show()
 
