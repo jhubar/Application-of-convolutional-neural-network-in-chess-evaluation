@@ -109,7 +109,7 @@ class MainWindow(QWidget):
                     # if the selected square belongs to the set of legal squares
                     if self.answer:
                         print("Le meilleur move est: ",searchNextMove(self.board,self.depth))
-                        print("bla bla bla", self.stockfish.get_best_move())
+                        print("bla bla bla", stockfish.get_best_move())
                         self.answer = False
 
                     if self.legalSquares is not None and square in self.legalSquares:
@@ -147,7 +147,7 @@ class MainWindow(QWidget):
 
                         # result = engine.play(board, chess.engine.Limit(time=0.1))
 
-                        print("bla bla bla", self.stockfish.get_best_move())
+                        print("bla bla bla", stockfish.get_best_move())
 
 
                         # Make move
@@ -205,7 +205,8 @@ class MainWindow(QWidget):
 
 if __name__ == "__main__":
 
-
+    stockfish = Stockfish()
+    # engine = chess.engine.SimpleEngine.popen_uci('/usr/local/lib/python3.7/site-packages')
 
     # Create argument parser
     parser = argparse.ArgumentParser(description="Arguments of the Chess Game")
@@ -230,7 +231,7 @@ if __name__ == "__main__":
 
     # Create chess game window
     window = MainWindow(depth)
-    stockfish = Stockfish()
+
     # Display window
     window.show()
 
