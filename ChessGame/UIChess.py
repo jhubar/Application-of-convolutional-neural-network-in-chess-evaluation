@@ -4,6 +4,7 @@ import argparse
 import asyncio
 import chess
 import chess.svg
+
 import chess.engine
 
 from stockfish import Stockfish
@@ -59,7 +60,7 @@ class MainWindow(QWidget):
 
         # Depth of the search for the IA
         self.depth = depth
-
+        self.engine = Stockfish()
         # Displays the board
         self.updateBoard()
 
@@ -107,9 +108,11 @@ class MainWindow(QWidget):
 
                     # If there is a previously selected square and
                     # if the selected square belongs to the set of legal squares
+
                     if self.answer:
-                        print("Le meilleur move est: ",searchNextMove(self.board,self.depth))
-                        print("bla bla bla", stockfish.get_best_move())
+                        print("MinMax move proposition: ",searchNextMove(self.board,self.depth))
+                        self.engine.set_fen_position(self.board.fen())
+                        print("stockfish move proposition", self.engine.get_best_move())
                         self.answer = False
 
                     if self.legalSquares is not None and square in self.legalSquares:
@@ -147,7 +150,7 @@ class MainWindow(QWidget):
 
                         # result = engine.play(board, chess.engine.Limit(time=0.1))
 
-                        print("bla bla bla", stockfish.get_best_move())
+
 
 
                         # Make move
@@ -166,7 +169,6 @@ class MainWindow(QWidget):
                         # Check game end
                         if self.board.is_game_over():
                             print("Black wins")
-                            engine.quit()
                             self.updateBoard()
                             return
                     # If first selection of a square or click outside legal moves
@@ -205,7 +207,7 @@ class MainWindow(QWidget):
 
 if __name__ == "__main__":
 
-    stockfish = Stockfish()
+
     # engine = chess.engine.SimpleEngine.popen_uci('/usr/local/lib/python3.7/site-packages')
 
     # Create argument parser
