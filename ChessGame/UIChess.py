@@ -6,6 +6,7 @@ import chess
 import chess.svg
 import chess.engine
 
+from Stockfish import get_best_move
 
 from PyQt5.QtCore import pyqtSlot, Qt
 from PyQt5.QtSvg import QSvgWidget
@@ -14,6 +15,7 @@ from PyQt5.QtWidgets import QApplication, QWidget
 from AIChess import searchNextMove
 from AIChess import evaluate
 from AIChess import deepEvaluation
+
 
 
 
@@ -122,7 +124,7 @@ class MainWindow(QWidget):
                         self.currentScore = evaluate(self.board)
 
                         deepEvaluation(self.board)
-                        
+
                         self.currentWhiteScore = self.currentScore
                         # print("CurrentScore : ",self.currentScore)
                         print("White plays",self.evaluateMove(),"The current white score is: ", "%.2f" % round((self.currentWhiteScore/9999)*20,2))
@@ -142,14 +144,15 @@ class MainWindow(QWidget):
                         # AI selection of the best move
                         # stockfish
 
-                        result = engine.play(board, chess.engine.Limit(time=0.1))
-                        self.board.push(result.move)
+                        # result = engine.play(board, chess.engine.Limit(time=0.1))
+                        # self.board.push(result.move)
 
 
                         # Make move
-                        #self.lastBlackScore = evaluate(self.board)
-                        # print("LastMoveScore : ",-self.lastMoveScore)
-                        #self.board.push(aiMove)
+                        self.lastBlackScore = evaluate(self.board)
+                        print("LastMoveScore : ",-self.lastMoveScore)
+                        aiMove = searchNextMove(self.board, self.depth)
+                        self.board.push(aiMove)
                         self.currentScore = evaluate(self.board)
                         self.currentBlackScore = -self.currentScore
                         # print("currentscore : ",-self.currentScore)
@@ -200,7 +203,8 @@ class MainWindow(QWidget):
 
 if __name__ == "__main__":
 
-    engine = chess.engine.SimpleEngine.popen_uci("ChessGame/stockfish-11-mac/Mac/stockfish-11-64")
+
+
     # Create argument parser
     parser = argparse.ArgumentParser(description="Arguments of the Chess Game")
 
