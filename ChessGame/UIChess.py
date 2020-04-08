@@ -17,12 +17,45 @@ from AIChess import deepEvaluation
 STOCKFISH_PATH = "C:\\Users\\diveb\\Downloads\\stockfish-11-win\\stockfish-11-win\\Windows\\stockfish_20011801_x64.exe"
 # STOCKFISH_PATH = "stockfish"
 
+class Game:
+    def __init__(self, depth):
+        self.depth = depth
+        self.board = chess.Board()
+        self.engine = chess.engine.SimpleEngine.popen_uci(STOCKFISH_PATH)
+
+    def move(self, move):
+        self.board.push(move)
+
+    def aiMove(self):
+        return searchNextMove(self.board, self.depth)
+
+    def aiScore(self):
+        return evaluate(self.board)
+
+    def engineMove(self):
+        return self.engine.play(self.board, chess.engine.Limit(time=0.1)).move
+
+    def engineScore(self):
+        return self.engine.analyse(self.board, chess.engine.Limit(time=0.1))["score"]
+
+    def isGameOver(self):
+        return self.board.is_game_over()
+
+    def quit(self):
+        self.engine.quit()
+
+    def run(self):
+        while not self.isGameOver():
+            self.move(self.aiMove())
+            self.move(self.engineMove())
+        print(self.board.result())
+
 class MainWindow(QWidget):
     """
     Create a surface for the chessboard.
     """
 
-    def __init__(self, depth):
+    def __init__(self, game):
         """
         Initialize the chessboard.
         """
@@ -42,9 +75,6 @@ class MainWindow(QWidget):
         self.margin = 0.05 * self.boardSize
         self.squareSize = (self.boardSize - 2 * self.margin) / 8.0
 
-        # Board
-        self.board = chess.Board()
-
         # Square selected for a move
         self.selectedSquare = None
 
@@ -54,17 +84,13 @@ class MainWindow(QWidget):
         # Last move played by the IA
         self.lastMove = None
 
-        # Depth of the search for the IA
-        self.depth = depth
-
-        # Opens engine
-        self.engine = chess.engine.SimpleEngine.popen_uci(STOCKFISH_PATH)
+        self.game = game
 
         # Displays the board
         self.updateBoard()
 
     def closeEvent(self, event):
-        self.engine.quit()
+        self.game.quit()
 
     def evaluateMove(self):
         if self.lastMoveScore < self.currentScore:
@@ -94,7 +120,7 @@ class MainWindow(QWidget):
         """
 
         # If the event is inside the chessboard
-        if event.x() <= self.boardSize and event.y() <= self.boardSize and not self.board.is_game_over():
+        if event.x() <= self.boardSize and event.y() <= self.boardSize and not self.game.isGameOver():
             # If the event is a left click
             if event.buttons() == Qt.LeftButton:
                 # If the event is not on the side notations
@@ -112,9 +138,11 @@ class MainWindow(QWidget):
                     # if the selected square belongs to the set of legal squares
 
                     if self.answer:
-                        print("MinMax move proposition: ",searchNextMove(self.board,self.depth))
-                        
-                        print("stockfish move proposition", self.engine.play(self.board, chess.engine.Limit(time=0.1)).move)
+                        print("MinMax move proposition: ", self.game.aiMove())
+
+                        print("stockfish move proposition", self.game.engineMove())
+                        print("stockfish score proposition", self.game.engineScore())
+
                         self.answer = False
 
                     if self.legalSquares is not None and square in self.legalSquares:
@@ -122,12 +150,12 @@ class MainWindow(QWidget):
                         # Creates move
                         move = chess.Move(self.selectedSquare, square)
                         # save last move score
-                        self.lastMoveScore = evaluate(self.board)
+                        self.lastMoveScore = self.game.aiScore()
                         # print("LastMoveScore : ",self.lastMoveScore)
                         # Make move
-                        self.board.push(move)
+                        self.game.move(move)
                         # Save current score
-                        self.currentScore = evaluate(self.board)
+                        self.currentScore = self.game.aiScore()
 
                         # deepEvaluation(self.board)
 
@@ -141,10 +169,9 @@ class MainWindow(QWidget):
 
 
                         # Check game end
-                        if self.board.is_game_over():
+                        if self.game.isGameOver():
                             print("White wins")
                             self.updateBoard()
-                            self.engine.quit()
                             return
 
                         # AI TURN
@@ -157,11 +184,11 @@ class MainWindow(QWidget):
 
 
                         # Make move
-                        self.lastBlackScore = evaluate(self.board)
-                        print("LastMoveScore : ",-self.lastMoveScore)
-                        aiMove = searchNextMove(self.board, self.depth)
-                        self.board.push(aiMove)
-                        self.currentScore = evaluate(self.board)
+                        self.lastBlackScore = self.game.aiScore()
+                        print("LastMoveScore : ", -self.lastMoveScore)
+                        aiMove = self.game.aiMove()
+                        self.game.move(aiMove)
+                        self.currentScore = self.game.aiScore()
                         self.currentBlackScore = -self.currentScore
                         # print("currentscore : ",-self.currentScore)
                         print("Black plays", self.evaluateMove() ,"The current black score is: ", "%.2f" % round((self.currentBlackScore/9999)*20,2))
@@ -170,10 +197,9 @@ class MainWindow(QWidget):
                         self.lastMove = aiMove
 
                         # Check game end
-                        if self.board.is_game_over():
+                        if self.game.isGameOver():
                             print("Black wins")
                             self.updateBoard()
-                            self.engine.quit()
                             return
                     # If first selection of a square or click outside legal moves
                     else:
@@ -182,7 +208,7 @@ class MainWindow(QWidget):
 
                         # Compute all legal moves from the selected square
                         self.legalSquares = chess.SquareSet()
-                        legalMoves = self.board.legal_moves
+                        legalMoves = self.game.board.legal_moves
                         for move in legalMoves:
                             if move.from_square == self.selectedSquare:
                                 self.legalSquares.add(move.to_square)
@@ -198,12 +224,12 @@ class MainWindow(QWidget):
         """
         # If a piece has been selected
         if self.selectedSquare is not None:
-            self.boardSvg = chess.svg.board(board=self.board,
+            self.boardSvg = chess.svg.board(board=self.game.board,
                                             size=self.boardSize,
                                             lastmove=self.lastMove,
                                             squares=self.legalSquares).encode("UTF-8")
         else:
-            self.boardSvg = chess.svg.board(board=self.board,
+            self.boardSvg = chess.svg.board(board=self.game.board,
                                             lastmove=self.lastMove,
                                             size=self.boardSize).encode("UTF-8")
         self.widgetSvg.load(self.boardSvg)
@@ -226,21 +252,33 @@ if __name__ == "__main__":
                         default=2,
                         help="Depth of the Negamax search")
 
+    parser.add_argument("-s",
+                        "--silent",
+                        action="store_true",
+                        help="Flag for the hidden  window mode")
+
     # Fetch arguments
     args = parser.parse_args()
 
     # Extract depth
     depth = args.depth
+    isSilent = args.silent
 
     # Create Qt application
     chessGame = QApplication(sys.argv)
 
-    # Create chess game window
-    window = MainWindow(depth)
+    game = Game(depth)
 
-    # Display window
-    window.show()
+    if isSilent:
+        game.run()
+    else:
+        # Create chess game window
+        window = MainWindow(game)
 
-    # Run and exit
+        # Display window
+        window.show()
 
-    sys.exit(chessGame.exec_())
+        # Run and exit
+        sys.exit(chessGame.exec_())
+
+    game.quit()
