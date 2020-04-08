@@ -172,6 +172,7 @@ class MainWindow(QWidget):
                         if self.board.is_game_over():
                             print("Black wins")
                             self.updateBoard()
+                            self.engine.quit()
                             return
                     # If first selection of a square or click outside legal moves
                     else:
