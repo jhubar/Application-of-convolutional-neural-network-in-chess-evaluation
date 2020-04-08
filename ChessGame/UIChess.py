@@ -4,10 +4,7 @@ import argparse
 import asyncio
 import chess
 import chess.svg
-
 import chess.engine
-
-from stockfish import Stockfish
 
 from PyQt5.QtCore import pyqtSlot, Qt
 from PyQt5.QtSvg import QSvgWidget
@@ -17,9 +14,8 @@ from AIChess import searchNextMove
 from AIChess import evaluate
 from AIChess import deepEvaluation
 
-
-
-
+STOCKFISH_PATH = "C:\\Users\\diveb\\Downloads\\stockfish-11-win\\stockfish-11-win\\Windows\\stockfish_20011801_x64.exe"
+# STOCKFISH_PATH = "stockfish"
 
 class MainWindow(QWidget):
     """
@@ -60,9 +56,15 @@ class MainWindow(QWidget):
 
         # Depth of the search for the IA
         self.depth = depth
-        self.engine = Stockfish()
+
+        # Opens engine
+        self.engine = chess.engine.SimpleEngine.popen_uci(STOCKFISH_PATH)
+
         # Displays the board
         self.updateBoard()
+
+    def closeEvent(self, event):
+        self.engine.quit()
 
     def evaluateMove(self):
         if self.lastMoveScore < self.currentScore:
@@ -111,8 +113,8 @@ class MainWindow(QWidget):
 
                     if self.answer:
                         print("MinMax move proposition: ",searchNextMove(self.board,self.depth))
-                        self.engine.set_fen_position(self.board.fen())
-                        print("stockfish move proposition", self.engine.get_best_move())
+
+                        print("stockfish move proposition", self.engine.play(self.board, chess.engine.Limit(time=0.1)).move)
                         self.answer = False
 
                     if self.legalSquares is not None and square in self.legalSquares:
