@@ -11,4 +11,8 @@ La fonction evalute move nous dis si le coup est meiux ou moins bon que le cout 
 
 ## Package a installer.
 
+- pip3 install python-chess
+- pip3 install PyQt5
 - pip3 install stockfish
+- pip3 install torch
+- pip3 install numpy
