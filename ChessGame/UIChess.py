@@ -60,7 +60,8 @@ class MainWindow(QWidget):
 
         # Depth of the search for the IA
         self.depth = depth
-        self.engine = Stockfish()
+        self.engine = chess.engine.SimpleEngine.popen_uci("stockfish")
+        # self.engine = Stockfish()
         # Displays the board
         self.updateBoard()
 
@@ -111,8 +112,8 @@ class MainWindow(QWidget):
 
                     if self.answer:
                         print("MinMax move proposition: ",searchNextMove(self.board,self.depth))
-                        self.engine.set_fen_position(self.board.fen())
-                        print("stockfish move proposition", self.engine.get_best_move())
+                        # self.engine.set_fen_position(self.board.fen())
+                        print("stockfish move proposition", self.engine.play(self.board, chess.engine.Limit(time=0.1)).move)
                         self.answer = False
 
                     if self.legalSquares is not None and square in self.legalSquares:
@@ -142,6 +143,7 @@ class MainWindow(QWidget):
                         if self.board.is_game_over():
                             print("White wins")
                             self.updateBoard()
+                            self.engine.quit()
                             return
 
                         # AI TURN
@@ -238,4 +240,5 @@ if __name__ == "__main__":
     window.show()
 
     # Run and exit
+
     sys.exit(chessGame.exec_())
