@@ -113,7 +113,7 @@ class MainWindow(QWidget):
 
                     if self.answer:
                         print("MinMax move proposition: ",searchNextMove(self.board,self.depth))
-
+                        
                         print("stockfish move proposition", self.engine.play(self.board, chess.engine.Limit(time=0.1)).move)
                         self.answer = False
 
@@ -144,6 +144,7 @@ class MainWindow(QWidget):
                         if self.board.is_game_over():
                             print("White wins")
                             self.updateBoard()
+                            self.engine.quit()
                             return
 
                         # AI TURN
@@ -172,6 +173,7 @@ class MainWindow(QWidget):
                         if self.board.is_game_over():
                             print("Black wins")
                             self.updateBoard()
+                            self.engine.quit()
                             return
                     # If first selection of a square or click outside legal moves
                     else:
@@ -240,4 +242,5 @@ if __name__ == "__main__":
     window.show()
 
     # Run and exit
+
     sys.exit(chessGame.exec_())
