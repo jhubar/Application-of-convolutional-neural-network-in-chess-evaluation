@@ -1,0 +1,3 @@
+from evaluators.evaluator import Evaluator
+from evaluators.simpleEvaluator import SimpleEvaluator
+from evaluators.deepEvaluator import DeepEvaluator
