@@ -10,3 +10,4 @@ Defines the step size of the kernels when traversing the image.
 ## PAdding:
 Defines how the border of sample is handled. For instance, for a kernel of 3 with stride of 1, no padding would result in down-smpling.
 
+<img src=Image/conv.gif width=100% />
