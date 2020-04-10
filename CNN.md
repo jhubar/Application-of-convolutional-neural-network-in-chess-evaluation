@@ -23,3 +23,4 @@ Defines how the border of sample is handled. For instance, for a kernel of 3 wit
   </p>
 </figure>
 
+
