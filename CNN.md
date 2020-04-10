@@ -12,11 +12,6 @@ Defines how the border of sample is handled. For instance, for a kernel of 3 wit
 ## Example
 2D convilution using a kernel size of 3, stride of 1 and no padding
 
-<p align="center">
-  <img src=Image/conv.gif width=50%/>
-  <em>2D convilution using a kernel size of 3, stride of 1 and no padding</em>
-</p>
-<p align="center">
 <figure>
   <p align="center">
   <img src=Image/conv.gif width=50% alt="2D convilution using a kernel size of 3, stride of 1 and no padding"/>
