@@ -32,3 +32,14 @@ From the simplest convolution maps, we can see that after convolution operation,
 -Same padding: Padding added to make the output the same as the input size, such as 3The nucleus of 3, same padding = 1,5The nucleus of 5, same padding = 2.
 -full padding: padding = kernel size – 1
 -valid padding: padding = 0
+
+## Convolution of 2.3 stride greater than 1
+
+Stride is the step size, which means the distance between two convolution operations of the convolution core. The default is 1. The two examples mentioned above are both steps 1. The following two graphs show the case of stride 2, which is the case without padding and with padding, respectively. Usually when the stride is greater than 1, we call it isometric downsampling, because the output will definitely lose information, and the size is smaller than the input.
+
+### Convolution with no padding and strike = 2
+<figure>
+  <p align="center">
+  <img src=Image/convNopaddingStrike2.gif  with=50%/>
+  </p>
+</figure>
