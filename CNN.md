@@ -13,13 +13,13 @@ Defines how the border of sample is handled. For instance, for a kernel of 3 wit
 2D convilution using a kernel size of 3, stride of 1 and no padding
 <figure>
   <p align="center">
-  <img src=Image/conv.gif  with=50%/>
+  <img src=Image/conv.gif  with=30%/>
   </p>
 </figure>
 2D convilution using a kernel size of 3, stride of 1 and padding of 1
 <figure>
   <p align="center">
-  <img src=Image/convpadding1.gif  with=50%/>
+  <img src=Image/convpadding1.gif  with=30%/>
   </p>
 </figure>
 
