@@ -9,8 +9,8 @@ Defines the step size of the kernels when traversing the image.
 
 ## PAdding:
 Defines how the border of sample is handled. For instance, for a kernel of 3 with stride of 1, no padding would result in down-smpling.
-## Example
-2D convilution using a kernel size of 3, stride of 1 and no padding
+
+### 2D convilution using a kernel size of 3, stride of 1 and no padding
 <figure>
   <p align="center">
   <img src=Image/conv.gif  with=30%/>
@@ -29,9 +29,9 @@ From the simplest convolution maps, we can see that after convolution operation,
   </p>
 </figure>
 
--Same padding: Padding added to make the output the same as the input size, such as 3The nucleus of 3, same padding = 1,5The nucleus of 5, same padding = 2.
--full padding: padding = kernel size – 1
--valid padding: padding = 0
+- Same padding: Padding added to make the output the same as the input size, such as 3The nucleus of 3, same padding = 1,5The nucleus of 5, same padding = 2.
+- full padding: padding = kernel size – 1
+- valid padding: padding = 0
 
 ## Convolution of 2.3 stride greater than 1
 
