@@ -14,14 +14,18 @@ from AIChess import searchNextMove
 from AIChess import evaluate
 from AIChess import deepEvaluation
 
-STOCKFISH_PATH = "C:\\Users\\diveb\\Downloads\\stockfish-11-win\\stockfish-11-win\\Windows\\stockfish_20011801_x64.exe"
-# STOCKFISH_PATH = "stockfish"
+STOCKFISH_PATH1 = "stockfish"
+STOCKFISH_PATH2 = "C:\\Users\\diveb\\Downloads\\stockfish-11-win\\stockfish-11-win\\Windows\\stockfish_20011801_x64.exe"
+
 
 class Game:
     def __init__(self, depth):
         self.depth = depth
         self.board = chess.Board()
-        self.engine = chess.engine.SimpleEngine.popen_uci(STOCKFISH_PATH)
+        if stockfishMode == 1:
+            self.engine = chess.engine.SimpleEngine.popen_uci(STOCKFISH_PATH1)
+        else:
+            self.engine = chess.engine.SimpleEngine.popen_uci(STOCKFISH_PATH2)
 
     def move(self, move):
         self.board.push(move)
@@ -257,12 +261,21 @@ if __name__ == "__main__":
                         action="store_true",
                         help="Flag for the hidden  window mode")
 
+    parser.add_argument("-m",
+                        "--mode",
+                        type=int,
+                        choices = range(1,2),
+                        action="store",
+                        default = 1,
+                        help="Location of stockfish")
+
     # Fetch arguments
     args = parser.parse_args()
 
     # Extract depth
     depth = args.depth
     isSilent = args.silent
+    stockfishMode = args.mode
 
     # Create Qt application
     chessGame = QApplication(sys.argv)
