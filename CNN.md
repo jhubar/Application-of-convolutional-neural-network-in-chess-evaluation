@@ -19,8 +19,4 @@ Defines how the border of sample is handled. For instance, for a kernel of 3 wit
   </p>
 </figure>
 
-<figure>
-    <img src="Image/conv.gif" alt="This is the figure caption" id="fig_id" title="This is where the title goes" style="height:45px;width:120px;">
-    <figcaption>This is the figure caption</figcaption>
-</figure>
 
