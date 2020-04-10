@@ -14,8 +14,8 @@ Defines how the border of sample is handled. For instance, for a kernel of 3 wit
 
 <figure>
   <p align="center">
-  <img src=Image/conv.gif width=50% title="2D convolution using a kernel size of 3, stride of 1 and no padding"/>
-  <figcaption>2D convilution using a kernel size of 3, stride of 1 and no padding</figcaption>
+  <img src=Image/conv.gif alt="2D convolution using a kernel size of 3, stride of 1 and no padding"/>
+  <figcaption>2D convolution using a kernel size of 3, stride of 1 and no padding</figcaption>
   </p>
 </figure>
 
