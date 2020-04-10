@@ -11,12 +11,15 @@ Defines the step size of the kernels when traversing the image.
 Defines how the border of sample is handled. For instance, for a kernel of 3 with stride of 1, no padding would result in down-smpling.
 ## Example
 2D convilution using a kernel size of 3, stride of 1 and no padding
-
 <figure>
   <p align="center">
-  <img src=Image/conv.gif alt="2D convolution using a kernel size of 3, stride of 1 and no padding"/>
-  <figcaption>2D convolution using a kernel size of 3, stride of 1 and no padding</figcaption>
+  <img src=Image/conv.gif  with=50%/>
   </p>
 </figure>
-
+2D convilution using a kernel size of 3, stride of 1 and padding of 1
+<figure>
+  <p align="center">
+  <img src=Image/convpadding1.gif  with=50%/>
+  </p>
+</figure>
 
