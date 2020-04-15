@@ -56,8 +56,6 @@ def loadData(isWindows: bool):
 
             node = node.parent
 
-    print(y)
-
     stockfish.quit()
 
     print("Completed. {} states have been generated\n".format(len(X)))
