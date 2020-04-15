@@ -4,13 +4,14 @@ import pickle
 import chess
 import chess.pgn
 
+import argparse
 from tqdm import tqdm
 
-from AIChess import evaluate
-from DeepChess import boardToTensor
+from evaluators import StockfishEvaluator
+from evaluators.deepEvaluator import DeepEvaluator
 
 
-def loadData():
+def loadData(isWindows: bool):
     """
     Loads the data from a pgn file
     """
@@ -40,18 +41,22 @@ def loadData():
     X = []
     y = []
 
+    stockfish = StockfishEvaluator(isWindows)
+
     for game in tqdm(games, desc="Generating states", unit="game"):
         node = game.end()
 
         while node.parent is not None:
             position = node.board()
-            tensor = boardToTensor(position)
-            output = evaluate(position)
+            tensor = DeepEvaluator.boardToTensor(position)
+            output = stockfish.evaluate(position)
 
             X.append(tensor)
             y.append(output)
 
             node = node.parent
+
+    stockfish.quit()
 
     print("Completed. {} states have been generated\n".format(len(X)))
 
@@ -68,14 +73,26 @@ def load(filePath):
 
 
 if __name__ == "__main__":
+    # Create argument parser
+    parser = argparse.ArgumentParser(description="Arguments of the Chess Game")
+
+    # Windows mode
+    parser.add_argument("-w",
+                        "--windows",
+                        action="store_true",
+                        help="Flags for windows user")
+
+    # Fetch arguments
+    args = parser.parse_args()
+
+    # Extract depth
+    isWindows = args.windows
 
     print("############################################################")
     print("#################### GENERATING DATASET ####################")
     print("############################################################\n")
 
-    X, y = loadData()
+    X, y = loadData(isWindows)
 
     save(X, "chessInput")
     save(y, "chessOutput")
-
-    print(len(load("chessOutput")))
