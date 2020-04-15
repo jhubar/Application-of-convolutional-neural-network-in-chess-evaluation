@@ -1,7 +1,7 @@
 import sys
 import argparse
 
-import asyncio
+# import asyncio
 import chess
 import chess.svg
 import chess.engine
@@ -10,49 +10,7 @@ from PyQt5.QtCore import pyqtSlot, Qt
 from PyQt5.QtSvg import QSvgWidget
 from PyQt5.QtWidgets import QApplication, QWidget
 
-from AIChess import searchNextMove
-from AIChess import evaluate
-from AIChess import deepEvaluation
-
-STOCKFISH_PATH1 = "stockfish"
-STOCKFISH_PATH2 = "C:\\Users\\diveb\\Downloads\\stockfish-11-win\\stockfish-11-win\\Windows\\stockfish_20011801_x64.exe"
-
-
-class Game:
-    def __init__(self, depth):
-        self.depth = depth
-        self.board = chess.Board()
-        if stockfishMode == 1:
-            self.engine = chess.engine.SimpleEngine.popen_uci(STOCKFISH_PATH1)
-        else:
-            self.engine = chess.engine.SimpleEngine.popen_uci(STOCKFISH_PATH2)
-
-    def move(self, move):
-        self.board.push(move)
-
-    def aiMove(self):
-        return searchNextMove(self.board, self.depth)
-
-    def aiScore(self):
-        return evaluate(self.board)
-
-    def engineMove(self):
-        return self.engine.play(self.board, chess.engine.Limit(time=0.1)).move
-
-    def engineScore(self):
-        return self.engine.analyse(self.board, chess.engine.Limit(time=0.1))["score"]
-
-    def isGameOver(self):
-        return self.board.is_game_over()
-
-    def quit(self):
-        self.engine.quit()
-
-    def run(self):
-        while not self.isGameOver():
-            self.move(self.aiMove())
-            self.move(self.engineMove())
-        print(self.board.result())
+from game import Game
 
 class MainWindow(QWidget):
     """
@@ -61,13 +19,12 @@ class MainWindow(QWidget):
 
     def __init__(self, game):
         """
-        Initialize the chessboard.
+        Initialize the chessboard window.
         """
         super().__init__()
         # Window
-        self.setWindowTitle("Chess GUI")
+        self.setWindowTitle("Chess UI")
         self.setGeometry(200, 200, 600, 600)
-        self.answer = True
 
         # Widget, canvas for the chessboard
         self.widgetSvg = QSvgWidget(parent=self)
@@ -88,6 +45,7 @@ class MainWindow(QWidget):
         # Last move played by the IA
         self.lastMove = None
 
+        # Game object
         self.game = game
 
         # Displays the board
@@ -96,22 +54,21 @@ class MainWindow(QWidget):
     def closeEvent(self, event):
         self.game.quit()
 
-    def evaluateMove(self):
-        if self.lastMoveScore < self.currentScore:
-            return "a bad move."
-        elif self.lastMoveScore == self.currentScore:
-            return "a not bad move."
-        else:
-            return "a good move."
+    # def evaluateMove(self):
+    #     if self.lastMoveScore < self.currentScore:
+    #         return "a bad move."
+    #     elif self.lastMoveScore == self.currentScore:
+    #         return "a not bad move."
+    #     else:
+    #         return "a good move."
 
-
-    def whoIsWinning(self):
-        if self.currentBlackScore < self.currentWhiteScore:
-            return "The whites are winning."
-        elif -self.currentBlackScore == self.currentWhiteScore:
-            return "Black and white are equal ."
-        else:
-            return "The black are winning."
+    # def whoIsWinning(self):
+    #     if self.currentBlackScore < self.currentWhiteScore:
+    #         return "The whites are winning."
+    #     elif -self.currentBlackScore == self.currentWhiteScore:
+    #         return "Black and white are equal ."
+    #     else:
+    #         return "The black are winning."
 
     @pyqtSlot(QWidget)
     def mousePressEvent(self, event):
@@ -138,39 +95,35 @@ class MainWindow(QWidget):
                     # Square selected
                     square = chess.square(column, row)
 
+                    # if self.game.answer:
+                    #     print("MinMax move proposition: ", self.game.simpleAIMove())
+
+                    #     print("stockfish move proposition", self.game.engineMove())
+                    #     print("stockfish score evaluation", self.game.engineScore())
+
+                    #     self.game.answer = False
+
                     # If there is a previously selected square and
                     # if the selected square belongs to the set of legal squares
-
-                    if self.answer:
-                        print("MinMax move proposition: ", self.game.aiMove())
-
-                        print("stockfish move proposition", self.game.engineMove())
-                        print("stockfish score proposition", self.game.engineScore())
-
-                        self.answer = False
-
                     if self.legalSquares is not None and square in self.legalSquares:
-                        self.answer = True
+                        # self.game.answer = True
                         # Creates move
                         move = chess.Move(self.selectedSquare, square)
                         # save last move score
-                        self.lastMoveScore = self.game.aiScore()
-                        # print("LastMoveScore : ",self.lastMoveScore)
+                        # self.lastMoveScore = self.game.simpleAIScore()
+
                         # Make move
                         self.game.move(move)
                         # Save current score
-                        self.currentScore = self.game.aiScore()
+                        # self.currentScore = self.game.simpleAIScore()
 
-                        # deepEvaluation(self.board)
+                        # self.currentWhiteScore = self.currentScore
 
-                        self.currentWhiteScore = self.currentScore
-                        # print("CurrentScore : ",self.currentScore)
-                        print("White plays",self.evaluateMove(),"The current white score is: ", "%.2f" % round((self.currentWhiteScore/9999)*20,2))
+                        # print("White plays",self.evaluateMove(),"The current white score is: ", "%.2f" % round((self.currentWhiteScore/9999)*20,2))
 
                         # Unset temporary variables
                         self.selectedSquare = None
                         self.legalSquares = None
-
 
                         # Check game end
                         if self.game.isGameOver():
@@ -179,24 +132,23 @@ class MainWindow(QWidget):
                             return
 
                         # AI TURN
-                        # AI selection of the best move
-                        # stockfish
-
-                        # result = engine.play(board, chess.engine.Limit(time=0.1))
-
-
-
-
                         # Make move
-                        self.lastBlackScore = self.game.aiScore()
-                        print("LastMoveScore : ", -self.lastMoveScore)
-                        aiMove = self.game.aiMove()
+                        # self.lastBlackScore = self.game.simpleAIScore()
+
+                        # print("LastMoveScore : ", -self.lastMoveScore)
+
+                        aiMove = self.game.simpleAIMove()
+
                         self.game.move(aiMove)
-                        self.currentScore = self.game.aiScore()
-                        self.currentBlackScore = -self.currentScore
-                        # print("currentscore : ",-self.currentScore)
-                        print("Black plays", self.evaluateMove() ,"The current black score is: ", "%.2f" % round((self.currentBlackScore/9999)*20,2))
-                        print(self.whoIsWinning())
+
+                        # self.currentScore = self.game.simpleAIScore()
+
+                        # self.currentBlackScore = -self.currentScore
+
+                        # print("Black plays", self.evaluateMove() ,"The current black score is: ", "%.2f" % round((self.currentBlackScore/9999)*20,2))
+
+                        # print(self.whoIsWinning())
+
                         # Register last move
                         self.lastMove = aiMove
 
@@ -205,6 +157,7 @@ class MainWindow(QWidget):
                             print("Black wins")
                             self.updateBoard()
                             return
+
                     # If first selection of a square or click outside legal moves
                     else:
                         # Register selected square
@@ -224,8 +177,11 @@ class MainWindow(QWidget):
 
     def updateBoard(self):
         """
-        Draw a chessboard
+        Draw the chessboard
         """
+        # Print score
+        print("Current score from white perspective = {}".format(self.game.engineScore()))
+
         # If a piece has been selected
         if self.selectedSquare is not None:
             self.boardSvg = chess.svg.board(board=self.game.board,
@@ -240,10 +196,6 @@ class MainWindow(QWidget):
 
 
 if __name__ == "__main__":
-
-
-    # engine = chess.engine.SimpleEngine.popen_uci('/usr/local/lib/python3.7/site-packages')
-
     # Create argument parser
     parser = argparse.ArgumentParser(description="Arguments of the Chess Game")
 
@@ -254,20 +206,19 @@ if __name__ == "__main__":
                         choices=range(1, 10),
                         action="store",
                         default=2,
-                        help="Depth of the Negamax search")
+                        help="Depth of the Negamax search. Default = 2")
 
+    # Silent mode
     parser.add_argument("-s",
                         "--silent",
                         action="store_true",
-                        help="Flag for the hidden  window mode")
+                        help="Flag for the hidden window mode")
 
-    parser.add_argument("-m",
-                        "--mode",
-                        type=int,
-                        choices = range(1,2),
-                        action="store",
-                        default = 1,
-                        help="Location of stockfish")
+    # Windows mode
+    parser.add_argument("-w",
+                        "--windows",
+                        action="store_true",
+                        help="Flags for windows user")
 
     # Fetch arguments
     args = parser.parse_args()
@@ -275,15 +226,16 @@ if __name__ == "__main__":
     # Extract depth
     depth = args.depth
     isSilent = args.silent
-    stockfishMode = args.mode
+    isWindows = args.windows
 
     # Create Qt application
     chessGame = QApplication(sys.argv)
 
-    game = Game(depth)
+    game = Game(depth, isWindows)
 
     if isSilent:
         game.run()
+        game.quit()
     else:
         # Create chess game window
         window = MainWindow(game)
@@ -293,5 +245,3 @@ if __name__ == "__main__":
 
         # Run and exit
         sys.exit(chessGame.exec_())
-
-    game.quit()
