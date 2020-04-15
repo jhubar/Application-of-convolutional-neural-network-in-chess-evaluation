@@ -29,7 +29,7 @@ def loadData(isWindows: bool):
 
         game = chess.pgn.read_game(pgn)
 
-        for i in tqdm(range(nbGames // 100), desc="Parsing games", unit="game"):
+        for i in tqdm(range(nbGames // 1000), desc="Parsing games", unit="game"):
             games.append(game)
 
             nbStates += int(game.headers['PlyCount'])
@@ -55,6 +55,8 @@ def loadData(isWindows: bool):
             y.append(output)
 
             node = node.parent
+
+    print(y)
 
     stockfish.quit()
 

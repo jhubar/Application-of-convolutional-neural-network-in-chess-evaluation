@@ -1,12 +1,56 @@
 import argparse
 import chess
+
+import matplotlib.pyplot as plt
+
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score
+
+import pickle
+
+import numpy as np
+
 import torch
+from torch.nn import Linear, Sequential, ReLU, Conv2d, MaxPool2d, BatchNorm2d, Module, CrossEntropyLoss
+from torch.optim import Adam
 
 from evaluators.evaluator import Evaluator
 
 MODELPATH = ""
 
+class CustomNet(Module):
+    def __init__(self):
+        super(CustomNet, self).__init__()
+
+        self.cnnModel = Sequential(
+            # First layer
+            Conv2d(12, 18, kernel_size=3, stride=1, padding=0),
+            ReLU(inplace=True),
+            MaxPool2d(kernel_size=2, stride=1),
+            # First layer
+            Conv2d(18, 24, kernel_size=3, stride=1, padding=0),
+            ReLU(inplace=True),
+            MaxPool2d(kernel_size=2, stride=1),
+        )
+
+        self.fcModel = Sequential(
+            Linear(96, 1)
+        )
+
+    def forward(self, x):
+        xconv = self.cnnModel(x)
+        xflat = xconv.view(xconv.size(0), -1)
+        res = self.fcModel(xflat)
+
+        return res
+
+
 class DeepEvaluator(Evaluator):
+    def __init__(self):
+        self.model = CustomNet()
+        self.optimizer = Adam(self.model.parameters(), lr=0.07)
+        self.criterion = CrossEntropyLoss()
+
     @staticmethod
     def boardToTensor(board):
         tensor = torch.zeros(8, 8, 12)
@@ -71,10 +115,23 @@ class DeepEvaluator(Evaluator):
 
         pass
 
-    @staticmethod
-    def train(dataset):
-        # TODO
-        pass
+    def train(self, dataset, epoch):
+        self.model.train()
+
+        tr_loss = 0
+
+        with open("chessInput", "rb") as file:
+            trainInput = pickle.load(file)
+
+        with open("chessOutput", "rb") as file:
+            trainOutput = pickle.load(file)
+
+        # trainInput = np.array(trainInput)
+        # trainOutput = np.array(trainOutput)
+
+        print(trainInput[:5])
+        print(trainOutput[:5])
+
 
 
 if __name__ == "__main__":
@@ -84,5 +141,5 @@ if __name__ == "__main__":
     # Fetch arguments
     args = parser.parse_args()
 
-    # TODO
-    DeepEvaluator.train(args)
+    evaluator = DeepEvaluator()
+    evaluator.train(args, 10)

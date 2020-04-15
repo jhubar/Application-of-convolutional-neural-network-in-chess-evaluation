@@ -1,3 +1,5 @@
+import math
+
 import chess
 
 from evaluators import Evaluator
@@ -18,7 +20,7 @@ def alphabetaMinimax(board: chess.Board, alpha: int, beta: int, depth: int, eval
     -------
     The score associated to the given board (when a move has been done)
     """
-    bestScore = -9999
+    bestScore = -math.inf
 
     # Terminal State
     if board.is_game_over():
@@ -92,9 +94,9 @@ def searchNextMove(board: chess.Board, depth: int, evaluator: Evaluator):
     A Move object that represents the best move to play
     """
     bestMove = chess.Move.null()
-    bestValue = -99999
-    alpha = -100000
-    beta = 100000
+    bestValue = -math.inf
+    alpha = -math.inf
+    beta = math.inf
     for move in board.legal_moves:
         board.push(move)
         boardValue = -alphabetaMinimax(board, -beta, -alpha, depth-1, evaluator)
