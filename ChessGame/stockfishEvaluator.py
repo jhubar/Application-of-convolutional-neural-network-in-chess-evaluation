@@ -1,7 +1,7 @@
 import chess
 import chess.engine
 
-from evaluators.evaluator import Evaluator
+from evaluator import Evaluator
 
 STOCKFISH_PATH = "stockfish"
 STOCKFISH_PATH_WINDOWS = "C:\\Users\\diveb\\Downloads\\stockfish-11-win\\stockfish-11-win\\Windows\\stockfish_20011801_x64.exe"

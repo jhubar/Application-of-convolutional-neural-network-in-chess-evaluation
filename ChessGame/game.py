@@ -1,7 +1,10 @@
 import chess
 import chess.engine
 
-from evaluators import Evaluator, SimpleEvaluator, DeepEvaluator
+from evaluator import Evaluator
+from simpleEvaluator import SimpleEvaluator
+from deepEvaluator import DeepEvaluator
+
 from minimax import searchNextMove
 
 STOCKFISH_PATH = "stockfish"

@@ -1,4 +1,0 @@
-from evaluators.evaluator import Evaluator
-from evaluators.simpleEvaluator import SimpleEvaluator
-from evaluators.stockfishEvaluator import StockfishEvaluator
-from evaluators.deepEvaluator import DeepEvaluator

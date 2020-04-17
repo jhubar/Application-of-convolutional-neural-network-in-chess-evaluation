@@ -20,8 +20,6 @@ from torch.optim import Adam
 
 from evaluator import Evaluator
 
-MODELPATH = ""
-
 class CustomNet(Module):
     def __init__(self):
         super(CustomNet, self).__init__()

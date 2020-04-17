@@ -7,8 +7,8 @@ import chess.pgn
 import argparse
 from tqdm import tqdm
 
-from evaluators import StockfishEvaluator
-from evaluators.deepEvaluator import DeepEvaluator
+from stockfishEvaluator import StockfishEvaluator
+from deepEvaluator import DeepEvaluator
 
 
 def loadData(isWindows: bool):

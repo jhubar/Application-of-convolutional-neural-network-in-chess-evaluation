@@ -2,7 +2,7 @@ import math
 
 import chess
 
-from evaluators import Evaluator
+from evaluator import Evaluator
 
 def alphabetaMinimax(board: chess.Board, alpha: int, beta: int, depth: int, evaluator: Evaluator):
     """
