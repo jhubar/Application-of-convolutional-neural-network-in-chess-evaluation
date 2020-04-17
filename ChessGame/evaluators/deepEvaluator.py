@@ -53,7 +53,7 @@ class DeepEvaluator(Evaluator):
 
     @staticmethod
     def boardToTensor(board):
-        tensor = torch.zeros(8, 8, 12)
+        tensor = torch.zeros(12, 8, 8)
 
         for wp in board.pieces(chess.PAWN, chess.WHITE):
             row = wp // 8
