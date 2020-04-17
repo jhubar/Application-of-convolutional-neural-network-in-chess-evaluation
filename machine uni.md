@@ -5,8 +5,8 @@
 
 ## 2 . Connection SSH
 
-- Host: 10.19.99.66
-- Username: phockers
+
+- ssh phockers@10.19.99.66
 - Password: pyx9140
 
 ## change Password
