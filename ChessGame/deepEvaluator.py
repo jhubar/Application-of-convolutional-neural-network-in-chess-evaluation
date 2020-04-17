@@ -17,8 +17,10 @@ import torch
 from torch.autograd import Variable
 from torch.nn import Linear, Sequential, ReLU, Conv2d, MaxPool2d, BatchNorm2d, Module, CrossEntropyLoss, MSELoss
 from torch.optim import Adam
+from torch.utils.data import TensorDataset, DataLoader
 
 from evaluator import Evaluator
+
 
 class CustomNet(Module):
     def __init__(self):
@@ -26,18 +28,19 @@ class CustomNet(Module):
 
         self.cnnModel = Sequential(
             # First layer
-            Conv2d(12, 18, kernel_size=3, stride=1, padding=0),
+            Conv2d(12, 120, kernel_size=3, stride=1, padding=0),
             ReLU(inplace=True),
             MaxPool2d(kernel_size=2, stride=1),
 
             # Second layer
-            Conv2d(18, 24, kernel_size=3, stride=1, padding=0),
+            Conv2d(120, 240, kernel_size=3, stride=1, padding=0),
             ReLU(inplace=True),
             MaxPool2d(kernel_size=2, stride=1),
         )
 
         self.fcModel = Sequential(
-            Linear(96, 16),
+            Linear(960, 160),
+            Linear(160, 16),
             Linear(16, 1)
         )
 
@@ -59,9 +62,9 @@ class DeepEvaluator(Evaluator):
         # defining the number of epochs
         self.n_epochs = 25
         # empty list to store training losses
-        self.train_losses = []
+        # self.train_losses = []
         # empty list to store validation losses
-        self.val_losses = []
+        # self.val_losses = []
 
     @staticmethod
     def boardToTensor(board):
@@ -140,44 +143,45 @@ class DeepEvaluator(Evaluator):
         train_X = torch.stack(train_X)
         train_y = torch.FloatTensor(train_y)
 
-        val_X = torch.stack(val_X)
-        val_y = torch.FloatTensor(val_y)
+        train_data = TensorDataset(train_X, train_y)
 
-        return train_X, train_y, val_X, val_y
+        return train_data
 
-    def train(self, epoch, train_X, train_y, val_X, val_y):
+        # val_X = torch.stack(val_X)
+        # val_y = torch.FloatTensor(val_y)
+
+        # return train_X, train_y, val_X, val_y
+
+    def train(self, epoch, train_X, train_y):
         self.model.train()
 
-        tr_loss = 0
+        # tr_loss = 0
 
         # getting the training set
         X_train = Variable(train_X)
         y_train = Variable(train_y)
 
         # getting the validation set
-        X_val = Variable(val_X)
-        y_val = Variable(val_y)
-
-        # clearing the Gradients of the model parameters
-        self.optimizer.zero_grad()
+        # X_val = Variable(val_X)
+        # y_val = Variable(val_y)
 
         # prediction for training and validation set
         output_train = self.model(X_train)
-        output_val = self.model(X_val)
+        # output_val = self.model(X_val)
 
         # computing the training and validation loss
         loss_train = self.criterion(output_train, y_train)
-        loss_val = self.criterion(output_val, y_val)
-        self.train_losses.append(loss_train)
-        self.val_losses.append(loss_val)
+        # loss_val = self.criterion(output_val, y_val)
+
+        # self.val_losses.append(loss_val)
 
         # computing the updated weights of all the model parameters
         loss_train.backward()
+
         self.optimizer.step()
-        tr_loss = loss_train.item()
-        if epoch % 2 == 0:
-            # printing the validation loss
-            print('Epoch : ', epoch+1, '\t', 'loss :', loss_val)
+        self.optimizer.zero_grad()
+
+        return loss_train.item()
 
 
 if __name__ == "__main__":
@@ -189,7 +193,15 @@ if __name__ == "__main__":
 
     evaluator = DeepEvaluator()
 
-    train_X, train_y, val_X, val_y = evaluator.loadDataset()
+    train_data = evaluator.loadDataset()
+
+    train_loader = DataLoader(dataset=train_data, batch_size=1024, shuffle=True)
+
+    train_losses = []
 
     for epoch in range(evaluator.n_epochs):
-        evaluator.train(epoch, train_X, train_y, val_X, val_y)
+        for X_batch, y_batch in train_loader:
+            loss = evaluator.train(epoch, X_batch, y_batch)
+            train_losses.append(loss)
+        if epoch % 2 == 0:
+            print('Epoch : ', epoch+1, '\t', 'loss :', train_losses[-1])
