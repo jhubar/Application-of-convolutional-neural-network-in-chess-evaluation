@@ -5,7 +5,6 @@
 #SBATCH --ntasks-per-node=1
 #SBATCH --time=1:00:00
 #SBATCH --mem-per-cpu=1000
-#SBATCH --partition=PostP
 #SBATCH --gres=gpu:1
 
 srun --gres = gpu:2 n2 --exlusive python3 deepEvaluator.py
