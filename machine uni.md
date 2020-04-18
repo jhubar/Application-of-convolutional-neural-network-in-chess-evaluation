@@ -32,10 +32,6 @@ pour lancer le code deepEvaluator : run.sh
 
 # Exemple de nom.sh
 ```console
-foo@bar:~$ whoami
-foo
-'''
-'''console
   #!/bin/bash
   #
   #SBATCH --job-name=Chess-deepEvaluator
@@ -49,7 +45,7 @@ foo
   #SBATCH --gres=gpu:1
 
   python3 deepEvaluator.py
-'''
+```
 
 
 
