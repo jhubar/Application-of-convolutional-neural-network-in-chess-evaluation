@@ -9,6 +9,4 @@
 #SBATCH --partition=all
 #SBATCH --gres=gpu:1
 
-export SUMO_HOME="/home/phockers/Deep-Learning-Project/ChessGame"
-
 python3 deepEvaluator.py
