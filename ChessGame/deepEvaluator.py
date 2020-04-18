@@ -21,6 +21,9 @@ from torch.utils.data import TensorDataset, DataLoader
 
 from evaluator import Evaluator
 
+device = 'cuda' if torch.cuda.is_available() else 'cpu'
+print(device)
+
 
 class CustomNet(Module):
     def __init__(self):
@@ -137,43 +140,31 @@ class DeepEvaluator(Evaluator):
         with open("chessOutput", "rb") as file:
             trainOutput = pickle.load(file)
 
-        train_X, val_X, train_y, val_y = train_test_split(
-            trainInput, trainOutput, test_size=0.1)
+        # train_X, val_X, train_y, val_y = train_test_split(
+        #     trainInput, trainOutput, test_size=0.1)
 
-        train_X = torch.stack(train_X)
-        train_y = torch.FloatTensor(train_y)
+        train_X = torch.stack(trainInput)
+        train_y = torch.FloatTensor(trainOutput)
+
+        train_X.to(device)
+        train_y.to(device)
 
         train_data = TensorDataset(train_X, train_y)
 
         return train_data
 
-        # val_X = torch.stack(val_X)
-        # val_y = torch.FloatTensor(val_y)
-
-        # return train_X, train_y, val_X, val_y
-
     def train(self, epoch, train_X, train_y):
         self.model.train()
-
-        # tr_loss = 0
 
         # getting the training set
         X_train = Variable(train_X)
         y_train = Variable(train_y)
 
-        # getting the validation set
-        # X_val = Variable(val_X)
-        # y_val = Variable(val_y)
-
         # prediction for training and validation set
         output_train = self.model(X_train)
-        # output_val = self.model(X_val)
 
         # computing the training and validation loss
         loss_train = self.criterion(output_train, y_train)
-        # loss_val = self.criterion(output_val, y_val)
-
-        # self.val_losses.append(loss_val)
 
         # computing the updated weights of all the model parameters
         loss_train.backward()
@@ -201,7 +192,11 @@ if __name__ == "__main__":
 
     for epoch in range(evaluator.n_epochs):
         for X_batch, y_batch in train_loader:
+            X_batch.to(device)
+            y_batch.to(device)
+
             loss = evaluator.train(epoch, X_batch, y_batch)
             train_losses.append(loss)
+
         if epoch % 2 == 0:
             print('Epoch : ', epoch+1, '\t', 'loss :', train_losses[-1])

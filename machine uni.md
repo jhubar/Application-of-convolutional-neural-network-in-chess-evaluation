@@ -6,8 +6,8 @@
 ## 2 . Connection SSH
 
 - host: ssh phockers@10.19.99.66
-- password: pyx9140
+- password: chess1234
 
 ## Documentation
 - [alan-cluster](https://github.com/montefiore-ai/alan-cluster)
-- [slurm](https://support.ceci-hpc.be/doc/_contents/QuickStart/SubmittingJobs/SlurmTutorial.html.)
+- [slurm](https://support.ceci-hpc.be/doc/_contents/QuickStart/SubmittingJobs/SlurmTutorial.html)
