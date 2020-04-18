@@ -8,4 +8,4 @@
 #SBATCH --partition=PostP
 #SBATCH --gres=gpu:1
 
-srun python3 deepEvaluator.py
+srun --gres = gpu:2 n2 --exlusive python3 deepEvaluator.py
