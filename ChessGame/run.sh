@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH --job-name=SIMP_INT
+#SBATCH --job-name=Chess
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=1
 #SBATCH --ntasks-per-node=1
