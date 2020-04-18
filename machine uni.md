@@ -31,7 +31,7 @@ pour lancer le code deepEvaluator : run.sh
 
 
 # Exemple de nom.sh
-'''bash
+'''console
   #!/bin/bash
   #
   #SBATCH --job-name=Chess-deepEvaluator
