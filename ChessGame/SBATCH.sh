@@ -8,4 +8,3 @@
 #SBATCH --mem-per-cpu=100
 
 srun  python3 deepEvaluator.py
-srun sleep 60
