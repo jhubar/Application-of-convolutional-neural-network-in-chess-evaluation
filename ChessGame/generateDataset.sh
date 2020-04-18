@@ -1,7 +1,6 @@
 #!/bin/bash
 #
-#SBATCH --job-name=Chess
-#SBATCH --output=res.txt
+#SBATCH --job-name=Chess-generateDataset
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=1
 #SBATCH --ntasks-per-node=1
