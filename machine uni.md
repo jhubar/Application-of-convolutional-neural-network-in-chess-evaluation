@@ -31,6 +31,10 @@ pour lancer le code deepEvaluator : run.sh
 
 
 # Exemple de nom.sh
+```console
+foo@bar:~$ whoami
+foo
+'''
 '''console
   #!/bin/bash
   #
