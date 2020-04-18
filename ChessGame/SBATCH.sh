@@ -1,10 +1,11 @@
 #!/bin/bash
-#SBATCH --job-name=TESTED
+#
+#SBATCH --job-name=test
+#SBATCH --output=res.txt
+#
 #SBATCH --ntasks=1
-#SBATCH --cpus-per-task=1
-#SBATCH --ntasks-per-node=1
-#SBATCH --time=1:00:00
-#SBATCH --mem-per-cpu=1000
-#SBATCH --gres=gpu:1
+#SBATCH --time=10:00
+#SBATCH --mem-per-cpu=100
 
 srun  python3 deepEvaluator.py
+srun sleep 60
