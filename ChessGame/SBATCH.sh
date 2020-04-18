@@ -7,4 +7,4 @@
 #SBATCH --time=10:00
 #SBATCH --mem-per-cpu=100
 
-Python3 deepEvaluator.py
+python3 deepEvaluator.py
