@@ -49,7 +49,7 @@ pour lancer le code deepEvaluator : run.sh
 
 
 
-# TODO (pas mis a jour) :
+# TODO (pas mis à jour) :
 on a lancé un script CHESStest qui doit faire run le NN, on ne sait pas s'il tourne vraiment car le print du début n'a tjs pas été affiché dans res_conda_gpu_deepEvaluator.txt
 il faudra donc regarder plus tard si des trucs se sont bien passés.
 Normalement on a accès à cuda, on a écrit un script test pour print torch.cuda.is_available et ca marchait, mais on a pas encore testé avec le network
