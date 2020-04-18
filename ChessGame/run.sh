@@ -1,7 +1,7 @@
 #!/bin/bash
 #
 #SBATCH --job-name=Chess
-#SBATCH --output=res.txt
+#SBATCH --output=res-run.txt
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=1
 #SBATCH --ntasks-per-node=1
