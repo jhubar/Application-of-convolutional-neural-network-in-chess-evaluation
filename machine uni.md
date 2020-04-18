@@ -8,15 +8,21 @@
 - host: ssh phockers@10.19.99.66
 - password: chess1234
 
-## Documentation
+### Documentation
 - [alan-cluster](https://github.com/montefiore-ai/alan-cluster)
 - [slurm](https://support.ceci-hpc.be/doc/_contents/QuickStart/SubmittingJobs/SlurmTutorial.html)
 - [tuto](https://vsoch.github.io/lessons/sherlock-jobs/)
 
-# Commande Slurn
+### Commande Slurn
 
 - Voir si le jobs est dans la queue: squeue
 - Supprimer un jobs: scancel --name=jobs_name
+
+# file.sh
+
+Pour lancer la generation des dataset: generateDataset.sh
+pour lancer le code deepEvaluator : run.sh
+
 
 # Run le Slurn
 
@@ -25,19 +31,25 @@
 
 
 # Exemple de nom.sh
-
+'''js
   #!/bin/bash
   #
-  #SBATCH --cpus-per-task=1        # Number of CPU cores to allocate
-  #SBATCH --job-name "Chess"
-  #SBATCH --mem-per-cpu=4000       # Memory to allocate in MB per allocated CPU core
-  #SBATCH --gres=gpu:0             # Number of GPU's
-  #SBATCH --time="7-00:00:00"      # Max execution time
+  #SBATCH --job-name=Chess-deepEvaluator
+  #SBATCH --output=res-run.txt
+  #SBATCH --ntasks=1
+  #SBATCH --cpus-per-task=1
+  #SBATCH --ntasks-per-node=1
+  #SBATCH --time=0-05:00:00
+  #SBATCH --mem-per-cpu=32g
+  #SBATCH --partition=all
+  #SBATCH --gres=gpu:1
 
   python3 deepEvaluator.py
+'''
 
 
-# TODO :
+
+# TODO (pas mis a jour) :
 on a lancé un script CHESStest qui doit faire run le NN, on ne sait pas s'il tourne vraiment car le print du début n'a tjs pas été affiché dans res_conda_gpu_deepEvaluator.txt
 il faudra donc regarder plus tard si des trucs se sont bien passés.
 Normalement on a accès à cuda, on a écrit un script test pour print torch.cuda.is_available et ca marchait, mais on a pas encore testé avec le network
