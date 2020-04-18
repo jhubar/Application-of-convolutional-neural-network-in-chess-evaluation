@@ -10,4 +10,4 @@
 
 ## Documentation
 - [alan-cluster](https://github.com/montefiore-ai/alan-cluster)
-- [slurm](https://support.ceci-hpc.be/doc/_contents/QuickStart/SubmittingJobs/SlurmTutorial.html.)
+- [slurm](https://support.ceci-hpc.be/doc/_contents/QuickStart/SubmittingJobs/SlurmTutorial.html)
