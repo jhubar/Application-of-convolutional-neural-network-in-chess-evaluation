@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-#SBATCH --job-name=Chess
+#SBATCH --job-name=Chess-deepEvaluator
 #SBATCH --output=res-run.txt
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=1
