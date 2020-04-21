@@ -70,9 +70,14 @@ https://datascience.stackexchange.com/questions/20222/how-to-decide-neural-netwo
 
 4. Try adding some dropout, it's the closest thing neural networks have to magic fairy dust that makes everything better (caveat: adding dropout may improve generalisation, but may also increase required layer sizes and training times). 
 
+https://github.com/dnouri/nolearn/blob/master/docs/notebooks/CNN_tutorial.ipynb
+
+
+
 
 TO TRY -> 
+- increase the complexity of the network bit by bit
 - use padding to have convolution focus on edges of the boards
 - stop using pooling (at least at first layers) to avoid locality invariance
-- dropout 
+- dropout : increase complexity of network until overfit, then increase drop out rate, and repeat
 
