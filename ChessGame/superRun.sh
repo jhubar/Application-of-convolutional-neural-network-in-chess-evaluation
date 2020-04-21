@@ -1,5 +1,5 @@
 #!/bin/bash
 #
-SBATCH runJulien.sh
-SBATCH runQuentin.sh
-SBATCH runPierre.sh
+sbatch runJulien.sh
+sbatch runQuentin.sh
+sbatch runPierre.sh
