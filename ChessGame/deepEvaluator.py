@@ -32,13 +32,13 @@ class CustomNet(Module):
 
         self.cnnModel = Sequential(
             # First layer
-            Conv2d(12, 24, kernel_size=3, stride=1, padding=0).to(device),
+            Conv2d(12, 24, kernel_size=3, stride=1, padding=1).to(device), #8+2-3+1 ->8
             ReLU(inplace=True).to(device),
-            MaxPool2d(kernel_size=2, stride=1).to(device),
+            MaxPool2d(kernel_size=2, stride=1).to(device), #8-1 -> 7
             # Second layer
-            Conv2d(24, 48, kernel_size=3, stride=1, padding=0).to(device),
+            Conv2d(24, 48, kernel_size=3, stride=1, padding=1).to(device), #7+2-3+1 ->7
             ReLU(inplace=True).to(device),
-            MaxPool2d(kernel_size=2, stride=1).to(device),
+            MaxPool2d(kernel_size=2, stride=1).to(device), #7-1 ->7
             # Third layer
             Conv2d(48, 96, kernel_size=3, stride=1, padding=0).to(device),
             ReLU(inplace=True).to(device),
