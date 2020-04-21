@@ -76,7 +76,3 @@ TO TRY ->
 - use padding to have convolution focus on edges of the boards
 - stop using pooling (at least at first layers) to avoid locality invariance
 - dropout
-<<<<<<< HEAD
-=======
-
->>>>>>> 06257ff991e9c07b085598d0cfd237f729fe0050
