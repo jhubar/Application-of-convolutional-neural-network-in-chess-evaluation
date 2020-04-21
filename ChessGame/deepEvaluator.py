@@ -16,7 +16,7 @@ import numpy as np
 import torch
 from torch.autograd import Variable
 from torch.nn import Linear, Sequential, ReLU, Conv2d, MaxPool2d, BatchNorm2d, Module, CrossEntropyLoss, MSELoss
-from torch.optim import Adam
+from torch.optim import Adam, SGD
 from torch.utils.data import TensorDataset, DataLoader
 
 from evaluator import Evaluator
@@ -49,7 +49,8 @@ class CustomNet(Module):
 
     def forward(self, x):
         xconv = self.cnnModel(x)
-        xflat = xconv.view(xconv.size(0), -1)
+        xflat = xconv.flatten()
+        # xflat = xconv.view(xconv.size(0), -1)
         res = self.fcModel(xflat)
 
         return res
