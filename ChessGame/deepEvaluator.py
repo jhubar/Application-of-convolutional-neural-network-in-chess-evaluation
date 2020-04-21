@@ -32,32 +32,32 @@ class CustomNet(Module):
 
         self.cnnModel = Sequential(
             # First layer
-            Conv2d(12, 24, kernel_size=3, stride=1, padding=1).to(device), #8+2-3+1 ->8
+            Conv2d(12, 24, kernel_size=3, stride=1, padding=2).to(device), #8-3+1+4 -> 10
             ReLU(inplace=True).to(device),
-            MaxPool2d(kernel_size=2, stride=1).to(device), #8-1 -> 7
+            MaxPool2d(kernel_size=2, stride=1).to(device), #10-1 -> 9
             # Second layer
-            Conv2d(24, 48, kernel_size=3, stride=1, padding=1).to(device), #7+2-3+1 ->7
+            Conv2d(24, 48, kernel_size=3, stride=1, padding=1).to(device), #9-3+1+2 -> 9
             ReLU(inplace=True).to(device),
-            MaxPool2d(kernel_size=2, stride=1).to(device), #7-1 ->7
+            MaxPool2d(kernel_size=2, stride=1).to(device), #9-1 ->8
             # Third layer
-            Conv2d(48, 96, kernel_size=3, stride=1, padding=0).to(device),
+            Conv2d(48, 96, kernel_size=3, stride=1, padding=0).to(device), #8-3+1 -> 6
             ReLU(inplace=True).to(device),
-            MaxPool2d(kernel_size=2, stride=1).to(device),
+            MaxPool2d(kernel_size=2, stride=1).to(device), # 6-1 -> 5
             # Fourth layer
-            Conv2d(96, 192, kernel_size=3, stride=1, padding=0).to(device),
+            Conv2d(96, 192, kernel_size=2, stride=1, padding=0).to(device), # 5-2+1 ->4
             ReLU(inplace=True).to(device),
-            MaxPool2d(kernel_size=2, stride=1).to(device),
+            MaxPool2d(kernel_size=2, stride=1).to(device), #4-1 -> 3
             # Fiveth layer
-            Conv2d(192, 384, kernel_size=3, stride=1, padding=0).to(device),
+            Conv2d(192, 384, kernel_size=2, stride=1, padding=0).to(device), #3-2+1->2
             ReLU(inplace=True).to(device),
-            MaxPool2d(kernel_size=2, stride=1).to(device),
+            MaxPool2d(kernel_size=2, stride=1).to(device), #2-1 ->1
         )
 
         self.fcModel = Sequential(
-            Linear(1536, 192).to(device),
+            Linear(384, 192).to(device),
             Linear(192, 24).to(device),
             Linear(24, 4).to(device),
-            Linear(24, 1).to(device)
+            Linear(4, 1).to(device)
         )
 
     def forward(self, x):
