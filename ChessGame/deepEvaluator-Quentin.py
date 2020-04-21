@@ -22,8 +22,8 @@ from torch.utils.data import TensorDataset, DataLoader
 from evaluator import Evaluator
 
 #device = 'cuda' if torch.cuda.is_available() else 'cpu'
-device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
-# device = 'cpu'
+# device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+device = 'cpu'
 print(device)
 
 
@@ -142,7 +142,7 @@ class DeepEvaluator(Evaluator):
         #     trainInput, trainOutput, test_size=0.1)
 
         train_X = torch.stack(trainInput)
-        train_y = torch.cuda.FloatTensor(trainOutput)
+        train_y = torch.FloatTensor(trainOutput)
 
         train_data = TensorDataset(train_X, train_y)
 
