@@ -16,6 +16,7 @@
 ### Commande Slurn
 - reset git:
 ```console
+  git fetch
   git reset --hard origin/master
 ```
 - Commande pour retrouver Chess
