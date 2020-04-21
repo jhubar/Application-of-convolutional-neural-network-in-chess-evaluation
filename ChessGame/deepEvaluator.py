@@ -31,20 +31,32 @@ class CustomNet(Module):
 
         self.cnnModel = Sequential(
             # First layer
-            Conv2d(12, 120, kernel_size=3, stride=1, padding=0).to(device),
+            Conv2d(12, 24, kernel_size=3, stride=1, padding=0).to(device),
             ReLU(inplace=True).to(device),
             MaxPool2d(kernel_size=2, stride=1).to(device),
-
             # Second layer
-            Conv2d(120, 240, kernel_size=3, stride=1, padding=0).to(device),
+            Conv2d(24, 48, kernel_size=3, stride=1, padding=0).to(device),
+            ReLU(inplace=True).to(device),
+            MaxPool2d(kernel_size=2, stride=1).to(device),
+            # Third layer
+            Conv2d(48, 96, kernel_size=3, stride=1, padding=0).to(device),
+            ReLU(inplace=True).to(device),
+            MaxPool2d(kernel_size=2, stride=1).to(device),
+            # Fourth layer
+            Conv2d(96, 192, kernel_size=3, stride=1, padding=0).to(device),
+            ReLU(inplace=True).to(device),
+            MaxPool2d(kernel_size=2, stride=1).to(device),
+            # Fiveth layer
+            Conv2d(192, 384, kernel_size=3, stride=1, padding=0).to(device),
             ReLU(inplace=True).to(device),
             MaxPool2d(kernel_size=2, stride=1).to(device),
         )
 
         self.fcModel = Sequential(
-            Linear(960, 160).to(device),
-            Linear(160, 16).to(device),
-            Linear(16, 1).to(device)
+            Linear(1536, 192).to(device),
+            Linear(192, 24).to(device),
+            Linear(24, 4).to(device),
+            Linear(24, 1).to(device)
         )
 
     def forward(self, x):
