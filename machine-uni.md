@@ -27,7 +27,10 @@ squeue
 ```console
 scancel --name=jobs_name
 ```
-
+- Supprimer un job: deeepEvaluator:
+```console
+Chess-deepEvaluator
+```
 # file.sh
 
 Pour lancer la generation des dataset: generateDataset.sh
