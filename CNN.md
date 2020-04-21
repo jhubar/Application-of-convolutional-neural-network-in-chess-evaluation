@@ -47,7 +47,8 @@ Stride is the step size, which means the distance between two convolution operat
 
 
 ### TO TRY  / KEEP IN MIND / TIPS ON DESIGNING AN ARCHITECTURE
-https://towardsdatascience.com/a-guide-to-an-efficient-way-to-build-neural-network-architectures-part-ii-hyper-parameter-42efca01e5d7
+
+[link1]:(https://towardsdatascience.com/a-guide-to-an-efficient-way-to-build-neural-network-architectures-part-ii-hyper-parameter-42efca01e5d7)
 
 
 1.Always start by using smaller filters is to collect as much local information as possible, and then gradually increase the filter width to reduce the generated feature space width to represent more global, high-level and representative information
@@ -60,7 +61,7 @@ https://towardsdatascience.com/a-guide-to-an-efficient-way-to-build-neural-netwo
 
 5. Keep adding layers until you over-fit. As once we achieved a considerable accuracy in our validation set we can use regularization components like l1/l2 regularization, dropout, batch norm, data augmentation etc. to reduce over-fitting
 
-https://datascience.stackexchange.com/questions/20222/how-to-decide-neural-network-architecture
+[Link2]:(https://datascience.stackexchange.com/questions/20222/how-to-decide-neural-network-architecture)
 
 1. Create a network with hidden layers similar size order to the input, and all the same size, on the grounds that there is no particular reason to vary the size (unless you are creating an autoencoder perhaps).
 
@@ -68,11 +69,10 @@ https://datascience.stackexchange.com/questions/20222/how-to-decide-neural-netwo
 
 3. Try varying depths of network if you expect the output to be explained well by the input data, but with a complex relationship (as opposed to just inherently noisy).
 
-4. Try adding some dropout, it's the closest thing neural networks have to magic fairy dust that makes everything better (caveat: adding dropout may improve generalisation, but may also increase required layer sizes and training times). 
+4. Try adding some dropout, it's the closest thing neural networks have to magic fairy dust that makes everything better (caveat: adding dropout may improve generalisation, but may also increase required layer sizes and training times).
 
 
-TO TRY -> 
+TO TRY ->
 - use padding to have convolution focus on edges of the boards
 - stop using pooling (at least at first layers) to avoid locality invariance
-- dropout 
-
+- dropout
