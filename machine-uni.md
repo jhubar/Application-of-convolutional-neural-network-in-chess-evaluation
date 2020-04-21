@@ -14,6 +14,10 @@
 - [tuto](https://vsoch.github.io/lessons/sherlock-jobs/)
 
 ### Commande Slurn
+- run
+```console
+    sbatch run.sh
+```
 - reset git:
 ```console
   git fetch
