@@ -50,7 +50,7 @@ Stride is the step size, which means the distance between two convolution operat
 https://towardsdatascience.com/a-guide-to-an-efficient-way-to-build-neural-network-architectures-part-ii-hyper-parameter-42efca01e5d7
 
 
-1.Always start by using smaller filters is to collect as much local information as possible, and then gradually increase the filter width to reduce the generated feature space width to represent more global, high-level and representative information
+1. Always start by using smaller filters is to collect as much local information as possible, and then gradually increase the filter width to reduce the generated feature space width to represent more global, high-level and representative information
 
 2. Following the principle, the number of channels should be low in the beginning such that it detects low-level features which are combined to form many complex shapes(by increasing the number of channels) which help distinguish between classes.
 
@@ -68,11 +68,11 @@ https://datascience.stackexchange.com/questions/20222/how-to-decide-neural-netwo
 
 3. Try varying depths of network if you expect the output to be explained well by the input data, but with a complex relationship (as opposed to just inherently noisy).
 
-4. Try adding some dropout, it's the closest thing neural networks have to magic fairy dust that makes everything better (caveat: adding dropout may improve generalisation, but may also increase required layer sizes and training times). 
+4. Try adding some dropout, it's the closest thing neural networks have to magic fairy dust that makes everything better (caveat: adding dropout may improve generalisation, but may also increase required layer sizes and training times).
 
 
-TO TRY -> 
+TO TRY ->
 - use padding to have convolution focus on edges of the boards
 - stop using pooling (at least at first layers) to avoid locality invariance
-- dropout 
+- dropout
 
