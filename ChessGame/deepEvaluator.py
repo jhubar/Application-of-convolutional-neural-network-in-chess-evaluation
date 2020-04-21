@@ -31,20 +31,31 @@ class CustomNet(Module):
 
         self.cnnModel = Sequential(
             # First layer
-            Conv2d(12, 120, kernel_size=3, stride=1, padding=0),
+            Conv2d(12, 24, kernel_size=3, stride=1, padding=0),
             ReLU(inplace=True),
             MaxPool2d(kernel_size=2, stride=1),
-
-            # Second layer
-            Conv2d(120, 240, kernel_size=3, stride=1, padding=0),
+            #Second layer
+            Conv2d(24, 48, kernel_size=3, stride=1, padding=0),
+            ReLU(inplace=True),
+            MaxPool2d(kernel_size=2, stride=1),
+            # Third layer
+            Conv2d(48, 96, kernel_size=3, stride=1, padding=0),
+            ReLU(inplace=True),
+            MaxPool2d(kernel_size=2, stride=1),
+            # fourth layer
+            Conv2d(96, 192, kernel_size=3, stride=1, padding=0),
+            ReLU(inplace=True),
+            MaxPool2d(kernel_size=2, stride=1),
+            # fiveth layer
+            Conv2d(192, 384, kernel_size=3, stride=1, padding=0),
             ReLU(inplace=True),
             MaxPool2d(kernel_size=2, stride=1),
         )
 
         self.fcModel = Sequential(
-            Linear(960, 160),
-            Linear(160, 16),
-            Linear(16, 1)
+            Linear(1536,192),
+            Linear(192, 24),
+            Linear(24, 1)
         )
 
     def forward(self, x):
