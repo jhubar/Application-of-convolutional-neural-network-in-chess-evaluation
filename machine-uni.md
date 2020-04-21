@@ -29,7 +29,7 @@ scancel --name=jobs_name
 ```
 - Supprimer un job: deeepEvaluator:
 ```console
-Chess-deepEvaluator
+scancel --name=Chess-deepEvaluator
 ```
 # file.sh
 
