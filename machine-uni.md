@@ -14,6 +14,10 @@
 - [tuto](https://vsoch.github.io/lessons/sherlock-jobs/)
 
 ### Commande Slurn
+-Watch jobs:
+```console
+watch -n 1 squeue -u phockers
+```
 - run
 ```console
     sbatch run.sh
