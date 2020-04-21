@@ -1,7 +1,7 @@
 #!/bin/bash
 #
 #SBATCH --job-name=Chess-deepEvaluator
-#SBATCH --output=output.txt
+#SBATCH --output=output-gpu.txt
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=1
 #SBATCH --ntasks-per-node=1
