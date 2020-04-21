@@ -31,20 +31,20 @@ class CustomNet(Module):
 
         self.cnnModel = Sequential(
             # First layer
-            Conv2d(12, 120, kernel_size=3, stride=1, padding=0),
-            ReLU(inplace=True),
-            MaxPool2d(kernel_size=2, stride=1),
+            Conv2d(12, 120, kernel_size=3, stride=1, padding=0).to(device),
+            ReLU(inplace=True).to(device),
+            MaxPool2d(kernel_size=2, stride=1).to(device),
 
             # Second layer
-            Conv2d(120, 240, kernel_size=3, stride=1, padding=0),
-            ReLU(inplace=True),
-            MaxPool2d(kernel_size=2, stride=1),
+            Conv2d(120, 240, kernel_size=3, stride=1, padding=0).to(device),
+            ReLU(inplace=True).to(device),
+            MaxPool2d(kernel_size=2, stride=1).to(device),
         )
 
         self.fcModel = Sequential(
-            Linear(960, 160),
-            Linear(160, 16),
-            Linear(16, 1)
+            Linear(960, 160).to(device),
+            Linear(160, 16).to(device),
+            Linear(16, 1).to(device)
         )
 
     def forward(self, x):
@@ -178,7 +178,8 @@ class DeepEvaluator(Evaluator):
 
 if __name__ == "__main__":
     # Create argument parser
-    parser = argparse.ArgumentParser(description="Arguments for the training of the deep evaluator")
+    parser = argparse.ArgumentParser(
+        description="Arguments for the training of the deep evaluator")
 
     # Fetch arguments
     args = parser.parse_args()
@@ -187,7 +188,8 @@ if __name__ == "__main__":
 
     train_data = evaluator.loadDataset()
 
-    train_loader = DataLoader(dataset=train_data, batch_size=1024, shuffle=True)
+    train_loader = DataLoader(
+        dataset=train_data, batch_size=1024, shuffle=True)
 
     train_losses = []
 
