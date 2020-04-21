@@ -1,0 +1,21 @@
+cuda:0
+Traceback (most recent call last):
+  File "deepEvaluator-Pierre.py", line 217, in <module>
+    loss = evaluator.train(epoch, X_batch, y_batch)
+  File "deepEvaluator-Pierre.py", line 181, in train
+    output_train = self.model(X_train)
+  File "/home/phockers/miniconda3/lib/python3.7/site-packages/torch/nn/modules/module.py", line 532, in __call__
+    result = self.forward(*input, **kwargs)
+  File "deepEvaluator-Pierre.py", line 64, in forward
+    xconv = self.cnnModel(x)
+  File "/home/phockers/miniconda3/lib/python3.7/site-packages/torch/nn/modules/module.py", line 532, in __call__
+    result = self.forward(*input, **kwargs)
+  File "/home/phockers/miniconda3/lib/python3.7/site-packages/torch/nn/modules/container.py", line 100, in forward
+    input = module(input)
+  File "/home/phockers/miniconda3/lib/python3.7/site-packages/torch/nn/modules/module.py", line 532, in __call__
+    result = self.forward(*input, **kwargs)
+  File "/home/phockers/miniconda3/lib/python3.7/site-packages/torch/nn/modules/conv.py", line 345, in forward
+    return self.conv2d_forward(input, self.weight)
+  File "/home/phockers/miniconda3/lib/python3.7/site-packages/torch/nn/modules/conv.py", line 342, in conv2d_forward
+    self.padding, self.dilation, self.groups)
+RuntimeError: Input type (torch.FloatTensor) and weight type (torch.cuda.FloatTensor) should be the same
