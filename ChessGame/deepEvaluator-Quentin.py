@@ -144,6 +144,9 @@ class DeepEvaluator(Evaluator):
         train_X = torch.stack(trainInput)
         train_y = torch.FloatTensor(trainOutput)
 
+        train_X.to(device)
+        train_y.to(device)
+
         train_data = TensorDataset(train_X, train_y)
 
         return train_data
@@ -151,8 +154,7 @@ class DeepEvaluator(Evaluator):
     def train(self, epoch, train_X, train_y):
         self.model.train()
 
-        train_X.to(device)
-        train_y.to(device)
+
 
         # getting the training set
         X_train = Variable(train_X)

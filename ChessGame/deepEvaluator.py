@@ -159,7 +159,10 @@ class DeepEvaluator(Evaluator):
         #     trainInput, trainOutput, test_size=0.1)
 
         train_X = torch.stack(trainInput)
-        train_y = torch.cuda.FloatTensor(trainOutput)
+        train_y = torch.FloatTensor(trainOutput)
+
+        train_X.to(device)
+        train_y.to(device)
 
         train_data = TensorDataset(train_X, train_y)
 
@@ -168,8 +171,7 @@ class DeepEvaluator(Evaluator):
     def train(self, epoch, train_X, train_y):
         self.model.train()
 
-        train_X.to(device)
-        train_y.to(device)
+
 
         # getting the training set
         X_train = Variable(train_X)
