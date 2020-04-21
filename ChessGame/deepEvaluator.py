@@ -42,9 +42,9 @@ class CustomNet(Module):
         )
 
         self.fcModel = Sequential(
-            Linear(960, 160).to(device),
-            Linear(160, 16).to(device),
-            Linear(16, 1).to(device)
+            Linear(960, 160),
+            Linear(160, 16),
+            Linear(16, 1)
         )
 
     def forward(self, x):
