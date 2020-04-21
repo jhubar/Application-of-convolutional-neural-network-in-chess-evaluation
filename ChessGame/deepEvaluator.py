@@ -22,7 +22,8 @@ from torch.utils.data import TensorDataset, DataLoader
 from evaluator import Evaluator
 
 #device = 'cuda' if torch.cuda.is_available() else 'cpu'
-device = 'cpu'
+device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+# device = 'cpu'
 print(device)
 
 
@@ -32,32 +33,32 @@ class CustomNet(Module):
 
         self.cnnModel = Sequential(
             # First layer
-            Conv2d(12, 24, kernel_size=3, stride=1, padding=2).to(device), #8-3+1+4 -> 10
-            ReLU(inplace=True).to(device),
-            MaxPool2d(kernel_size=2, stride=1).to(device), #10-1 -> 9
+            Conv2d(12, 24, kernel_size=3, stride=1, padding=2), #8-3+1+4 -> 10
+            ReLU(inplace=True),
+            MaxPool2d(kernel_size=2, stride=1), #10-1 -> 9
             # Second layer
-            Conv2d(24, 48, kernel_size=3, stride=1, padding=1).to(device), #9-3+1+2 -> 9
-            ReLU(inplace=True).to(device),
-            MaxPool2d(kernel_size=2, stride=1).to(device), #9-1 ->8
+            Conv2d(24, 48, kernel_size=3, stride=1, padding=1), #9-3+1+2 -> 9
+            ReLU(inplace=True),
+            MaxPool2d(kernel_size=2, stride=1), #9-1 ->8
             # Third layer
-            Conv2d(48, 96, kernel_size=3, stride=1, padding=0).to(device), #8-3+1 -> 6
-            ReLU(inplace=True).to(device),
-            MaxPool2d(kernel_size=2, stride=1).to(device), # 6-1 -> 5
+            Conv2d(48, 96, kernel_size=3, stride=1, padding=0), #8-3+1 -> 6
+            ReLU(inplace=True),
+            MaxPool2d(kernel_size=2, stride=1), # 6-1 -> 5
             # Fourth layer
-            Conv2d(96, 192, kernel_size=2, stride=1, padding=0).to(device), # 5-2+1 ->4
-            ReLU(inplace=True).to(device),
-            MaxPool2d(kernel_size=2, stride=1).to(device), #4-1 -> 3
+            Conv2d(96, 192, kernel_size=2, stride=1, padding=0), # 5-2+1 ->4
+            ReLU(inplace=True),
+            MaxPool2d(kernel_size=2, stride=1), #4-1 -> 3
             # Fiveth layer
-            Conv2d(192, 384, kernel_size=2, stride=1, padding=0).to(device), #3-2+1->2
-            ReLU(inplace=True).to(device),
-            MaxPool2d(kernel_size=2, stride=1).to(device), #2-1 ->1
+            Conv2d(192, 384, kernel_size=2, stride=1, padding=0), #3-2+1->2
+            ReLU(inplace=True),
+            MaxPool2d(kernel_size=2, stride=1), #2-1 ->1
         )
 
         self.fcModel = Sequential(
-            Linear(384, 192).to(device),
-            Linear(192, 24).to(device),
-            Linear(24, 4).to(device),
-            Linear(4, 1).to(device)
+            Linear(384, 192),
+            Linear(192, 24),
+            Linear(24, 4),
+            Linear(4, 1)
         )
 
     def forward(self, x):
@@ -71,7 +72,7 @@ class CustomNet(Module):
 
 class DeepEvaluator(Evaluator):
     def __init__(self):
-        self.model = CustomNet()
+        self.model = CustomNet().to(device)
         self.optimizer = Adam(self.model.parameters(), lr=0.07)
         # self.criterion = CrossEntropyLoss()
         self.criterion = MSELoss()
@@ -160,8 +161,8 @@ class DeepEvaluator(Evaluator):
         train_X = torch.stack(trainInput)
         train_y = torch.FloatTensor(trainOutput)
 
-        train_X.to(device)
-        train_y.to(device)
+        train_X
+        train_y
 
         train_data = TensorDataset(train_X, train_y)
 
@@ -176,9 +177,6 @@ class DeepEvaluator(Evaluator):
         # getting the training set
         X_train = Variable(train_X)
         y_train = Variable(train_y)
-
-        X_train.to(device)
-        y_train.to(device)
 
         # prediction for training and validation set
         output_train = self.model(X_train)
@@ -214,8 +212,8 @@ if __name__ == "__main__":
 
     for epoch in range(evaluator.n_epochs):
         for X_batch, y_batch in train_loader:
-            X_batch.to(device)
-            y_batch.to(device)
+            X_batch
+            y_batch
 
             loss = evaluator.train(epoch, X_batch, y_batch)
             train_losses.append(loss)
