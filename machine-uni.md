@@ -15,8 +15,18 @@
 
 ### Commande Slurn
 
-- Voir si le jobs est dans la queue: squeue
-- Supprimer un jobs: scancel --name=jobs_name
+- Commande pour retrouver Chess
+```console
+ squeue | grep Chess
+```
+- Voir si le jobs est dans la queue:
+```console
+squeue
+```
+- Supprimer un jobs:
+```console
+scancel --name=jobs_name
+```
 
 # file.sh
 
