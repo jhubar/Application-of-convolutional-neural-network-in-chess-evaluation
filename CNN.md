@@ -43,3 +43,36 @@ Stride is the step size, which means the distance between two convolution operat
   <img src=Image/convNopaddingStrike2.gif  with=50%/>
   </p>
 </figure>
+
+
+
+### TO TRY  / KEEP IN MIND / TIPS ON DESIGNING AN ARCHITECTURE
+https://towardsdatascience.com/a-guide-to-an-efficient-way-to-build-neural-network-architectures-part-ii-hyper-parameter-42efca01e5d7
+
+
+1.Always start by using smaller filters is to collect as much local information as possible, and then gradually increase the filter width to reduce the generated feature space width to represent more global, high-level and representative information
+
+2. Following the principle, the number of channels should be low in the beginning such that it detects low-level features which are combined to form many complex shapes(by increasing the number of channels) which help distinguish between classes.
+
+3. General filter sizes used are 3x3, 5x5 and 7x7 for the convolutional layer for a moderate or small-sized images and for Max-Pooling parameters we use 2x2 or 3x3 filter sizes with a stride of 2. Larger filter sizes and strides may be used to shrink a large image to a moderate size and then go further with the convention stated.
+
+4. Try using padding = same when you feel the border’s of the image might be important or just to help elongate your network architecture as padding keeps the dimensions same even after the convolution operation and therefore you can perform more convolutions without shrinking size.
+
+5. Keep adding layers until you over-fit. As once we achieved a considerable accuracy in our validation set we can use regularization components like l1/l2 regularization, dropout, batch norm, data augmentation etc. to reduce over-fitting
+
+https://datascience.stackexchange.com/questions/20222/how-to-decide-neural-network-architecture
+
+1. Create a network with hidden layers similar size order to the input, and all the same size, on the grounds that there is no particular reason to vary the size (unless you are creating an autoencoder perhaps).
+
+2. Start simple and build up complexity to see what improves a simple network.
+
+3. Try varying depths of network if you expect the output to be explained well by the input data, but with a complex relationship (as opposed to just inherently noisy).
+
+4. Try adding some dropout, it's the closest thing neural networks have to magic fairy dust that makes everything better (caveat: adding dropout may improve generalisation, but may also increase required layer sizes and training times). 
+
+
+TO TRY -> 
+- use padding to have convolution focus on edges of the boards
+- stop using pooling (at least at first layers) to avoid locality invariance
+- dropout 
+
