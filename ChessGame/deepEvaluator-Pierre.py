@@ -68,7 +68,6 @@ class CustomNet(Module):
 
         return res
 
-
 class DeepEvaluator(Evaluator):
     def __init__(self):
         self.model = CustomNet().to(device)
@@ -170,8 +169,7 @@ class DeepEvaluator(Evaluator):
     def train(self, epoch, train_X, train_y):
         self.model.train()
 
-        # train_X.to(device)
-        # train_y.to(device)
+
 
         # getting the training set
         X_train = Variable(train_X)
@@ -211,9 +209,6 @@ if __name__ == "__main__":
 
     for epoch in range(evaluator.n_epochs):
         for X_batch, y_batch in train_loader:
-            X_batch
-            y_batch
-
             loss = evaluator.train(epoch, X_batch, y_batch)
             train_losses.append(loss)
 
