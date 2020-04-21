@@ -159,10 +159,7 @@ class DeepEvaluator(Evaluator):
         #     trainInput, trainOutput, test_size=0.1)
 
         train_X = torch.stack(trainInput)
-        train_y = torch.FloatTensor(trainOutput)
-
-        train_X
-        train_y
+        train_y = torch.cuda.FloatTensor(trainOutput)
 
         train_data = TensorDataset(train_X, train_y)
 
@@ -212,9 +209,6 @@ if __name__ == "__main__":
 
     for epoch in range(evaluator.n_epochs):
         for X_batch, y_batch in train_loader:
-            X_batch
-            y_batch
-
             loss = evaluator.train(epoch, X_batch, y_batch)
             train_losses.append(loss)
 
