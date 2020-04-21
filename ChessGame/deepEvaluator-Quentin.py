@@ -33,37 +33,20 @@ class CustomNet(Module):
 
         self.cnnModel = Sequential(
             # First layer
-            Conv2d(12, 24, kernel_size=3, stride=1, padding=2), #8-3+1+4 -> 10
+            Conv2d(12, 20, kernel_size=5, stride=1, padding=0),
             ReLU(inplace=True),
-            MaxPool2d(kernel_size=2, stride=1), #10-1 -> 9
             # Second layer
-            Conv2d(24, 48, kernel_size=3, stride=1, padding=1), #9-3+1+2 -> 9
+            Conv2d(20, 50, kernel_size=3, stride=1, padding=0),
             ReLU(inplace=True),
-            MaxPool2d(kernel_size=2, stride=1), #9-1 ->8
-            # Third layer
-            Conv2d(48, 96, kernel_size=3, stride=1, padding=0), #8-3+1 -> 6
-            ReLU(inplace=True),
-            MaxPool2d(kernel_size=2, stride=1), # 6-1 -> 5
-            # Fourth layer
-            Conv2d(96, 192, kernel_size=2, stride=1, padding=0), # 5-2+1 ->4
-            ReLU(inplace=True),
-            MaxPool2d(kernel_size=2, stride=1), #4-1 -> 3
-            # Fifth layer
-            Conv2d(192, 384, kernel_size=2, stride=1, padding=0), #3-2+1->2
-            ReLU(inplace=True),
-            MaxPool2d(kernel_size=2, stride=1), #2-1 ->1
         )
 
         self.fcModel = Sequential(
-            Linear(384, 192),
-            Linear(192, 24),
-            Linear(24, 4),
-            Linear(4, 1)
+            Linear(200, 1)
         )
 
     def forward(self, x):
         xconv = self.cnnModel(x)
-	# xflat = xconv.flatten()
+	    # xflat = xconv.flatten()
         xflat = xconv.view(xconv.size(0), -1)
         res = self.fcModel(xflat)
 

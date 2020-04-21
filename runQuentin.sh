@@ -1,7 +1,7 @@
 #!/bin/bash
 #
-#SBATCH --job-name=Chess-deepEvaluator
-#SBATCH --output=output-1.txt
+#SBATCH --job-name=Chess-deepEvaluator-Quentin
+#SBATCH --output=output-Quentin.txt
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=1
 #SBATCH --ntasks-per-node=1
@@ -10,4 +10,4 @@
 #SBATCH --partition=all
 #SBATCH --gres=gpu:1
 
-python3 deepEvaluator-Julien.py
+python3 deepEvaluator-Quentin.py
