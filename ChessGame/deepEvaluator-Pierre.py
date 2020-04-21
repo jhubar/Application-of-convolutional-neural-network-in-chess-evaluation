@@ -33,31 +33,30 @@ class CustomNet(Module):
 
         self.cnnModel = Sequential(
             # First layer
-            Conv2d(12, 24, kernel_size=3, stride=1, padding=2), #8-3+1+4 -> 10
+            Conv2d(12, 24, kernel_size=2, stride=1, padding=2), #8-2+1+4 -> 11
             ReLU(inplace=True),
-            MaxPool2d(kernel_size=2, stride=1), #10-1 -> 9
+            MaxPool2d(kernel_size=2, stride=1), #11-1 -> 10
             # Second layer
-            Conv2d(24, 48, kernel_size=3, stride=1, padding=1), #9-3+1+2 -> 9
+            Conv2d(24, 48, kernel_size=2, stride=1, padding=1), #10-2+1+2 -> 11
             ReLU(inplace=True),
-            MaxPool2d(kernel_size=2, stride=1), #9-1 ->8
+            MaxPool2d(kernel_size=2, stride=1), #11-1 ->10
             # Third layer
-            Conv2d(48, 96, kernel_size=3, stride=1, padding=0), #8-3+1 -> 6
+            Conv2d(48, 96, kernel_size=2, stride=1, padding=0), #10-2+1 -> 9
             ReLU(inplace=True),
-            MaxPool2d(kernel_size=2, stride=1), # 6-1 -> 5
+            MaxPool2d(kernel_size=2, stride=1), # 9-1 -> 8
             # Fourth layer
-            Conv2d(96, 192, kernel_size=2, stride=1, padding=0), # 5-2+1 ->4
+            Conv2d(96, 192, kernel_size=2, stride=1, padding=0), # 8-2+1 ->7
             ReLU(inplace=True),
-            MaxPool2d(kernel_size=2, stride=1), #4-1 -> 3
+            MaxPool2d(kernel_size=2, stride=1), #7-1 -> 6
             # Fifth layer
-            Conv2d(192, 384, kernel_size=2, stride=1, padding=0), #3-2+1->2
+            Conv2d(192, 384, kernel_size=2, stride=1, padding=0), #6-2+1->5
             ReLU(inplace=True),
-            MaxPool2d(kernel_size=2, stride=1), #2-1 ->1
+            MaxPool2d(kernel_size=2, stride=1), #5-1 ->4
         )
 
         self.fcModel = Sequential(
-            Linear(384, 192),
-            Linear(192, 24),
-            Linear(24, 4),
+            Linear(16*384, 192),
+            Linear(192, 4),
             Linear(4, 1)
         )
 
