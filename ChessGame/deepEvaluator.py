@@ -21,7 +21,8 @@ from torch.utils.data import TensorDataset, DataLoader
 
 from evaluator import Evaluator
 
-device = 'cuda' if torch.cuda.is_available() else 'cpu'
+#device = 'cuda' if torch.cuda.is_available() else 'cpu'
+device = cpu
 print(device)
 
 
