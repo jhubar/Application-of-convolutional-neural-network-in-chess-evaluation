@@ -14,7 +14,10 @@
 - [tuto](https://vsoch.github.io/lessons/sherlock-jobs/)
 
 ### Commande Slurn
-
+- reset git:
+```console
+  git reset --hard origin/master
+```
 - Commande pour retrouver Chess
 ```console
  squeue | grep Chess
