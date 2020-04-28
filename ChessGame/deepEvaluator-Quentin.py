@@ -22,7 +22,7 @@ from torch.utils.data import TensorDataset, DataLoader
 from evaluator import Evaluator
 
 #device = 'cuda' if torch.cuda.is_available() else 'cpu'
-device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 # device = 'cpu'
 print(device)
 
@@ -152,7 +152,7 @@ class DeepEvaluator(Evaluator):
         return train_data
 
     def train(self, epoch, train_X, train_y):
-        print(self.model.is_cuda())
+        print(next(self.model.parameters).is_cuda)
         # self.model.train()
 
         # # getting the training set
