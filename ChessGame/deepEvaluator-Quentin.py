@@ -157,9 +157,7 @@ class DeepEvaluator(Evaluator):
         train_X.to(device)
         train_y.to(device)
 
-        transform = Normalize(torch.mean(train_y), torch.std(train_y))
-
-        train_y = transform(train_y)
+        train_y = (train_y - torch.mean(train_y)) / torch.std(train_y)
 
         train_data = TensorDataset(train_X, train_y)
 
