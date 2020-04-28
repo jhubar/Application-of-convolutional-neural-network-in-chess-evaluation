@@ -5,7 +5,6 @@ import chess
 import chess.pgn
 
 import argparse
-from tqdm import tqdm
 
 from stockfishEvaluator import StockfishEvaluator
 from deepEvaluator import DeepEvaluator
@@ -29,21 +28,19 @@ def loadData(isWindows: bool):
 
         game = chess.pgn.read_game(pgn)
 
-        for i in tqdm(range(nbGames), desc="Parsing games", unit="game"):
+        for i in range(nbGames):
             games.append(game)
 
             nbStates += int(game.headers['PlyCount'])
 
             game = chess.pgn.read_game(pgn)
 
-    print("Completed. {} games have been parsed\n".format(len(games)))
-
     X = []
     y = []
 
     stockfish = StockfishEvaluator(isWindows)
 
-    for game in tqdm(games, desc="Generating states", unit="game"):
+    for game in games:
         node = game.end()
 
         while node.parent is not None:
@@ -57,8 +54,6 @@ def loadData(isWindows: bool):
             node = node.parent
 
     stockfish.quit()
-
-    print("Completed. {} states have been generated\n".format(len(X)))
 
     return X, y
 
@@ -88,11 +83,9 @@ if __name__ == "__main__":
     # Extract depth
     isWindows = args.windows
 
-    print("############################################################")
-    print("#################### GENERATING DATASET ####################")
-    print("############################################################\n")
-
     X, y = loadData(isWindows)
 
     save(X, "chessInput")
     save(y, "chessOutput")
+
+    print("Completed. {} states have been generated\n".format(len(X)))

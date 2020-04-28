@@ -15,7 +15,7 @@ import numpy as np
 
 import torch
 from torch.autograd import Variable
-from torch.nn import Linear, Sequential, ReLU, Conv2d, BatchNorm2d, Module, MSELoss, ELU, Softmax, Dropout
+from torch.nn import Linear, Sequential, ReLU, Conv2d, BatchNorm1d, BatchNorm2d, Module, MSELoss, ELU, Softmax, Dropout
 from torch.optim import Adam, SGD
 from torch.utils.data import TensorDataset, DataLoader
 
@@ -48,7 +48,7 @@ class CustomNet(Module):
 
         self.fcModel = Sequential(
             Dropout(p=0.3),
-            BatchNorm2d(200),
+            BatchNorm1d(200),
             Linear(200, 1),
             Softmax(1),
         )
