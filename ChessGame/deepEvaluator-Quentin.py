@@ -60,9 +60,9 @@ class DeepEvaluator(Evaluator):
     def __init__(self):
         self.model = CustomNet().to(device)
         # self.optimizer = Adam(self.model.parameters(), lr=0.07)
-        self.optimizer = SGD(self.model.parameters(), lr=0.01).to(device)
+        self.optimizer = SGD(self.model.parameters(), lr=0.01)
         # self.criterion = CrossEntropyLoss()
-        self.criterion = CrossEntropyLoss().to(device)
+        self.criterion = CrossEntropyLoss()
 
         # defining the number of epochs
         self.n_epochs = 25
