@@ -15,7 +15,7 @@ import numpy as np
 
 import torch
 from torch.autograd import Variable
-from torch.nn import Linear, Sequential, ReLU, Conv2d, MaxPool2d, BatchNorm2d, Module, CrossEntropyLoss, MSELoss
+from torch.nn import Linear, Sequential, ReLU, Conv2d, MaxPool2d, BatchNorm2d, Module, CrossEntropyLoss, MSELoss, ELU
 from torch.optim import Adam, SGD
 from torch.utils.data import TensorDataset, DataLoader
 
@@ -34,10 +34,12 @@ class CustomNet(Module):
         self.cnnModel = Sequential(
             # First layer
             Conv2d(12, 20, kernel_size=5, stride=1, padding=0),
-            ReLU(inplace=True),
+            # ReLU(inplace=True),
+            ELU(inplace=True),
             # Second layer
             Conv2d(20, 50, kernel_size=3, stride=1, padding=0),
-            ReLU(inplace=True),
+            # ReLU(inplace=True),
+            ELU(inplace=True),
         )
 
         self.fcModel = Sequential(
@@ -56,7 +58,8 @@ class CustomNet(Module):
 class DeepEvaluator(Evaluator):
     def __init__(self):
         self.model = CustomNet().to(device)
-        self.optimizer = Adam(self.model.parameters(), lr=0.07)
+        # self.optimizer = Adam(self.model.parameters(), lr=0.07)
+        self.optimizer = SGD(self.model.parameters(), lr=0.01)
         # self.criterion = CrossEntropyLoss()
         self.criterion = MSELoss()
 
