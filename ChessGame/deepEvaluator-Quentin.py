@@ -152,7 +152,7 @@ class DeepEvaluator(Evaluator):
         return train_data
 
     def train(self, epoch, train_X, train_y):
-        # self.model.train()
+        self.model.train()
 
         # # getting the training set
         # X_train = Variable(train_X)
@@ -160,22 +160,19 @@ class DeepEvaluator(Evaluator):
         X_train = train_X
         y_train = train_y
 
-        print(X_train.is_cuda)
-        print(y_train.is_cuda)
+        # prediction for training and validation set
+        output_train = self.model(X_train)
 
-        # # prediction for training and validation set
-        # output_train = self.model(X_train)
+        # computing the training and validation loss
+        loss_train = self.criterion(output_train, y_train)
 
-        # # computing the training and validation loss
-        # loss_train = self.criterion(output_train, y_train)
+        # computing the updated weights of all the model parameters
+        loss_train.backward()
 
-        # # computing the updated weights of all the model parameters
-        # loss_train.backward()
+        self.optimizer.step()
+        self.optimizer.zero_grad()
 
-        # self.optimizer.step()
-        # self.optimizer.zero_grad()
-
-        # return loss_train.item()
+        return loss_train.item()
 
 
 if __name__ == "__main__":
@@ -200,7 +197,7 @@ if __name__ == "__main__":
             X_batch = X_batch.to(device)
             y_batch = y_batch.to(device)
             loss = evaluator.train(epoch, X_batch, y_batch)
-            # train_losses.append(loss)
+            train_losses.append(loss)
 
-        # if epoch % 2 == 0:
-        #     print('Epoch : ', epoch+1, '\t', 'loss :', train_losses[-1])
+        if epoch % 2 == 0:
+            print('Epoch : ', epoch+1, '\t', 'loss :', train_losses[-1])
