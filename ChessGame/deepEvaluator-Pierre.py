@@ -15,7 +15,7 @@ import numpy as np
 
 import torch
 from torch.autograd import Variable
-from torch.nn import Linear, Sequential, ReLU, Conv2d, MaxPool2d, BatchNorm2d, Module, CrossEntropyLoss, MSELoss, ELU, Softmax
+from torch.nn import Linear, Sequential, ReLU, Conv2d, MaxPool2d, BatchNorm2d, Module, CrossEntropyLoss, MSELoss, ELU, Softmax, Dropout
 from torch.optim import Adam, SGD
 from torch.utils.data import TensorDataset, DataLoader
 
@@ -26,6 +26,9 @@ device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 # device = 'cpu'
 print(device)
 
+dropout = 0.2
+print(" with dropout = " + str(dropout))
+
 
 class CustomNet(Module):
     def __init__(self):
@@ -33,16 +36,19 @@ class CustomNet(Module):
 
         self.cnnModel = Sequential(
             # First layer
+            Dropout(p=dropout),
             Conv2d(12, 20, kernel_size=5, stride=1, padding=0),
             # ReLU(inplace=True),
             ELU(),
             # Second layer
+            Dropout(p=dropout),
             Conv2d(20, 50, kernel_size=3, stride=1, padding=0),
             # ReLU(inplace=True),
             ELU(),
         )
 
         self.fcModel = Sequential(
+            Dropout(p=dropout),
             Linear(200, 1),
             Softmax(1),
         )
