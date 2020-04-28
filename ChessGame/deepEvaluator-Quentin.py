@@ -22,8 +22,8 @@ from torch.utils.data import TensorDataset, DataLoader
 from evaluator import Evaluator
 
 #device = 'cuda' if torch.cuda.is_available() else 'cpu'
-# device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
-device = 'cpu'
+device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+# device = 'cpu'
 print(device)
 
 
@@ -152,27 +152,26 @@ class DeepEvaluator(Evaluator):
         return train_data
 
     def train(self, epoch, train_X, train_y):
-        self.model.train()
+        print(self.model.is_cuda())
+        # self.model.train()
 
+        # # getting the training set
+        # X_train = Variable(train_X)
+        # y_train = Variable(train_y)
 
+        # # prediction for training and validation set
+        # output_train = self.model(X_train)
 
-        # getting the training set
-        X_train = Variable(train_X)
-        y_train = Variable(train_y)
+        # # computing the training and validation loss
+        # loss_train = self.criterion(output_train, y_train)
 
-        # prediction for training and validation set
-        output_train = self.model(X_train)
+        # # computing the updated weights of all the model parameters
+        # loss_train.backward()
 
-        # computing the training and validation loss
-        loss_train = self.criterion(output_train, y_train)
+        # self.optimizer.step()
+        # self.optimizer.zero_grad()
 
-        # computing the updated weights of all the model parameters
-        loss_train.backward()
-
-        self.optimizer.step()
-        self.optimizer.zero_grad()
-
-        return loss_train.item()
+        # return loss_train.item()
 
 
 if __name__ == "__main__":
@@ -195,7 +194,7 @@ if __name__ == "__main__":
     for epoch in range(evaluator.n_epochs):
         for X_batch, y_batch in train_loader:
             loss = evaluator.train(epoch, X_batch, y_batch)
-            train_losses.append(loss)
+            # train_losses.append(loss)
 
-        if epoch % 2 == 0:
-            print('Epoch : ', epoch+1, '\t', 'loss :', train_losses[-1])
+        # if epoch % 2 == 0:
+        #     print('Epoch : ', epoch+1, '\t', 'loss :', train_losses[-1])
