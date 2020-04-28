@@ -1,7 +1,7 @@
 #!/bin/bash
 #
 #SBATCH --job-name=Chess-generateDataset
-#SBATCH --output=res-generateDataset2010.txt
+#SBATCH --output=res-generateDataset2013.txt
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=1
 #SBATCH --ntasks-per-node=1
@@ -10,4 +10,4 @@
 #SBATCH --partition=all
 #SBATCH --gres=gpu:1
 
-python3 generateDataset2010.py
+python3 generateDataset2013.py
