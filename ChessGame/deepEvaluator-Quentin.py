@@ -152,7 +152,6 @@ class DeepEvaluator(Evaluator):
         return train_data
 
     def train(self, epoch, train_X, train_y):
-        print(next(self.model.parameters()).is_cuda)
         # self.model.train()
 
         # # getting the training set
