@@ -15,7 +15,7 @@ import numpy as np
 
 import torch
 from torch.autograd import Variable
-from torch.nn import Linear, Sequential, ReLU, Conv2d, MaxPool2d, BatchNorm2d, Module, CrossEntropyLoss, MSELoss, ELU
+from torch.nn import Linear, Sequential, ReLU, Conv2d, MaxPool2d, BatchNorm2d, Module, CrossEntropyLoss, MSELoss, ELU, Softmax
 from torch.optim import Adam, SGD
 from torch.utils.data import TensorDataset, DataLoader
 
@@ -35,15 +35,16 @@ class CustomNet(Module):
             # First layer
             Conv2d(12, 20, kernel_size=5, stride=1, padding=0),
             # ReLU(inplace=True),
-            ELU(inplace=True),
+            ELU(),
             # Second layer
             Conv2d(20, 50, kernel_size=3, stride=1, padding=0),
             # ReLU(inplace=True),
-            ELU(inplace=True),
+            ELU(),
         )
 
         self.fcModel = Sequential(
-            Linear(200, 1)
+            Linear(200, 1),
+            Softmax(1),
         )
 
     def forward(self, x):
@@ -59,9 +60,9 @@ class DeepEvaluator(Evaluator):
     def __init__(self):
         self.model = CustomNet().to(device)
         # self.optimizer = Adam(self.model.parameters(), lr=0.07)
-        self.optimizer = SGD(self.model.parameters(), lr=0.01)
+        self.optimizer = SGD(self.model.parameters(), lr=0.01).to(device)
         # self.criterion = CrossEntropyLoss()
-        self.criterion = MSELoss()
+        self.criterion = CrossEntropyLoss().to(device)
 
         # defining the number of epochs
         self.n_epochs = 25
@@ -161,7 +162,7 @@ class DeepEvaluator(Evaluator):
         # X_train = Variable(train_X)
         # y_train = Variable(train_y)
         X_train = train_X
-        y_train = train_y
+        y_train = train_y.view(-1, 1)
 
         # prediction for training and validation set
         output_train = self.model(X_train)
@@ -191,7 +192,7 @@ if __name__ == "__main__":
     train_data = evaluator.loadDataset()
 
     train_loader = DataLoader(
-        dataset=train_data, batch_size=1024, shuffle=True)
+        dataset=train_data, batch_size=128, shuffle=True)
 
     train_losses = []
 
