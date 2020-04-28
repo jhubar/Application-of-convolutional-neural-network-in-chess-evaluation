@@ -156,8 +156,10 @@ class DeepEvaluator(Evaluator):
         # self.model.train()
 
         # # getting the training set
-        X_train = Variable(train_X)
-        y_train = Variable(train_y)
+        # X_train = Variable(train_X)
+        # y_train = Variable(train_y)
+        X_train = train_X
+        y_train = train_y
 
         print(X_train.is_cuda)
         print(y_train.is_cuda)
