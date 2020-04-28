@@ -3,3 +3,5 @@ __pycache__/
 .DS_Store
 ChessGame/chessInput
 ChessGame/chessOutput
+ChessGame/Data/ficsgamesdb_201001_chess_nomovetimes_127697.pgn
+ChessGame/Data/ficsgamesdb_201101_chess_nomovetimes_127698.pgn
