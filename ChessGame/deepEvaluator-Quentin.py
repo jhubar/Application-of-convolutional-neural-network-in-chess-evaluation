@@ -152,12 +152,15 @@ class DeepEvaluator(Evaluator):
         return train_data
 
     def train(self, epoch, train_X, train_y):
-        print(next(self.model.parameters).is_cuda)
+        print(next(self.model.parameters()).is_cuda)
         # self.model.train()
 
         # # getting the training set
-        # X_train = Variable(train_X)
-        # y_train = Variable(train_y)
+        X_train = Variable(train_X)
+        y_train = Variable(train_y)
+
+        print(X_train.is_cuda)
+        print(y_train.is_cuda)
 
         # # prediction for training and validation set
         # output_train = self.model(X_train)
@@ -193,6 +196,8 @@ if __name__ == "__main__":
 
     for epoch in range(evaluator.n_epochs):
         for X_batch, y_batch in train_loader:
+            X_batch = X_batch.to(device)
+            y_batch = y_batch.to(device)
             loss = evaluator.train(epoch, X_batch, y_batch)
             # train_losses.append(loss)
 
