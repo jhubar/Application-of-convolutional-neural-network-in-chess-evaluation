@@ -18,6 +18,7 @@ from torch.autograd import Variable
 from torch.nn import Linear, Sequential, ReLU, Conv2d, BatchNorm1d, BatchNorm2d, Module, MSELoss, ELU, Softmax, Dropout
 from torch.optim import Adam, SGD
 from torch.utils.data import TensorDataset, DataLoader
+from torchvision.transforms import Compose, Normalize
 
 from evaluator import Evaluator
 
@@ -155,6 +156,10 @@ class DeepEvaluator(Evaluator):
 
         train_X.to(device)
         train_y.to(device)
+
+        transform = Normalize(torch.mean(train_y), torch.std(train_y))
+
+        train_y = transform(train_y)
 
         train_data = TensorDataset(train_X, train_y)
 
