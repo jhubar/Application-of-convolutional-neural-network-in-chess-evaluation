@@ -199,6 +199,7 @@ if __name__ == "__main__":
     for epoch in range(evaluator.n_epochs):
         for X_batch, y_batch in train_loader:
             X_batch = X_batch.to(device)
+            y_batch.type(torch.LongTensor)
             y_batch = y_batch.to(device)
             loss = evaluator.train(epoch, X_batch, y_batch)
             train_losses.append(loss)
