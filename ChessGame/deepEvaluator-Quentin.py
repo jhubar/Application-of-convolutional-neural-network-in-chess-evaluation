@@ -62,7 +62,7 @@ class DeepEvaluator(Evaluator):
         # self.optimizer = Adam(self.model.parameters(), lr=0.07)
         self.optimizer = SGD(self.model.parameters(), lr=0.01)
         # self.criterion = CrossEntropyLoss()
-        self.criterion = CrossEntropyLoss()
+        self.criterion = MSELoss()
 
         # defining the number of epochs
         self.n_epochs = 25
