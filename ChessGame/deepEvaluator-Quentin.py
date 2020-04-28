@@ -146,7 +146,7 @@ class DeepEvaluator(Evaluator):
         #     trainInput, trainOutput, test_size=0.1)
 
         train_X = torch.stack(trainInput)
-        train_y = torch.FloatTensor(trainOutput)
+        train_y = torch.LongTensor(trainOutput)
 
         train_X.to(device)
         train_y.to(device)
@@ -199,7 +199,6 @@ if __name__ == "__main__":
     for epoch in range(evaluator.n_epochs):
         for X_batch, y_batch in train_loader:
             X_batch = X_batch.to(device)
-            y_batch.type(torch.LongTensor)
             y_batch = y_batch.to(device)
             loss = evaluator.train(epoch, X_batch, y_batch)
             train_losses.append(loss)
