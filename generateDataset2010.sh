@@ -10,4 +10,4 @@
 #SBATCH --partition=all
 #SBATCH --gres=gpu:1
 
-python3 generateDataset.py
+python3 generateDataset2010.py
