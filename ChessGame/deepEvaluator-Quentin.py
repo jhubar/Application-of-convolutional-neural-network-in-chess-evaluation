@@ -65,7 +65,7 @@ class DeepEvaluator(Evaluator):
         self.criterion = MSELoss()
 
         # defining the number of epochs
-        self.n_epochs = 25
+        self.n_epochs = 50
         # empty list to store training losses
         # self.train_losses = []
         # empty list to store validation losses
