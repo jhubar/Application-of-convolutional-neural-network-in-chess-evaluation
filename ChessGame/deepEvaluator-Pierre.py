@@ -15,15 +15,15 @@ import numpy as np
 
 import torch
 from torch.autograd import Variable
-from torch.nn import Linear, Sequential, ReLU, Conv2d, MaxPool2d, BatchNorm2d, Module, CrossEntropyLoss, MSELoss
+from torch.nn import Linear, Sequential, ReLU, Conv2d, MaxPool2d, BatchNorm2d, Module, CrossEntropyLoss, MSELoss, ELU, Softmax
 from torch.optim import Adam, SGD
 from torch.utils.data import TensorDataset, DataLoader
 
 from evaluator import Evaluator
 
 #device = 'cuda' if torch.cuda.is_available() else 'cpu'
-# device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
-device = 'cpu'
+device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+# device = 'cpu'
 print(device)
 
 
@@ -33,50 +33,39 @@ class CustomNet(Module):
 
         self.cnnModel = Sequential(
             # First layer
-            Conv2d(12, 24, kernel_size=2, stride=1, padding=2), #8-2+1+4 -> 11
-            ReLU(inplace=True),
-            MaxPool2d(kernel_size=2, stride=1), #11-1 -> 10
+            Conv2d(12, 20, kernel_size=5, stride=1, padding=0),
+            # ReLU(inplace=True),
+            ELU(),
             # Second layer
-            Conv2d(24, 48, kernel_size=2, stride=1, padding=1), #10-2+1+2 -> 11
-            ReLU(inplace=True),
-            MaxPool2d(kernel_size=2, stride=1), #11-1 ->10
-            # Third layer
-            Conv2d(48, 96, kernel_size=2, stride=1, padding=0), #10-2+1 -> 9
-            ReLU(inplace=True),
-            MaxPool2d(kernel_size=2, stride=1), # 9-1 -> 8
-            # Fourth layer
-            Conv2d(96, 192, kernel_size=2, stride=1, padding=0), # 8-2+1 ->7
-            ReLU(inplace=True),
-            MaxPool2d(kernel_size=2, stride=1), #7-1 -> 6
-            # Fifth layer
-            Conv2d(192, 384, kernel_size=2, stride=1, padding=0), #6-2+1->5
-            ReLU(inplace=True),
-            MaxPool2d(kernel_size=2, stride=1), #5-1 ->4
+            Conv2d(20, 50, kernel_size=3, stride=1, padding=0),
+            # ReLU(inplace=True),
+            ELU(),
         )
 
         self.fcModel = Sequential(
-            Linear(16*384, 192),
-            Linear(192, 4),
-            Linear(4, 1)
+            Linear(200, 1),
+            Softmax(1),
         )
 
     def forward(self, x):
         xconv = self.cnnModel(x)
-	# xflat = xconv.flatten()
+	    # xflat = xconv.flatten()
         xflat = xconv.view(xconv.size(0), -1)
         res = self.fcModel(xflat)
 
         return res
 
+
 class DeepEvaluator(Evaluator):
     def __init__(self):
         self.model = CustomNet().to(device)
-        self.optimizer = Adam(self.model.parameters(), lr=0.07)
+        # self.optimizer = Adam(self.model.parameters(), lr=0.07)
+        self.optimizer = SGD(self.model.parameters(), lr=0.01)
         # self.criterion = CrossEntropyLoss()
         self.criterion = MSELoss()
 
         # defining the number of epochs
-        self.n_epochs = 25
+        self.n_epochs = 50
         # empty list to store training losses
         # self.train_losses = []
         # empty list to store validation losses
@@ -169,11 +158,11 @@ class DeepEvaluator(Evaluator):
     def train(self, epoch, train_X, train_y):
         self.model.train()
 
-
-
-        # getting the training set
-        X_train = Variable(train_X)
-        y_train = Variable(train_y)
+        # # getting the training set
+        # X_train = Variable(train_X)
+        # y_train = Variable(train_y)
+        X_train = train_X
+        y_train = train_y.view(-1, 1)
 
         # prediction for training and validation set
         output_train = self.model(X_train)
@@ -203,12 +192,14 @@ if __name__ == "__main__":
     train_data = evaluator.loadDataset()
 
     train_loader = DataLoader(
-        dataset=train_data, batch_size=1024, shuffle=True)
+        dataset=train_data, batch_size=128, shuffle=True)
 
     train_losses = []
 
     for epoch in range(evaluator.n_epochs):
         for X_batch, y_batch in train_loader:
+            X_batch = X_batch.to(device)
+            y_batch = y_batch.to(device)
             loss = evaluator.train(epoch, X_batch, y_batch)
             train_losses.append(loss)
 
