@@ -146,7 +146,7 @@ class DeepEvaluator(Evaluator):
         #     trainInput, trainOutput, test_size=0.1)
 
         train_X = torch.stack(trainInput)
-        train_y = torch.LongTensor(trainOutput)
+        train_y = torch.FloatTensor(trainOutput)
 
         train_X.to(device)
         train_y.to(device)
