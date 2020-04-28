@@ -14,7 +14,6 @@ import pickle
 import numpy as np
 
 import torch
-from torch.autograd import Variable
 from torch.nn import Linear, Sequential, ReLU, Conv2d, BatchNorm1d, BatchNorm2d, Module, MSELoss, ELU, Softmax, Dropout
 from torch.optim import Adam, SGD
 from torch.utils.data import TensorDataset, DataLoader
@@ -157,7 +156,13 @@ class DeepEvaluator(Evaluator):
         train_X.to(device)
         train_y.to(device)
 
-        train_y = (train_y - torch.mean(train_y)) / torch.std(train_y)
+        # train_y = (train_y - torch.mean(train_y)) / torch.std(train_y)
+
+        # train_y = train_y/train_y.sum(0).expand_as(train_y)
+        # train_y[torch.isnan(train_y)] = 0
+
+        train_y -= torch.min(train_y)
+        train_y /= torch.max(train_y)
 
         train_data = TensorDataset(train_X, train_y)
 
@@ -199,17 +204,17 @@ if __name__ == "__main__":
 
     train_data = evaluator.loadDataset()
 
-    train_loader = DataLoader(
-        dataset=train_data, batch_size=128, shuffle=True)
+    # train_loader = DataLoader(
+    #     dataset=train_data, batch_size=128, shuffle=True, num_workers=2)
 
-    train_losses = []
+    # train_losses = []
 
-    for epoch in range(evaluator.n_epochs):
-        for X_batch, y_batch in train_loader:
-            X_batch = X_batch.to(device)
-            y_batch = y_batch.to(device)
-            loss = evaluator.train(epoch, X_batch, y_batch)
-            train_losses.append(loss)
+    # for epoch in range(evaluator.n_epochs):
+    #     for X_batch, y_batch in train_loader:
+    #         X_batch = X_batch.to(device)
+    #         y_batch = y_batch.to(device)
+    #         loss = evaluator.train(epoch, X_batch, y_batch)
+    #         train_losses.append(loss)
 
-        if epoch % 2 == 0:
-            print('Epoch : ', epoch+1, '\t', 'loss :', train_losses[-1])
+    #     if epoch % 2 == 0:
+    #         print('Epoch : ', epoch+1, '\t', 'loss :', train_losses[-1])
