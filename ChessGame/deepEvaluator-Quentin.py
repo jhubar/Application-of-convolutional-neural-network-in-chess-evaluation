@@ -204,17 +204,17 @@ if __name__ == "__main__":
 
     train_data = evaluator.loadDataset()
 
-    # train_loader = DataLoader(
-    #     dataset=train_data, batch_size=128, shuffle=True, num_workers=2)
+    train_loader = DataLoader(
+        dataset=train_data, batch_size=128, shuffle=True, num_workers=2)
 
-    # train_losses = []
+    train_losses = []
 
-    # for epoch in range(evaluator.n_epochs):
-    #     for X_batch, y_batch in train_loader:
-    #         X_batch = X_batch.to(device)
-    #         y_batch = y_batch.to(device)
-    #         loss = evaluator.train(epoch, X_batch, y_batch)
-    #         train_losses.append(loss)
+    for epoch in range(evaluator.n_epochs):
+        for X_batch, y_batch in train_loader:
+            X_batch = X_batch.to(device)
+            y_batch = y_batch.to(device)
+            loss = evaluator.train(epoch, X_batch, y_batch)
+            train_losses.append(loss)
 
-    #     if epoch % 2 == 0:
-    #         print('Epoch : ', epoch+1, '\t', 'loss :', train_losses[-1])
+        if epoch % 2 == 0:
+            print('Epoch : ', epoch+1, '\t', 'loss :', train_losses[-1])
