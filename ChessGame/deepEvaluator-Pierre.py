@@ -27,7 +27,10 @@ device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 print(device)
 
 dropout = 0.2
-print(" with dropout = " + str(dropout))
+learning_rate = 0.1
+nb_epochs = 25
+
+print(" with dropout = " + str(dropout) + " and learning_rate = " + str(learning_rate) + " for " + str(nb_epochs) + " epochs" )
 
 
 class CustomNet(Module):
@@ -70,25 +73,6 @@ class CustomNet(Module):
             Conv2d(150, 150, kernel_size=3, stride=1, padding=1), # 16 - 3 + 1 + 2 = 16
             ReLU(inplace=True),
             # ELU(),
-            # 6th layer
-            Dropout(p=dropout),
-            Conv2d(150, 150, kernel_size=3, stride=1, padding=1), # 16 - 3 + 1 + 2 = 16
-            ReLU(inplace=True),
-            # ELU(),
-            # 6th layer
-            Dropout(p=dropout),
-            Conv2d(150, 150, kernel_size=3, stride=1, padding=1), # 16 - 3 + 1 + 2 = 16
-            ReLU(inplace=True),
-            # ELU(),
-            # 6th layer
-            Dropout(p=dropout),
-            Conv2d(150, 150, kernel_size=3, stride=1, padding=1), # 16 - 3 + 1 + 2 = 16
-            ReLU(inplace=True),
-            # ELU(),# 6th layer
-            Dropout(p=dropout),
-            Conv2d(150, 150, kernel_size=3, stride=1, padding=1), # 16 - 3 + 1 + 2 = 16
-            ReLU(inplace=True),
-            # ELU(),
             # 7th layer
             Dropout(p=dropout),
             Conv2d(150, 150, kernel_size=2, stride=1, padding=1), # 16 - 2 + 1 + 2 = 17
@@ -103,7 +87,7 @@ class CustomNet(Module):
             Dropout(p=dropout),
             Conv2d(75, 25, kernel_size=3, stride=2, padding=1), # (9 - 3 + 2 + 2 )/2= 5
             ReLU(inplace=True),
-            # ELU(),
+            #ELU(),
         )
 
         self.fcModel = Sequential(
@@ -133,12 +117,12 @@ class DeepEvaluator(Evaluator):
     def __init__(self):
         self.model = CustomNet().to(device)
         # self.optimizer = Adam(self.model.parameters(), lr=0.07)
-        self.optimizer = SGD(self.model.parameters(), lr=0.01)
+        self.optimizer = SGD(self.model.parameters(), lr=learning_rate)
         # self.criterion = CrossEntropyLoss()
         self.criterion = MSELoss()
 
         # defining the number of epochs
-        self.n_epochs = 50
+        self.n_epochs = nb_epochs
         # empty list to store training losses
         # self.train_losses = []
         # empty list to store validation losses
