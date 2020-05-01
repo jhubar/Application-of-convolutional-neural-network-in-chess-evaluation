@@ -224,5 +224,5 @@ if __name__ == "__main__":
         if epoch % 2 == 0:
             print('Epoch : ', epoch+1, '\t', 'loss :', train_losses[-1])
 
-    plt.plot(train_losses)
-    plt.show()
+    # plt.plot(train_losses)
+    # plt.show()
