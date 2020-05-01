@@ -36,20 +36,20 @@ class CustomNet(Module):
             Dropout(p=0.3),
             BatchNorm2d(12),
             Conv2d(12, 20, kernel_size=5, stride=1, padding=0),
-            # ReLU(inplace=True),
             ELU(),
             # Second layer
             Dropout(p=0.3),
             BatchNorm2d(20),
             Conv2d(20, 50, kernel_size=3, stride=1, padding=0),
-            # ReLU(inplace=True),
             ELU(),
         )
 
         self.fcModel = Sequential(
             Dropout(p=0.3),
             BatchNorm1d(200),
-            Linear(200, 1),
+            Linear(200, 200),
+            Linear(200, 100),
+            Linear(100, 1),
             Softmax(1),
         )
 
