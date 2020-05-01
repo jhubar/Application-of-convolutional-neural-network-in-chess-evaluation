@@ -15,95 +15,68 @@ import numpy as np
 
 import torch
 from torch.autograd import Variable
-from torch.nn import Linear, Sequential, ReLU, Conv2d, MaxPool2d, BatchNorm2d, Module, CrossEntropyLoss, MSELoss, ELU, Softmax, Dropout
+from torch.nn import Linear, Sequential, ReLU, Conv2d, MaxPool2d, BatchNorm2d, Module, CrossEntropyLoss, MSELoss
 from torch.optim import Adam, SGD
 from torch.utils.data import TensorDataset, DataLoader
 
 from evaluator import Evaluator
 
 #device = 'cuda' if torch.cuda.is_available() else 'cpu'
-device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-# device = 'cpu'
+# device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+device = 'cpu'
 print(device)
-
-dropout = 0.2
-print(" with dropout = " + str(dropout))
 
 
 class CustomNet(Module):
     def __init__(self):
         super(CustomNet, self).__init__()
 
-        self.cnnModel = Sequential(                             # side =  (previous side - kernel size + stride + 2*padding)/stride
+        self.cnnModel = Sequential(
             # First layer
-            Dropout(p=dropout),
-            Conv2d(12, 30, kernel_size=2, stride=1, padding=2), #  8-2 + 1 + 4 = 11
-            # ReLU(inplace=True),
-            ELU(),
+            Conv2d(12, 24, kernel_size=2, stride=2, padding=2), #8-2+2+4 -> 12
+            ReLU(inplace=True),
+
             # Second layer
-            Dropout(p=dropout),
-            Conv2d(30, 60, kernel_size=2, stride=1, padding=1), # 11 - 2 + 1 + 2 = 12
-            # ReLU(inplace=True),
-            ELU(),
-            # third layer
-            Dropout(p=dropout),
-            Conv2d(60, 90, kernel_size=2, stride=1, padding=1), # 12 - 2 + 1 + 2 = 13
-            # ReLU(inplace=True),
-            ELU(),
-            # 4th layer
-            Dropout(p=dropout),
-            Conv2d(90, 120, kernel_size=2, stride=1, padding=1), # 13 - 2 + 1 + 2 = 14
-            # ReLU(inplace=True),
-            ELU(),
-            # 5th layer
-            Dropout(p=dropout),
-            Conv2d(120, 150, kernel_size=2, stride=1, padding=1), # 14 - 2 + 1 + 2 = 15
-            # ReLU(inplace=True),
-            ELU(),
-            # 6th layer
-            Dropout(p=dropout),
-            Conv2d(150, 150, kernel_size=2, stride=1, padding=1), # 15 - 2 + 1 + 2 = 16
-            # ReLU(inplace=True),
-            ELU(),
-            # 6th layer
-            Dropout(p=dropout),
-            Conv2d(150, 150, kernel_size=3, stride=1, padding=1), # 16 - 3 + 1 + 2 = 16
-            # ReLU(inplace=True),
-            ELU(),
-            # 7th layer
-            Dropout(p=dropout),
-            Conv2d(150, 150, kernel_size=2, stride=1, padding=1), # 16 - 2 + 1 + 2 = 17
-            # ReLU(inplace=True),
-            ELU(),
-            # 8th layer
-            Dropout(p=dropout),
-            Conv2d(150, 75, kernel_size=3, stride=2, padding=1), # (17 - 3 + 2 + 2)/2 = 9
-            # ReLU(inplace=True),
-            ELU(),
-            # 9th layer
-            Dropout(p=dropout),
-            Conv2d(75, 25, kernel_size=3, stride=2, padding=1), # (9 - 3 + 2 + 2 )/2= 5
-            # ReLU(inplace=True),
-            ELU(),
+            Conv2d(24, 48, kernel_size=3, stride=1, padding=1), #12-3+1+2 -> 12
+            ReLU(inplace=True),
+
+            # Third layer
+            Conv2d(48, 96, kernel_size=3, stride=1, padding=0), #12-3+1 -> 10
+            ReLU(inplace=True),
+
+            # Fourth layer
+            Conv2d(96, 192, kernel_size=3, stride=1, padding=0), #10-3+1 ->8
+            ReLU(inplace=True),
+
+            # Fiveth layer
+            Conv2d(192, 384, kernel_size=3, stride=1, padding=0), #8-3+1->6
+            ReLU(inplace=True),
+
+            # Sixth layer
+            Conv2d(384, 768, kernel_size=3, stride=1, padding=0), #6-3+1 -> 4
+            ReLU(inplace=True),
+
+            # SevenTh layer
+            Conv2d(768, 1536, kernel_size=3, stride=1, padding=0), #4-3+1 -> 2
+            ReLU(inplace=True),
+
+            # heighTH layer
+            Conv2d(1536, 3072, kernel_size=2, stride=1, padding=0), #2-2+1 -> 1
+            ReLU(inplace=True),
+
+
         )
 
         self.fcModel = Sequential(
-            Dropout(p=dropout),
-            Linear(25*25, 300),
-            Dropout(p=dropout),
-            Linear(300, 100),
-            Dropout(p=dropout),
-            Linear(100, 50),
-            Dropout(p=dropout),
-            Linear(50, 10),
-            Dropout(p=dropout),
-            Linear(10, 1),
-            Softmax(1),
+            Linear(3072, 192),
+            Linear(192, 24),
+            Linear(24, 4),
+            Linear(4, 1)
         )
 
     def forward(self, x):
         xconv = self.cnnModel(x)
-	    # xflat = xconv.flatten()
+	# xflat = xconv.flatten()
         xflat = xconv.view(xconv.size(0), -1)
         res = self.fcModel(xflat)
 
@@ -113,13 +86,12 @@ class CustomNet(Module):
 class DeepEvaluator(Evaluator):
     def __init__(self):
         self.model = CustomNet().to(device)
-        # self.optimizer = Adam(self.model.parameters(), lr=0.07)
-        self.optimizer = SGD(self.model.parameters(), lr=0.01)
+        self.optimizer = Adam(self.model.parameters(), lr=0.07)
         # self.criterion = CrossEntropyLoss()
         self.criterion = MSELoss()
 
         # defining the number of epochs
-        self.n_epochs = 50
+        self.n_epochs = 25
         # empty list to store training losses
         # self.train_losses = []
         # empty list to store validation losses
@@ -212,11 +184,11 @@ class DeepEvaluator(Evaluator):
     def train(self, epoch, train_X, train_y):
         self.model.train()
 
-        # # getting the training set
-        # X_train = Variable(train_X)
-        # y_train = Variable(train_y)
-        X_train = train_X
-        y_train = train_y.view(-1, 1)
+
+
+        # getting the training set
+        X_train = Variable(train_X)
+        y_train = Variable(train_y)
 
         # prediction for training and validation set
         output_train = self.model(X_train)
@@ -246,14 +218,12 @@ if __name__ == "__main__":
     train_data = evaluator.loadDataset()
 
     train_loader = DataLoader(
-        dataset=train_data, batch_size=128, shuffle=True)
+        dataset=train_data, batch_size=1024, shuffle=True)
 
     train_losses = []
 
     for epoch in range(evaluator.n_epochs):
         for X_batch, y_batch in train_loader:
-            X_batch = X_batch.to(device)
-            y_batch = y_batch.to(device)
             loss = evaluator.train(epoch, X_batch, y_batch)
             train_losses.append(loss)
 
