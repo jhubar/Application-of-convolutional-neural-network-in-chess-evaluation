@@ -70,6 +70,25 @@ class CustomNet(Module):
             Conv2d(150, 150, kernel_size=3, stride=1, padding=1), # 16 - 3 + 1 + 2 = 16
             ReLU(inplace=True),
             # ELU(),
+            # 6th layer
+            Dropout(p=dropout),
+            Conv2d(150, 150, kernel_size=3, stride=1, padding=1), # 16 - 3 + 1 + 2 = 16
+            ReLU(inplace=True),
+            # ELU(),
+            # 6th layer
+            Dropout(p=dropout),
+            Conv2d(150, 150, kernel_size=3, stride=1, padding=1), # 16 - 3 + 1 + 2 = 16
+            ReLU(inplace=True),
+            # ELU(),
+            # 6th layer
+            Dropout(p=dropout),
+            Conv2d(150, 150, kernel_size=3, stride=1, padding=1), # 16 - 3 + 1 + 2 = 16
+            ReLU(inplace=True),
+            # ELU(),# 6th layer
+            Dropout(p=dropout),
+            Conv2d(150, 150, kernel_size=3, stride=1, padding=1), # 16 - 3 + 1 + 2 = 16
+            ReLU(inplace=True),
+            # ELU(),
             # 7th layer
             Dropout(p=dropout),
             Conv2d(150, 150, kernel_size=2, stride=1, padding=1), # 16 - 2 + 1 + 2 = 17
