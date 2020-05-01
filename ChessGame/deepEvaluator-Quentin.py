@@ -48,7 +48,7 @@ class CustomNet(Module):
             Dropout(p=0.3),
             BatchNorm1d(200),
             Linear(200, 1),
-            Softmax(1),
+            # Softmax(1),
         )
 
     def forward(self, x):
@@ -139,10 +139,10 @@ class DeepEvaluator(Evaluator):
         pass
 
     def loadDataset(self):
-        with open("Data/chessInput", "rb") as file:
+        with open("chessInput", "rb") as file:
             trainInput = pickle.load(file)
 
-        with open("Data/chessOutput", "rb") as file:
+        with open("chessOutput", "rb") as file:
             trainOutput = pickle.load(file)
 
         # train_X, val_X, train_y, val_y = train_test_split(
@@ -203,22 +203,26 @@ if __name__ == "__main__":
     train_data = evaluator.loadDataset()
 
     train_loader = DataLoader(
-        dataset=train_data, batch_size=32, shuffle=True, num_workers=2)
+        dataset=train_data, batch_size=128, shuffle=True, num_workers=2)
 
-    X_batch, y_batch = next(iter(train_loader))
+    # X_batch, y_batch = next(iter(train_loader))
+    # X_test, y_test = next(iter(train_loader))
 
     train_losses = []
 
     for epoch in range(evaluator.n_epochs):
-        # for X_batch, y_batch in train_loader:
-        #     X_batch = X_batch.to(device)
-        #     y_batch = y_batch.to(device)
-        #     loss = evaluator.train(epoch, X_batch, y_batch)
-        #     train_losses.append(loss)
-        X_batch = X_batch.to(device)
-        y_batch = y_batch.to(device)
-        loss = evaluator.train(epoch, X_batch, y_batch)
-        train_losses.append(loss)
+        for X_batch, y_batch in train_loader:
+            X_batch = X_batch.to(device)
+            y_batch = y_batch.to(device)
+            loss = evaluator.train(epoch, X_batch, y_batch)
+            train_losses.append(loss)
+        # X_batch = X_batch.to(device)
+        # y_batch = y_batch.to(device)
+        # loss = evaluator.train(epoch, X_batch, y_batch)
+        # train_losses.append(loss)
 
         if epoch % 2 == 0:
             print('Epoch : ', epoch+1, '\t', 'loss :', train_losses[-1])
+
+    plt.plot(train_losses)
+    plt.show()
