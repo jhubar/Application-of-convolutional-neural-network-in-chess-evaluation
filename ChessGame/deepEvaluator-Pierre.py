@@ -31,6 +31,7 @@ learning_rate = 0.1
 nb_epochs = 50
 
 print(" with dropout = " + str(dropout) + " and learning_rate = " + str(learning_rate) + " for " + str(nb_epochs) + " epochs" )
+print("no softmax")
 
 
 class CustomNet(Module):
@@ -101,7 +102,7 @@ class CustomNet(Module):
             Linear(50, 10),
             Dropout(p=dropout),
             Linear(10, 1),
-            Softmax(1),
+            #Softmax(1),
         )
 
     def forward(self, x):
