@@ -14,7 +14,7 @@ def loadData(isWindows: bool):
     """
     Loads the data from a pgn file
     """
-    filePath = "ChessGame/Data/ficsgamesdb_201501_chess_nomovetimes_127708.pgn"
+    filePath = "ficsgamesdb_201501_chess_nomovetimes_127708.pgn"
 
     with open(filePath) as pgn:
         nbGames = 0
