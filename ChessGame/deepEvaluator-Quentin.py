@@ -35,7 +35,7 @@ class CustomNet(Module):
             # First layer
             Dropout(p=0.3),
             BatchNorm2d(12),
-            Conv2d(12, 20, kernel_size=5, stride=1, padding=0),
+            Conv2d(12, 20, kernel_size=5, stride=1, padding=1),
             ELU(),
             # Second layer
             Dropout(p=0.3),
@@ -46,8 +46,8 @@ class CustomNet(Module):
 
         self.fcModel = Sequential(
             Dropout(p=0.3),
-            BatchNorm1d(200),
-            Linear(200, 1),
+            BatchNorm1d(800),
+            Linear(800, 1),
             Softmax(1),
         )
 
