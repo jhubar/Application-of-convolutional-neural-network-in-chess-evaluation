@@ -17,7 +17,7 @@ def loadData(isWindows: bool):
     filePath = "ficsgamesdb_2010_standard_nomovetimes_127829.pgn"
 
     with open(filePath) as pgn:
-        nbGames = len(pgn.readlines()) // 22
+        nbGames = len(pgn.readlines()) // 20
 
         print("{} games found\n".format(nbGames))
 
