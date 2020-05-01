@@ -1,3 +1,8 @@
+import sys
+import os
+
+print(sys.path.append('../'))
+
 import torch
 import pickle
 
@@ -8,6 +13,7 @@ import argparse
 
 from stockfishEvaluator import StockfishEvaluator
 from deepEvaluator import DeepEvaluator
+
 
 
 def loadData(isWindows: bool):

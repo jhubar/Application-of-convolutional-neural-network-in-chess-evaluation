@@ -17,9 +17,7 @@ def loadData(isWindows: bool):
     filePath = "ficsgamesdb_201401_chess_nomovetimes_127707.pgn"
 
     with open(filePath) as pgn:
-        nbGames = len(pgn.readlines()) // 22
-
-        print("{} games found\n".format(nbGames))
+        nbGames = 0
 
         pgn.seek(0)
 
@@ -28,12 +26,15 @@ def loadData(isWindows: bool):
 
         game = chess.pgn.read_game(pgn)
 
-        for i in range(nbGames):
+        while game is not None:
             games.append(game)
+            nbGames += 1
 
             nbStates += int(game.headers['PlyCount'])
 
             game = chess.pgn.read_game(pgn)
+
+    print("{} games found, {} states\n".format(nbGames, nbStates))
 
     X = []
     y = []
@@ -85,7 +86,7 @@ if __name__ == "__main__":
 
     X, y = loadData(isWindows)
 
-    save(X, "chessInput2014")
-    save(y, "chessOutput2014")
+    save(X, "chessInput")
+    save(y, "chessOutput")
 
     print("Completed. {} states have been generated\n".format(len(X)))
