@@ -35,19 +35,19 @@ class CustomNet(Module):
             # First layer
             Dropout(p=0.3),
             BatchNorm2d(12),
-            Conv2d(12, 200, kernel_size=5, stride=1, padding=0),
+            Conv2d(12, 20, kernel_size=5, stride=1, padding=0),
             ELU(),
             # Second layer
             Dropout(p=0.3),
-            BatchNorm2d(200),
-            Conv2d(200, 500, kernel_size=3, stride=1, padding=0),
+            BatchNorm2d(20),
+            Conv2d(20, 50, kernel_size=3, stride=1, padding=0),
             ELU(),
         )
 
         self.fcModel = Sequential(
             Dropout(p=0.3),
-            BatchNorm1d(2000),
-            Linear(2000, 1),
+            BatchNorm1d(200),
+            Linear(200, 1),
             Softmax(1),
         )
 
@@ -139,10 +139,10 @@ class DeepEvaluator(Evaluator):
         pass
 
     def loadDataset(self):
-        with open("chessInput", "rb") as file:
+        with open("Data/chessInput", "rb") as file:
             trainInput = pickle.load(file)
 
-        with open("chessOutput", "rb") as file:
+        with open("Data/chessOutput", "rb") as file:
             trainOutput = pickle.load(file)
 
         # train_X, val_X, train_y, val_y = train_test_split(
@@ -203,16 +203,22 @@ if __name__ == "__main__":
     train_data = evaluator.loadDataset()
 
     train_loader = DataLoader(
-        dataset=train_data, batch_size=128, shuffle=True, num_workers=2)
+        dataset=train_data, batch_size=32, shuffle=True, num_workers=2)
+
+    X_batch, y_batch = next(iter(train_loader))
 
     train_losses = []
 
     for epoch in range(evaluator.n_epochs):
-        for X_batch, y_batch in train_loader:
-            X_batch = X_batch.to(device)
-            y_batch = y_batch.to(device)
-            loss = evaluator.train(epoch, X_batch, y_batch)
-            train_losses.append(loss)
+        # for X_batch, y_batch in train_loader:
+        #     X_batch = X_batch.to(device)
+        #     y_batch = y_batch.to(device)
+        #     loss = evaluator.train(epoch, X_batch, y_batch)
+        #     train_losses.append(loss)
+        X_batch = X_batch.to(device)
+        y_batch = y_batch.to(device)
+        loss = evaluator.train(epoch, X_batch, y_batch)
+        train_losses.append(loss)
 
         if epoch % 2 == 0:
             print('Epoch : ', epoch+1, '\t', 'loss :', train_losses[-1])
