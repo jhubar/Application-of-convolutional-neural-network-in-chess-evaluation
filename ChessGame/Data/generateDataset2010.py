@@ -1,8 +1,6 @@
 import sys
 import os
 
-print(sys.path.append('../'))
-
 import torch
 import pickle
 
