@@ -162,7 +162,7 @@ class DeepEvaluator(Evaluator):
         train_y -= torch.min(train_y)
         train_y /= torch.max(train_y)
 
-        train_data = TensorDataset(train_X[:131072], train_y[:131072])
+        train_data = TensorDataset(train_X, train_y)
 
         return train_data
 
@@ -196,7 +196,7 @@ if __name__ == "__main__":
     train_data = evaluator.loadDataset()
 
     train_loader = DataLoader(
-        dataset=train_data, batch_size=32, shuffle=True, num_workers=2)
+        dataset=train_data, batch_size=128, shuffle=True, num_workers=2)
 
     # X_batch, y_batch = next(iter(train_loader))
     # X_test, y_test = next(iter(train_loader))
