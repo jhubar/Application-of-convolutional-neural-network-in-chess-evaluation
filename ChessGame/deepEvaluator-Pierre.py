@@ -33,6 +33,10 @@ nb_epochs = 50
 print(" with dropout = " + str(dropout) + " and learning_rate = " + str(learning_rate) + " for " + str(nb_epochs) + " epochs" )
 print("no softmax")
 
+def init_weights(m):
+    torch.nn.init.kaiming_uniform_(m.weight)
+    m.bias.data.fill_(0.01)
+
 
 class CustomNet(Module):
     def __init__(self):
@@ -90,6 +94,7 @@ class CustomNet(Module):
             ReLU(inplace=True),
             #ELU(),
         )
+        self.cnnModel.apply(init_weights)
 
         self.fcModel = Sequential(
             Dropout(p=dropout),
@@ -104,6 +109,7 @@ class CustomNet(Module):
             Linear(10, 1),
             #Softmax(1),
         )
+        self.fcModel.apply(init_weights)
 
     def forward(self, x):
         xconv = self.cnnModel(x)
