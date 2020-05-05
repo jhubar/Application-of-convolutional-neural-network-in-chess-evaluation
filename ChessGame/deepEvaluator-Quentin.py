@@ -24,7 +24,7 @@ from evaluator import Evaluator
 #device = 'cuda' if torch.cuda.is_available() else 'cpu'
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 # device = 'cpu'
-print(device)
+# print(device)
 
 
 class CustomNet(Module):
@@ -68,7 +68,7 @@ class DeepEvaluator(Evaluator):
         self.criterion = MSELoss()
 
         # defining the number of epochs
-        self.n_epochs = 50
+        self.n_epochs = 25
         # empty list to store training losses
         # self.train_losses = []
         # empty list to store validation losses
@@ -162,7 +162,7 @@ class DeepEvaluator(Evaluator):
         train_y -= torch.min(train_y)
         train_y /= torch.max(train_y)
 
-        train_data = TensorDataset(train_X, train_y)
+        train_data = TensorDataset(train_X[:256], train_y[:256])
 
         return train_data
 
@@ -191,22 +191,15 @@ class DeepEvaluator(Evaluator):
 
 
 if __name__ == "__main__":
-    # Create argument parser
-    parser = argparse.ArgumentParser(
-        description="Arguments for the training of the deep evaluator")
-
-    # Fetch arguments
-    args = parser.parse_args()
-
     evaluator = DeepEvaluator()
 
     train_data = evaluator.loadDataset()
 
     train_loader = DataLoader(
-        dataset=train_data, batch_size=128, shuffle=True, num_workers=2)
+        dataset=train_data, batch_size=32, shuffle=True, num_workers=2)
 
-    # X_batch, y_batch = next(iter(train_loader))
-    # X_test, y_test = next(iter(train_loader))
+    X_batch, y_batch = next(iter(train_loader))
+    X_test, y_test = next(iter(train_loader))
 
     train_losses = []
 
@@ -224,5 +217,5 @@ if __name__ == "__main__":
         if epoch % 2 == 0:
             print('Epoch : ', epoch+1, '\t', 'loss :', train_losses[-1])
 
-    # plt.plot(train_losses)
-    # plt.show()
+    plt.plot(train_losses)
+    plt.show()
