@@ -182,7 +182,7 @@ class DeepEvaluator(Evaluator):
         # X_train = Variable(train_X)
         # y_train = Variable(train_y)
         X_train = train_X
-        y_train = train_y.view(1, -1)
+        y_train = train_y.view(-1, 1)
 
         # prediction for training and validation set
         output_train = self.model(X_train)
