@@ -26,7 +26,7 @@ device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 # device = 'cpu'
 print(device)
 
-dropout = 0
+dropout = 0.3
 learning_rate = 0.1
 nb_epochs = 50
 
@@ -34,8 +34,15 @@ print(" with dropout = " + str(dropout) + " and learning_rate = " + str(learning
 print("no softmax")
 
 def init_weights(m):
-    torch.nn.init.kaiming_uniform_(m.weight)
-    m.bias.data.fill_(0.01)
+    classname = m.__class__.__name__
+
+    if classname.find('Conv') != -1:
+        torch.nn.init.kaiming_uniform_(m.weight)
+        m.bias.data.fill_(0.01)
+
+    if classname.find('Linear') != -1:
+        torch.nn.init.kaiming_uniform_(m.weight)
+        m.bias.data.fill_(0.01)
 
 
 class CustomNet(Module):
@@ -44,52 +51,52 @@ class CustomNet(Module):
 
         self.cnnModel = Sequential(                             # side =  (previous side - kernel size + stride + 2*padding)/stride
             # First layer
-
+            Dropout(p=dropout),
             Conv2d(12, 30, kernel_size=2, stride=1, padding=2), #  8-2 + 1 + 4 = 11
             ReLU(inplace=True),
             # ELU(),
             # Second layer
-
+            Dropout(p=dropout),
             Conv2d(30, 60, kernel_size=2, stride=1, padding=1), # 11 - 2 + 1 + 2 = 12
             ReLU(inplace=True),
             # ELU(),
             # third layer
-
+            Dropout(p=dropout),
             Conv2d(60, 90, kernel_size=2, stride=1, padding=1), # 12 - 2 + 1 + 2 = 13
             ReLU(inplace=True),
             # ELU(),
             # 4th layer
-
+            Dropout(p=dropout),
             Conv2d(90, 120, kernel_size=2, stride=1, padding=1), # 13 - 2 + 1 + 2 = 14
             ReLU(inplace=True),
             # ELU(),
             # 5th layer
-
+            Dropout(p=dropout),
             Conv2d(120, 150, kernel_size=2, stride=1, padding=1), # 14 - 2 + 1 + 2 = 15
             ReLU(inplace=True),
             # ELU(),
             # 6th layer
-
+            Dropout(p=dropout),
             Conv2d(150, 150, kernel_size=2, stride=1, padding=1), # 15 - 2 + 1 + 2 = 16
             ReLU(inplace=True),
             # ELU(),
             # 6th layer
-
+            Dropout(p=dropout),
             Conv2d(150, 150, kernel_size=3, stride=1, padding=1), # 16 - 3 + 1 + 2 = 16
             ReLU(inplace=True),
             # ELU(),
             # 7th layer
-
+            Dropout(p=dropout),
             Conv2d(150, 150, kernel_size=2, stride=1, padding=1), # 16 - 2 + 1 + 2 = 17
             ReLU(inplace=True),
             # ELU(),
             # 8th layer
-
+            Dropout(p=dropout),
             Conv2d(150, 75, kernel_size=3, stride=2, padding=1), # (17 - 3 + 2 + 2)/2 = 9
             ReLU(inplace=True),
             # ELU(),
             # 9th layer
-
+            Dropout(p=dropout),
             Conv2d(75, 25, kernel_size=3, stride=2, padding=1), # (9 - 3 + 2 + 2 )/2= 5
             ReLU(inplace=True),
             #ELU(),
@@ -109,7 +116,7 @@ class CustomNet(Module):
             Linear(10, 1),
             #Softmax(1),
         )
-        #self.fcModel.apply(init_weights)
+        self.fcModel.apply(init_weights)
 
     def forward(self, x):
         xconv = self.cnnModel(x)
