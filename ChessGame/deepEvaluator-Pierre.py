@@ -27,11 +27,10 @@ device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 print(device)
 
 dropout = 0.3
-learning_rate = 0.1
-nb_epochs = 50
+learning_rate = 0.01
+nb_epochs = 25
 
 print(" with dropout = " + str(dropout) + " and learning_rate = " + str(learning_rate) + " for " + str(nb_epochs) + " epochs" )
-print("no softmax")
 
 def init_weights(m):
     classname = m.__class__.__name__
@@ -114,7 +113,7 @@ class CustomNet(Module):
             Linear(50, 10),
             Dropout(p=dropout),
             Linear(10, 1),
-            #Softmax(1),
+            Softmax(1),
         )
         self.fcModel.apply(init_weights)
 
