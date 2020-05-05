@@ -26,7 +26,7 @@ device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 # device = 'cpu'
 print(device)
 
-dropout = 0.3
+dropout = 0
 learning_rate = 0.1
 nb_epochs = 50
 
@@ -89,7 +89,7 @@ class CustomNet(Module):
             ReLU(inplace=True),
             # ELU(),
             # 9th layer
-            
+
             Conv2d(75, 25, kernel_size=3, stride=2, padding=1), # (9 - 3 + 2 + 2 )/2= 5
             ReLU(inplace=True),
             #ELU(),
