@@ -28,9 +28,13 @@ print(device)
 
 dropout = 0.3
 learning_rate = 0.01
-nb_epochs = 25
+nb_epochs = 10
+batch  = 1000
 
-print(" with dropout = " + str(dropout) + " and learning_rate = " + str(learning_rate) + " for " + str(nb_epochs) + " epochs" )
+com = "Relu_14layers_" # additional commentary or smth
+stringName  = com + "dropout_" + str(dropout) + "_lr_" + str(learning_rate) + "_epochs_" +  str(nb_epochs) + "_batch_" + str(batch) + ".png"
+
+print(" with dropout = " + str(dropout) + " and learning_rate = " + str(learning_rate) + " for " + str(nb_epochs) + " epochs " + com )
 
 def init_weights(m):
     classname = m.__class__.__name__
@@ -262,7 +266,7 @@ if __name__ == "__main__":
     train_data = evaluator.loadDataset()
 
     train_loader = DataLoader(
-        dataset=train_data, batch_size=128, shuffle=True)
+        dataset=train_data, batch_size=batch, shuffle=True)
 
     train_losses = []
 
@@ -273,5 +277,8 @@ if __name__ == "__main__":
             loss = evaluator.train(epoch, X_batch, y_batch)
             train_losses.append(loss)
 
-        if epoch % 2 == 0:
+        if epoch % 1 == 0:
             print('Epoch : ', epoch+1, '\t', 'loss :', train_losses[-1])
+
+    plt.plot(train_losses)
+    plt.savefig("Graph/"+stringName)
