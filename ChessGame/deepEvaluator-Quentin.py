@@ -68,7 +68,7 @@ class DeepEvaluator(Evaluator):
         self.criterion = MSELoss()
 
         # defining the number of epochs
-        self.n_epochs = 25
+        self.n_epochs = 50
         # empty list to store training losses
         # self.train_losses = []
         # empty list to store validation losses
@@ -162,7 +162,7 @@ class DeepEvaluator(Evaluator):
         train_y -= torch.min(train_y)
         train_y /= torch.max(train_y)
 
-        train_data = TensorDataset(train_X[:256], train_y[:256])
+        train_data = TensorDataset(train_X[:512], train_y[:512])
 
         return train_data
 
@@ -198,8 +198,8 @@ if __name__ == "__main__":
     train_loader = DataLoader(
         dataset=train_data, batch_size=32, shuffle=True, num_workers=2)
 
-    X_batch, y_batch = next(iter(train_loader))
-    X_test, y_test = next(iter(train_loader))
+    # X_batch, y_batch = next(iter(train_loader))
+    # X_test, y_test = next(iter(train_loader))
 
     train_losses = []
 
