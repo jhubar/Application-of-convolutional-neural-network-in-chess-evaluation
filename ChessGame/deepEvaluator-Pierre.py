@@ -31,8 +31,8 @@ learning_rate = 0.01
 nb_epochs = 10
 batch  = 1000
 
-str = "Relu_14layers_" # additional commentary or smth
-stringName  = str + "dropout_" + str(dropout) + "_lr_" + str(learning_rate) + "_epochs_" +  str(nb_epochs) + "_batch_" + str(batch) + ".png"
+com = "Relu_14layers_" # additional commentary or smth
+stringName  = com + "dropout_" + str(dropout) + "_lr_" + str(learning_rate) + "_epochs_" +  str(nb_epochs) + "_batch_" + str(batch) + ".png"
 
 print(" with dropout = " + str(dropout) + " and learning_rate = " + str(learning_rate) + " for " + str(nb_epochs) + " epochs " + str )
 
