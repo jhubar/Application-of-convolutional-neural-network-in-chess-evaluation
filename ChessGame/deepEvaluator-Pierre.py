@@ -28,12 +28,12 @@ print(device)
 
 dropout = 0.3
 learning_rate = 0.01
-nb_epochs = 25
+nb_epochs = 50
 
 str = "Relu_14layers_" # additional commentary or smth
 stringName  = str + "dropout_" + str(dropout) + "_lr_" + str(learning_rate) + "_epochs_" +  str(nb_epochs) + ".png"
 
-print(" with dropout = " + str(dropout) + " and learning_rate = " + str(learning_rate) + " for " + str(nb_epochs) + " epochs" )
+print(" with dropout = " + str(dropout) + " and learning_rate = " + str(learning_rate) + " for " + str(nb_epochs) + " epochs " + str )
 
 def init_weights(m):
     classname = m.__class__.__name__
@@ -280,4 +280,4 @@ if __name__ == "__main__":
             print('Epoch : ', epoch+1, '\t', 'loss :', train_losses[-1])
 
     plt.plot(train_losses)
-    plt.savefig(stringName)
+    plt.savefig("Grap/"+stringName)
