@@ -24,7 +24,7 @@ from evaluator import Evaluator
 #device = 'cuda' if torch.cuda.is_available() else 'cpu'
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 # device = 'cpu'
-print(device)
+# print(device)
 
 
 def init_weights(m):
@@ -171,7 +171,7 @@ class DeepEvaluator(Evaluator):
         train_y -= torch.min(train_y)
         train_y /= torch.max(train_y)
 
-        train_data = TensorDataset(train_X, train_y)
+        train_data = TensorDataset(train_X[:256], train_y[:256])
 
         return train_data
 
@@ -204,8 +204,10 @@ if __name__ == "__main__":
 
     train_data = evaluator.loadDataset()
 
+    batch_size = 32
+
     train_loader = DataLoader(
-        dataset=train_data, batch_size=32, shuffle=True, num_workers=2)
+        dataset=train_data, batch_size=batch_size, shuffle=True, num_workers=2)
 
     # X_batch, y_batch = next(iter(train_loader))
     # X_test, y_test = next(iter(train_loader))
@@ -224,7 +226,7 @@ if __name__ == "__main__":
         # train_losses.append(loss)
 
         if epoch % 2 == 0:
-            print('Epoch : ', epoch+1, '\t', 'loss :', train_losses[-1])
+            print("Epoch : {} \tloss : {}".format(epoch+1, train_losses[-1]))
 
-    # plt.plot(train_losses)
-    # plt.show()
+    plt.plot(train_losses)
+    plt.savefig("Graph/deq_ds{}_bs{}_ne{}".format(len(train_data), batch_size, evaluator.n_epochs))
