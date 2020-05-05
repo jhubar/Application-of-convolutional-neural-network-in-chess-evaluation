@@ -71,7 +71,7 @@ class DeepEvaluator(Evaluator):
     def __init__(self):
         self.model = CustomNet().to(device)
         self.model.apply(init_weights)
-        
+
         # self.optimizer = Adam(self.model.parameters(), lr=0.07)
         self.optimizer = SGD(self.model.parameters(), lr=0.01)
         self.criterion = MSELoss()
@@ -205,7 +205,7 @@ if __name__ == "__main__":
     train_data = evaluator.loadDataset()
 
     train_loader = DataLoader(
-        dataset=train_data, batch_size=2048, shuffle=True, num_workers=2)
+        dataset=train_data, batch_size=128, shuffle=True, num_workers=2)
 
     # X_batch, y_batch = next(iter(train_loader))
     # X_test, y_test = next(iter(train_loader))
