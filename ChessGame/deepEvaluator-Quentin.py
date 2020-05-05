@@ -77,7 +77,7 @@ class DeepEvaluator(Evaluator):
         self.criterion = MSELoss()
 
         # defining the number of epochs
-        self.n_epochs = 50
+        self.n_epochs = 25
         # empty list to store training losses
         # self.train_losses = []
         # empty list to store validation losses
@@ -182,7 +182,7 @@ class DeepEvaluator(Evaluator):
         # X_train = Variable(train_X)
         # y_train = Variable(train_y)
         X_train = train_X
-        y_train = train_y.view(-1, 1)
+        y_train = train_y.view(1, -1)
 
         # prediction for training and validation set
         output_train = self.model(X_train)
@@ -205,7 +205,7 @@ if __name__ == "__main__":
     train_data = evaluator.loadDataset()
 
     train_loader = DataLoader(
-        dataset=train_data, batch_size=128, shuffle=True, num_workers=2)
+        dataset=train_data, batch_size=32, shuffle=True, num_workers=2)
 
     # X_batch, y_batch = next(iter(train_loader))
     # X_test, y_test = next(iter(train_loader))
