@@ -24,7 +24,7 @@ from evaluator import Evaluator
 #device = 'cuda' if torch.cuda.is_available() else 'cpu'
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 # device = 'cpu'
-# print(device)
+print(device)
 
 
 class CustomNet(Module):
@@ -217,5 +217,5 @@ if __name__ == "__main__":
         if epoch % 2 == 0:
             print('Epoch : ', epoch+1, '\t', 'loss :', train_losses[-1])
 
-    plt.plot(train_losses)
-    plt.show()
+    # plt.plot(train_losses)
+    # plt.show()
