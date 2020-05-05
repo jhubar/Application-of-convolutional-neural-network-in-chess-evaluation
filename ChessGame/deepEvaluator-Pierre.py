@@ -34,7 +34,7 @@ batch  = 1000
 com = "Relu_14layers_" # additional commentary or smth
 stringName  = com + "dropout_" + str(dropout) + "_lr_" + str(learning_rate) + "_epochs_" +  str(nb_epochs) + "_batch_" + str(batch) + ".png"
 
-print(" with dropout = " + str(dropout) + " and learning_rate = " + str(learning_rate) + " for " + str(nb_epochs) + " epochs " + str )
+print(" with dropout = " + str(dropout) + " and learning_rate = " + str(learning_rate) + " for " + str(nb_epochs) + " epochs " + com )
 
 def init_weights(m):
     classname = m.__class__.__name__
