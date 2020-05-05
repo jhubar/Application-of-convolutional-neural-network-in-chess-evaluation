@@ -27,6 +27,13 @@ device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 print(device)
 
 
+def init_weights(m):
+    classname = m.__class__.__name__
+
+    if classname.find('Conv') != -1 or classname.find('Linear') != -1:
+        torch.nn.init.kaiming_uniform_(m.weight)
+        m.bias.data.fill_(0.01)
+
 class CustomNet(Module):
     def __init__(self):
         super(CustomNet, self).__init__()
@@ -63,6 +70,8 @@ class CustomNet(Module):
 class DeepEvaluator(Evaluator):
     def __init__(self):
         self.model = CustomNet().to(device)
+        self.model.apply(init_weights)
+        
         # self.optimizer = Adam(self.model.parameters(), lr=0.07)
         self.optimizer = SGD(self.model.parameters(), lr=0.01)
         self.criterion = MSELoss()
