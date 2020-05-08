@@ -140,11 +140,12 @@ class DeepEvaluator(Evaluator):
         return tensor
 
     def evaluate(self, board: chess.Board):
+        if board.turn is chess.BLACK:
+            board = board.mirror()
         tensor = DeepEvaluator.boardToTensor(board)
-        # TODO
-        # model = ?
-        # model.load_state_dict(torch.load(MODELPATH))
-        # return model.eval(tensor)
+        # output = model(board)
+        # if board.turn is chess.BLACK:
+        #     output = -output
 
         pass
 

@@ -1,6 +1,6 @@
 import chess
 
-from evaluators.evaluator import Evaluator
+from evaluator import Evaluator
 
 pawntable = [
     0,  0,  0,  0,  0,  0,  0,  0,
