@@ -14,7 +14,7 @@ def loadData(isWindows: bool):
     """
     Loads the data from a pgn file
     """
-    filePath = "2010_896221.pgn"
+    filePath = "2010_1322361.pgn"
 
     with open(filePath) as pgn:
         nbGames = 0
@@ -46,11 +46,10 @@ def loadData(isWindows: bool):
 
         while node.parent is not None:
             position = node.board()
-            output = stockfish.evaluate(position)
             if position.turn is chess.BLACK:
-                output = -output
                 position = position.mirror()
             tensor = DeepEvaluator.boardToTensor(position)
+            output = stockfish.evaluate(position)
 
             X.append(tensor)
             y.append(output)
@@ -89,7 +88,7 @@ if __name__ == "__main__":
 
     X, y = loadData(isWindows)
 
-    save(X, "chessInput")
-    save(y, "chessOutput")
+    save(X, "chessInput_large")
+    save(y, "chessOutput_large")
 
     print("Completed. {} states have been generated\n".format(len(X)))
