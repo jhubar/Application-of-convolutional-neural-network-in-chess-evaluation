@@ -14,7 +14,7 @@ def loadData(isWindows: bool):
     """
     Loads the data from a pgn file
     """
-    filePath = "2010_10.pgn"
+    filePath = "2010_896221.pgn"
 
     with open(filePath) as pgn:
         nbGames = 0
