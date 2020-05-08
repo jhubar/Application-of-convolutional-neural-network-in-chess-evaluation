@@ -47,7 +47,7 @@ def loadData(isWindows: bool):
         while node.parent is not None:
             position = node.board()
             if position.turn is chess.BLACK:
-                position.mirror()
+                position = position.mirror()
             tensor = DeepEvaluator.boardToTensor(position)
             output = stockfish.evaluate(position)
 
