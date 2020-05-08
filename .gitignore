@@ -15,12 +15,5 @@ ChessGame/chessInput2014
 ChessGame/chessOutput2014
 ChessGame/chessInput2015
 ChessGame/chessOutput2015
-ChessGame/Data/ficsgamesdb_2010_standard_nomovetimes_127829.pgn
-ChessGame/Data/ficsgamesdb_201101_chess_nomovetimes_127698.pgn
-ChessGame/Data/ficsgamesdb_201201_chess_nomovetimes_127704.pgn
-ChessGame/Data/ficsgamesdb_201301_chess_nomovetimes_127705.pgn
-ChessGame/Data/ficsgamesdb_201401_chess_nomovetimes_127707.pgn
-ChessGame/Data/ficsgamesdb_201501_chess_nomovetimes_127708.pgn
-ChessGame/Data/2010_896221.pgn
-ChessGame/Data/2010_1322361.pgn
-ChessGame/Data/2010_35046.pgn
+ChessGame/Data/*.pgn
+ChessGame/Graph/
