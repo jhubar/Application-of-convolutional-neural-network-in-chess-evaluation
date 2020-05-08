@@ -14,7 +14,7 @@ def loadData(isWindows: bool):
     """
     Loads the data from a pgn file
     """
-    filePath = "./Data/ficsgamesdb_201901_CvC_nomovetimes_120511.pgn"
+    filePath = "2010_10.pgn"
 
     with open(filePath) as pgn:
         nbGames = 0
@@ -46,6 +46,8 @@ def loadData(isWindows: bool):
 
         while node.parent is not None:
             position = node.board()
+            if position.turn is chess.BLACK:
+                position = position.mirror()
             tensor = DeepEvaluator.boardToTensor(position)
             output = stockfish.evaluate(position)
 
