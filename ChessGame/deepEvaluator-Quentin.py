@@ -206,7 +206,7 @@ if __name__ == "__main__":
     train_data = evaluator.loadDataset()
 
     batch_size = 128
-    print_step = 2000
+    print_step = 200
     # testsetSplit = 0.9
     # split = len(train_data) * 0.9
 
