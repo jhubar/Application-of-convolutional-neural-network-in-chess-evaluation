@@ -78,7 +78,7 @@ class DeepEvaluator(Evaluator):
         self.criterion = MSELoss()
 
         # defining the number of epochs
-        self.n_epochs = 25
+        self.n_epochs = 5
         # empty list to store training losses
         # self.train_losses = []
         # empty list to store validation losses
@@ -206,7 +206,7 @@ if __name__ == "__main__":
     train_data = evaluator.loadDataset()
 
     batch_size = 2048
-    print_step = 200
+    print_step = 20
     # testsetSplit = 0.9
     # split = len(train_data) * 0.9
 
