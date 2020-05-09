@@ -148,10 +148,10 @@ class DeepEvaluator(Evaluator):
         pass
 
     def loadDataset(self):
-        with open("chessInput", "rb") as file:
+        with open("Data/chessInput", "rb") as file:
             trainInput = pickle.load(file)
 
-        with open("chessOutput", "rb") as file:
+        with open("Data/chessOutput", "rb") as file:
             trainOutput = pickle.load(file)
 
         # train_X, val_X, train_y, val_y = train_test_split(
@@ -204,7 +204,7 @@ if __name__ == "__main__":
 
     train_data = evaluator.loadDataset()
 
-    batch_size = 1024
+    batch_size = 128
 
     train_loader = DataLoader(
         dataset=train_data, batch_size=batch_size, shuffle=True, num_workers=2)
