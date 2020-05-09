@@ -31,7 +31,7 @@ learning_rate = 0.01
 nb_epochs = 100
 batch  = 128
 
-com = "Relu_8layers_" # additional commentary or smth
+com = "Relu_11layers_Pooling" # additional commentary or smth
 stringName  = com + "dropout_" + str(dropout) + "_lr_" + str(learning_rate) + "_epochs_" +  str(nb_epochs) + "_batch_" + str(batch) + ".png"
 
 print(" with dropout = " + str(dropout) + " and learning_rate = " + str(learning_rate) + " for " + str(nb_epochs) + " epochs " + com )
@@ -58,8 +58,7 @@ class CustomNet(Module):
             Conv2d(12, 30, kernel_size=2, stride=1, padding=2), #  8-2 + 1 + 4 = 11
             ReLU(inplace=True),
             AvgPool2d(kernel_size=2, stride=1 )),                # 11 -2 + 1= 10
-            # ELU(),
-            # Second layer
+
             Dropout(p=dropout),
             Conv2d(30, 60, kernel_size=2, stride=1, padding=1), # 10 - 2 + 1 + 2 = 11
             ReLU(inplace=True),
