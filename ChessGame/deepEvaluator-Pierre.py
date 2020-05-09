@@ -27,11 +27,11 @@ device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 print(device)
 
 dropout = 0.1
-learning_rate = 0.1
+learning_rate = 0.01
 nb_epochs = 100
 batch  = 128
 
-com = "Relu_14layers_" # additional commentary or smth
+com = "Relu_8layers_" # additional commentary or smth
 stringName  = com + "dropout_" + str(dropout) + "_lr_" + str(learning_rate) + "_epochs_" +  str(nb_epochs) + "_batch_" + str(batch) + ".png"
 
 print(" with dropout = " + str(dropout) + " and learning_rate = " + str(learning_rate) + " for " + str(nb_epochs) + " epochs " + com )
@@ -69,46 +69,46 @@ class CustomNet(Module):
             ReLU(inplace=True),
             # ELU(),
             # 4th layer
-            Dropout(p=dropout),
-            Conv2d(90, 120, kernel_size=2, stride=1, padding=1), # 13 - 2 + 1 + 2 = 14
-            ReLU(inplace=True),
-            # ELU(),
-            # 5th layer
-            Dropout(p=dropout),
-            Conv2d(120, 150, kernel_size=2, stride=1, padding=1), # 14 - 2 + 1 + 2 = 15
-            ReLU(inplace=True),
-            # ELU(),
-            # 6th layer
-            Dropout(p=dropout),
-            Conv2d(150, 150, kernel_size=2, stride=1, padding=1), # 15 - 2 + 1 + 2 = 16
-            ReLU(inplace=True),
-            # ELU(),
-            # 6th layer
-            Dropout(p=dropout),
-            Conv2d(150, 150, kernel_size=3, stride=1, padding=1), # 16 - 3 + 1 + 2 = 16
-            ReLU(inplace=True),
-            # ELU(),
-            # 7th layer
-            Dropout(p=dropout),
-            Conv2d(150, 150, kernel_size=2, stride=1, padding=1), # 16 - 2 + 1 + 2 = 17
-            ReLU(inplace=True),
-            # ELU(),
-            # 8th layer
-            Dropout(p=dropout),
-            Conv2d(150, 75, kernel_size=3, stride=2, padding=1), # (17 - 3 + 2 + 2)/2 = 9
-            ReLU(inplace=True),
-            # ELU(),
-            # 9th layer
-            Dropout(p=dropout),
-            Conv2d(75, 25, kernel_size=3, stride=2, padding=1), # (9 - 3 + 2 + 2 )/2= 5
-            ReLU(inplace=True),
-            #ELU(),
+            # Dropout(p=dropout),
+            # Conv2d(90, 120, kernel_size=2, stride=1, padding=1), # 13 - 2 + 1 + 2 = 14
+            # ReLU(inplace=True),
+            # # ELU(),
+            # # 5th layer
+            # Dropout(p=dropout),
+            # Conv2d(120, 150, kernel_size=2, stride=1, padding=1), # 14 - 2 + 1 + 2 = 15
+            # ReLU(inplace=True),
+            # # ELU(),
+            # # 6th layer
+            # Dropout(p=dropout),
+            # Conv2d(150, 150, kernel_size=2, stride=1, padding=1), # 15 - 2 + 1 + 2 = 16
+            # ReLU(inplace=True),
+            # # ELU(),
+            # # 6th layer
+            # Dropout(p=dropout),
+            # Conv2d(150, 150, kernel_size=3, stride=1, padding=1), # 16 - 3 + 1 + 2 = 16
+            # ReLU(inplace=True),
+            # # ELU(),
+            # # 7th layer
+            # Dropout(p=dropout),
+            # Conv2d(150, 150, kernel_size=2, stride=1, padding=1), # 16 - 2 + 1 + 2 = 17
+            # ReLU(inplace=True),
+            # # ELU(),
+            # # 8th layer
+            # Dropout(p=dropout),
+            # Conv2d(150, 75, kernel_size=3, stride=2, padding=1), # (17 - 3 + 2 + 2)/2 = 9
+            # ReLU(inplace=True),
+            # # ELU(),
+            # # 9th layer
+            # Dropout(p=dropout),
+            # Conv2d(75, 25, kernel_size=3, stride=2, padding=1), # (9 - 3 + 2 + 2 )/2= 5
+            # ReLU(inplace=True),
+            # #ELU(),
         )
         self.cnnModel.apply(init_weights)
 
         self.fcModel = Sequential(
             Dropout(p=dropout),
-            Linear(25*25, 300),
+            Linear(13*13*90, 300),
             Dropout(p=dropout),
             Linear(300, 100),
             Dropout(p=dropout),
