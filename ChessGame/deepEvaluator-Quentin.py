@@ -173,9 +173,13 @@ class DeepEvaluator(Evaluator):
         train_y -= torch.min(train_y)
         train_y /= torch.max(train_y)
 
-        train_data = TensorDataset(train_X, train_y)
+        splitFactor = 0.9
+        split = math.floor(len(train_X) * splitFactor)
 
-        return train_data
+        train_data = TensorDataset(train_X[:split], train_y[:split])
+        test_data = TensorDataset(train_X[split:], train_y[split:])
+
+        return train_data, test_data
 
     def train(self, epoch, train_X, train_y):
         # self.model.train()
@@ -204,18 +208,16 @@ class DeepEvaluator(Evaluator):
 if __name__ == "__main__":
     evaluator = DeepEvaluator()
 
-    train_data = evaluator.loadDataset()
+    train_data, test_data = evaluator.loadDataset()
 
     batch_size = 32
     print_step = 2000
-    splitFactor = 0.9
-    split = math.floor(len(train_data) * splitFactor)
 
     train_loader = DataLoader(
-        dataset=train_data[:split], batch_size=batch_size, shuffle=True, num_workers=2)
+        dataset=train_data, batch_size=batch_size, shuffle=True, num_workers=2)
 
     test_loader = DataLoader(
-        dataset=train_data[split:], batch_size=batch_size, shuffle=True, num_workers=2)
+        dataset=test_data, batch_size=batch_size, shuffle=True, num_workers=2)
 
     # X_batch, y_batch = next(iter(train_loader))
     # X_test, y_test = next(iter(train_loader))
