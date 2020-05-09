@@ -43,14 +43,14 @@ class CustomNet(Module):
 
         self.cnnModel = Sequential(
             # First layer
-            Dropout(p=0.3),
-            BatchNorm2d(12),
             Conv2d(12, 20, kernel_size=5, stride=1, padding=0),
+            BatchNorm2d(20),
+            Dropout(p=0.3),
             ELU(),
             # Second layer
-            Dropout(p=0.3),
-            BatchNorm2d(20),
             Conv2d(20, 50, kernel_size=3, stride=1, padding=0),
+            BatchNorm2d(50),
+            Dropout(p=0.3),
             ELU(),
         )
 
@@ -73,7 +73,7 @@ class CustomNet(Module):
 class DeepEvaluator(Evaluator):
     def __init__(self):
         self.model = CustomNet().to(device)
-        self.model.apply(init_weights)
+        # self.model.apply(init_weights)
 
         # self.optimizer = Adam(self.model.parameters(), lr=0.07)
         self.optimizer = SGD(self.model.parameters(), lr=0.01)
@@ -211,7 +211,7 @@ if __name__ == "__main__":
 
     train_data, test_data = evaluator.loadDataset()
 
-    batch_size = 32
+    batch_size = 128
     # print 2 times per epoch
     # print_step = len(train_data) // batch_size // 2
     print_step = 20
