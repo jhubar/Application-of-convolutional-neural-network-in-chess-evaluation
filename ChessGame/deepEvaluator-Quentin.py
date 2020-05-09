@@ -227,7 +227,7 @@ if __name__ == "__main__":
 
             loss = evaluator.train(epoch, X_batch, y_batch)
             running_loss += loss
-            # train_losses.append(loss)
+            train_losses.append(loss)
         # X_batch = X_batch.to(device)
         # y_batch = y_batch.to(device)
         # loss = evaluator.train(epoch, X_batch, y_batch)
