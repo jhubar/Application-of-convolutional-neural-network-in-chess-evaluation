@@ -211,7 +211,7 @@ if __name__ == "__main__":
 
     train_data, test_data = evaluator.loadDataset()
 
-    batch_size = 128
+    batch_size = 2048
     print_step = len(train_data) // batch_size // 2
 
     train_loader = DataLoader(
