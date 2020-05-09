@@ -1,6 +1,7 @@
 import argparse
 import chess
 import math
+import statistics
 
 import matplotlib.pyplot as plt
 
@@ -260,4 +261,4 @@ if __name__ == "__main__":
             mse.append(evaluator.criterion(outputs, y))
 
     print("Accuracy of the network on the test set: {:.2%}, {}".format(
-        math.mean(mse), math.mean(mse)))
+        statistics.mean(mse), statistics.mean(mse)))
