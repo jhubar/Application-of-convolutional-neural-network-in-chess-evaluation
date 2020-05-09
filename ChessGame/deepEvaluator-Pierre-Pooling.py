@@ -57,43 +57,43 @@ class CustomNet(Module):
             Dropout(p=dropout),
             Conv2d(12, 30, kernel_size=2, stride=1, padding=2), #  8-2 + 1 + 4 = 11
             ReLU(inplace=True),
-            # AvgPool2d(kernel_size=2, stride=1 )),                # 11 -2 + 1= 10
-            # # ELU(),
-            # # Second layer
+            AvgPool2d(kernel_size=2, stride=1 ),                # 11 -2 + 1= 10
+            # ELU(),
+            # Second layer
             Dropout(p=dropout),
             Conv2d(30, 60, kernel_size=2, stride=1, padding=1), # 10 - 2 + 1 + 2 = 11
             ReLU(inplace=True),
-            AvgPool2d(kernel_size=2, stride=1 )),               # 11 -2 +1 = 9
+            AvgPool2d(kernel_size=2, stride=1 ),               # 11 -2 +1 = 9
             # ELU(),
             # third layer
             Dropout(p=dropout),
             Conv2d(60, 90, kernel_size=2, stride=1, padding=1), # 9- 2 + 1 + 2 = 10
             ReLU(inplace=True),
-            AvgPool2d(kernel_size=2, stride=1)),                # 10 - 2 +1 = 8
+            AvgPool2d(kernel_size=2, stride=1),                # 10 - 2 +1 = 8
             #ELU(),
             #4th layer
             Dropout(p=dropout),
             Conv2d(90, 120, kernel_size=2, stride=1, padding=1), # 8- 2 + 1 + 2 = 9
             ReLU(inplace=True),
-            AvgPool2d(kernel_size=2, stride=1)),                 # 9 - 2 +1 = 7
+            AvgPool2d(kernel_size=2, stride=1),                 # 9 - 2 +1 = 7
             # ELU(),
             # 5th layer
             Dropout(p=dropout),
             Conv2d(120, 150, kernel_size=2, stride=1, padding=1), # 7 - 2 + 1 + 2 = 8
             ReLU(inplace=True),
-            AvgPool2d(kernel_size=2, stride=1)),                  # 8 - 2 +1 = 6
+            AvgPool2d(kernel_size=2, stride=1),                  # 8 - 2 +1 = 6
             # ELU(),
             # 6th layer
             Dropout(p=dropout),
             Conv2d(150, 150, kernel_size=2, stride=1, padding=1), # 6 - 2 + 1 + 2 = 7
             ReLU(inplace=True),
-            AvgPool2d(kernel_size=2, stride=1)),                  # 7 - 2 +1 = 5
+            AvgPool2d(kernel_size=2, stride=1),                  # 7 - 2 +1 = 5
             # ELU(),
             # 6th layer
             Dropout(p=dropout),
             Conv2d(150, 150, kernel_size=3, stride=1, padding=1), # 5 - 3 + 1 + 2 = 5
             ReLU(inplace=True),
-            AvgPool2d(kernel_size=3, stride=1)),                  # 5 - 3 +1 = 2
+            AvgPool2d(kernel_size=3, stride=1),                  # 5 - 3 +1 = 2
 
 
 
