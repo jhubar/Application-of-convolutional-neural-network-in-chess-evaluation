@@ -210,8 +210,8 @@ if __name__ == "__main__":
 
     train_data, test_data = evaluator.loadDataset()
 
-    batch_size = 32
-    print_step = 400
+    batch_size = 128
+    print_step = 1
 
     train_loader = DataLoader(
         dataset=train_data, batch_size=batch_size, shuffle=True, num_workers=2)
@@ -246,8 +246,8 @@ if __name__ == "__main__":
                 running_loss = 0.0
 
     plt.plot(train_losses)
-    plt.savefig("Graph/deq_ds{}_bs{}_ne{}".format(len(train_data),
-                                                  batch_size, evaluator.n_epochs))
+    plt.savefig("Graph/deq_ds{}_bs{}_ne{}_ps{}".format(len(train_data),
+                                                       batch_size, evaluator.n_epochs, print_step))
     # plt.show()
 
     correct = 0
@@ -262,4 +262,5 @@ if __name__ == "__main__":
             total += y.size(0)
             correct += (predicted == y).sum().item()
 
-    print("Accuracy of the network on the test set: {:.2%}".format(correct / total))
+    print("Accuracy of the network on the test set: {:.2%}, {}".format(
+        correct / total, correct / total))
