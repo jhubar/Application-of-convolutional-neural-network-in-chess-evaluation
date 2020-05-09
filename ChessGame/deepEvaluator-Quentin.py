@@ -250,17 +250,14 @@ if __name__ == "__main__":
                                                        batch_size, evaluator.n_epochs, print_step))
     # plt.show()
 
-    correct = 0
-    total = 0
+    mse = []
     with torch.no_grad():
         for data in test_loader:
             X, y = data
             X = X.to(device)
             y = y.to(device)
             outputs = evaluator.model(X)
-            _, predicted = torch.max(outputs.data, 1)
-            total += y.size(0)
-            correct += (predicted == y).sum().item()
+            mse.add(evaluator.criterion(outputs, y))
 
     print("Accuracy of the network on the test set: {:.2%}, {}".format(
-        correct / total, correct / total))
+        math.mean(mse), math.mean(mse)))
