@@ -58,7 +58,7 @@ class CustomNet(Module):
             Conv2d(12, 30, kernel_size=2, stride=1, padding=2), #  8-2 + 1 + 4 = 11
             ReLU(inplace=True),
             AvgPool2d(kernel_size=2, stride=1 )),                # 11 -2 + 1= 10
-
+            
             Dropout(p=dropout),
             Conv2d(30, 60, kernel_size=2, stride=1, padding=1), # 10 - 2 + 1 + 2 = 11
             ReLU(inplace=True),
