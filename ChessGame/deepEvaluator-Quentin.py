@@ -227,7 +227,6 @@ if __name__ == "__main__":
 
             loss = evaluator.train(epoch, X_batch, y_batch)
             running_loss += loss
-            train_losses.append(loss)
         # X_batch = X_batch.to(device)
         # y_batch = y_batch.to(device)
         # loss = evaluator.train(epoch, X_batch, y_batch)
@@ -237,6 +236,7 @@ if __name__ == "__main__":
                 # print("Epoch : {}\tBatch : {}\tLoss : {:.3f}".format(epoch+1, i+1, train_losses[-1]))
                 print("Epoch : {}\tBatch : {}\tLoss : {:.3f}".format(
                     epoch+1, i+1, running_loss / print_step))
+                train_losses.append(running_loss / print_step)
                 running_loss = 0.0
 
     plt.plot(train_losses)
