@@ -211,8 +211,10 @@ if __name__ == "__main__":
 
     train_data, test_data = evaluator.loadDataset()
 
-    batch_size = 2048
-    print_step = len(train_data) // batch_size // 2
+    batch_size = 32
+    # print 2 times per epoch
+    # print_step = len(train_data) // batch_size // 2
+    print_step = 20
 
     train_loader = DataLoader(
         dataset=train_data, batch_size=batch_size, shuffle=True, num_workers=2)
