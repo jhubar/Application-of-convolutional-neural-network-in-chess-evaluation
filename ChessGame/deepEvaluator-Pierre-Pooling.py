@@ -102,7 +102,7 @@ class CustomNet(Module):
 
         self.fcModel = Sequential(
             Dropout(p=dropout),
-            Linear(2*2*150, 300),
+            Linear(9600, 300),
             Dropout(p=dropout),
             Linear(300, 100),
             Dropout(p=dropout),
