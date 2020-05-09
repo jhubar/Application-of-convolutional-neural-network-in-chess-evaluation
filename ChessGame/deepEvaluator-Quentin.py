@@ -255,6 +255,8 @@ if __name__ == "__main__":
     with torch.no_grad():
         for data in test_loader:
             X, y = data
+            X = X.to(device)
+            y = y.to(device)
             outputs = evaluator.model(X)
             _, predicted = torch.max(outputs.data, 1)
             total += y.size(0)
