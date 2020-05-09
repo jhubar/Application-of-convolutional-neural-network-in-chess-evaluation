@@ -204,7 +204,7 @@ if __name__ == "__main__":
 
     train_data = evaluator.loadDataset()
 
-    batch_size = 128
+    batch_size = 2048
 
     train_loader = DataLoader(
         dataset=train_data, batch_size=batch_size, shuffle=True, num_workers=2)
