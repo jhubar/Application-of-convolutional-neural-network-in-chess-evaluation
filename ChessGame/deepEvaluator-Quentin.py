@@ -1,5 +1,6 @@
 import argparse
 import chess
+import math
 
 import matplotlib.pyplot as plt
 
@@ -205,13 +206,16 @@ if __name__ == "__main__":
 
     train_data = evaluator.loadDataset()
 
-    batch_size = 128
-    print_step = 20
-    # testsetSplit = 0.9
-    # split = len(train_data) * 0.9
+    batch_size = 32
+    print_step = 2000
+    splitFactor = 0.9
+    split = math.floor(len(train_data) * splitFactor)
 
     train_loader = DataLoader(
-        dataset=train_data, batch_size=batch_size, shuffle=True, num_workers=2)
+        dataset=train_data[:split], batch_size=batch_size, shuffle=True, num_workers=2)
+
+    test_loader = DataLoader(
+        dataset=train_data[split:], batch_size=batch_size, shuffle=True, num_workers=2)
 
     # X_batch, y_batch = next(iter(train_loader))
     # X_test, y_test = next(iter(train_loader))
@@ -243,3 +247,15 @@ if __name__ == "__main__":
     plt.savefig("Graph/deq_ds{}_bs{}_ne{}".format(len(train_data),
                                                   batch_size, evaluator.n_epochs))
     # plt.show()
+
+    correct = 0
+    total = 0
+    with torch.no_grad():
+        for data in test_loader:
+            X, y = data
+            outputs = evaluator.model(X)
+            _, predicted = torch.max(outputs.data, 1)
+            total += y.size(0)
+            correct += (predicted == y).sum().item()
+
+    print("Accuracy of the network on the test set: {.2%}".format(correct / total))
