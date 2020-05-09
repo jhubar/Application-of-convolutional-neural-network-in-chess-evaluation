@@ -34,6 +34,7 @@ def init_weights(m):
         torch.nn.init.kaiming_uniform_(m.weight)
         m.bias.data.fill_(0.01)
 
+
 class CustomNet(Module):
     def __init__(self):
         super(CustomNet, self).__init__()
@@ -60,7 +61,7 @@ class CustomNet(Module):
 
     def forward(self, x):
         xconv = self.cnnModel(x)
-	    # xflat = xconv.flatten()
+        # xflat = xconv.flatten()
         xflat = xconv.view(xconv.size(0), -1)
         res = self.fcModel(xflat)
 
@@ -77,7 +78,7 @@ class DeepEvaluator(Evaluator):
         self.criterion = MSELoss()
 
         # defining the number of epochs
-        self.n_epochs = 50
+        self.n_epochs = 25
         # empty list to store training losses
         # self.train_losses = []
         # empty list to store validation losses
@@ -176,7 +177,8 @@ class DeepEvaluator(Evaluator):
         return train_data
 
     def train(self, epoch, train_X, train_y):
-        self.model.train()
+        # self.model.train()
+        self.optimizer.zero_grad()
 
         # # getting the training set
         # X_train = Variable(train_X)
@@ -194,7 +196,6 @@ class DeepEvaluator(Evaluator):
         loss_train.backward()
 
         self.optimizer.step()
-        self.optimizer.zero_grad()
 
         return loss_train.item()
 
@@ -204,7 +205,10 @@ if __name__ == "__main__":
 
     train_data = evaluator.loadDataset()
 
-    batch_size = 2048
+    batch_size = 128
+    print_step = 2000
+    # testsetSplit = 0.9
+    # split = len(train_data) * 0.9
 
     train_loader = DataLoader(
         dataset=train_data, batch_size=batch_size, shuffle=True, num_workers=2)
@@ -215,18 +219,27 @@ if __name__ == "__main__":
     train_losses = []
 
     for epoch in range(evaluator.n_epochs):
-        for X_batch, y_batch in train_loader:
+        running_loss = 0.0
+        for i, data in enumerate(train_loader, 0):
+            X_batch, y_batch = data
             X_batch = X_batch.to(device)
             y_batch = y_batch.to(device)
+
             loss = evaluator.train(epoch, X_batch, y_batch)
-            train_losses.append(loss)
+            running_loss += loss
+            # train_losses.append(loss)
         # X_batch = X_batch.to(device)
         # y_batch = y_batch.to(device)
         # loss = evaluator.train(epoch, X_batch, y_batch)
         # train_losses.append(loss)
 
-        if epoch % 2 == 0:
-            print("Epoch : {} \tloss : {}".format(epoch+1, train_losses[-1]))
+            if i % print_step == print_step - 1:
+                # print("Epoch : {}\tBatch : {}\tLoss : {:.3f}".format(epoch+1, i+1, train_losses[-1]))
+                print("Epoch : {}\tBatch : {}\tLoss : {:.3f}".format(
+                    epoch+1, i+1, running_loss / print_step))
+                running_loss = 0.0
 
     plt.plot(train_losses)
-    plt.savefig("Graph/deq_ds{}_bs{}_ne{}".format(len(train_data), batch_size, evaluator.n_epochs))
+    plt.savefig("Graph/deq_ds{}_bs{}_ne{}".format(len(train_data),
+                                                  batch_size, evaluator.n_epochs))
+    # plt.show()
