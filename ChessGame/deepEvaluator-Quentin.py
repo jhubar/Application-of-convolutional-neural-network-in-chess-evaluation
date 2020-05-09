@@ -257,8 +257,9 @@ if __name__ == "__main__":
             X, y = data
             X = X.to(device)
             y = y.to(device)
+            y = y.view(-1, 1)
             outputs = evaluator.model(X)
-            mse.append(evaluator.criterion(outputs, y))
+            mse.append(evaluator.criterion(outputs, y).item())
 
     print("Accuracy of the network on the test set: {:.2%}, {}".format(
         statistics.mean(mse), statistics.mean(mse)))
