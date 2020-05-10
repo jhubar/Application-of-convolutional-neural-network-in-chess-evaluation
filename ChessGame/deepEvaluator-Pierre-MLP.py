@@ -28,10 +28,10 @@ print(device)
 
 dropout = 0.3
 learning_rate = 0.01
-nb_epochs = 1000
+nb_epochs = 100
 batch  = 128
 
-com = "Relu_14layers_" # additional commentary or smth
+com = "MLP_7layers_" # additional commentary or smth
 stringName  = com + "dropout_" + str(dropout) + "_lr_" + str(learning_rate) + "_epochs_" +  str(nb_epochs) + "_batch_" + str(batch) + ".png"
 
 print(" with dropout = " + str(dropout) + " and learning_rate = " + str(learning_rate) + " for " + str(nb_epochs) + " epochs " + com )
@@ -52,18 +52,13 @@ class CustomNet(Module):
     def __init__(self):
         super(CustomNet, self).__init__()
 
-        self.cnnModel = Sequential(                             # side =  (previous side - kernel size + stride + 2*padding)/stride
-            # First layer
-            Dropout(p=dropout),
-            Conv2d(12, 30, kernel_size=2, stride=1, padding=2), #  8-2 + 1 + 4 = 11
-            ReLU(inplace=True),
-
-        )
-        self.cnnModel.apply(init_weights)
-
         self.fcModel = Sequential(
             Dropout(p=dropout),
-            Linear(30*11*11, 300),
+            Linear(12*8*8, 12*8*8),
+            Dropout(p=dropout),
+            Linear(12*8*8, 500),
+            Dropout(p=dropout),
+            Linear(500, 300),
             Dropout(p=dropout),
             Linear(300, 100),
             Dropout(p=dropout),
@@ -77,9 +72,10 @@ class CustomNet(Module):
         self.fcModel.apply(init_weights)
 
     def forward(self, x):
-        xconv = self.cnnModel(x)
+        # xconv = self.cnnModel(x)
+        #x = x.view(x.size(0), -1)
 	    # xflat = xconv.flatten()
-        xflat = xconv.view(xconv.size(0), -1)
+        xflat = x.view(x.size(0), -1)
         res = self.fcModel(xflat)
 
         return res
