@@ -244,7 +244,7 @@ if __name__ == "__main__":
 
     train_data, test_data = evaluator.loadDataset()
 
-    batch_size = 32
+    batch_size = 128
     # print 2 times per epoch
     # print_step = len(train_data) // batch_size // 2
     print_step = 20
