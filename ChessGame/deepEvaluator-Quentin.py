@@ -17,6 +17,7 @@ import numpy as np
 
 import torch
 from torch.nn import Linear, Sequential, ReLU, Conv2d, BatchNorm1d, BatchNorm2d, Module, MSELoss, ELU, Softmax, Dropout
+from torch.nn.functional import elu
 from torch.optim import Adam, SGD
 from torch.utils.data import TensorDataset, DataLoader
 from torchvision.transforms import Compose, Normalize
@@ -41,31 +42,54 @@ class CustomNet(Module):
     def __init__(self):
         super(CustomNet, self).__init__()
 
-        self.cnnModel = Sequential(
-            # First layer
-            Conv2d(12, 20, kernel_size=5, stride=1, padding=0),
-            BatchNorm2d(20),
-            Dropout(p=0.3),
-            ELU(),
-            # Second layer
-            Conv2d(20, 50, kernel_size=3, stride=1, padding=0),
-            BatchNorm2d(50),
-            Dropout(p=0.3),
-            ELU(),
-        )
+        self.conv1 = Conv2d(12, 20, 5)
+        self.conv2 = Conv2d(20, 50, 3)
 
-        self.fcModel = Sequential(
-            Dropout(p=0.3),
-            BatchNorm1d(200),
-            Linear(200, 1),
-            # Softmax(1),
-        )
+        self.fc1 = Linear(50 * 2 * 2, 1)
+
+        self.bn1 = BatchNorm2d(20)
+        self.bn2 = BatchNorm2d(50)
+        self.bn3 = BatchNorm1d(50 * 2 * 2)
+
+        self.drop = Dropout(0.3)
+
+        # self.cnnModel = Sequential(
+        #     # First layer
+        #     Conv2d(12, 20, kernel_size=5, stride=1, padding=0),
+        #     BatchNorm2d(20),
+        #     Dropout(p=0.3),
+        #     ELU(),
+        #     # Second layer
+        #     Conv2d(20, 50, kernel_size=3, stride=1, padding=0),
+        #     BatchNorm2d(50),
+        #     Dropout(p=0.3),
+        #     ELU(),
+        # )
+
+        # self.fcModel = Sequential(
+        #     Dropout(p=0.3),
+        #     BatchNorm1d(200),
+        #     Linear(200, 1),
+        #     # Softmax(1),
+        # )
 
     def forward(self, x):
-        xconv = self.cnnModel(x)
-        # xflat = xconv.flatten()
-        xflat = xconv.view(xconv.size(0), -1)
-        res = self.fcModel(xflat)
+        # xconv = self.cnnModel(x)
+        # # xflat = xconv.flatten()
+        # xflat = xconv.view(xconv.size(0), -1)
+        # res = self.fcModel(xflat)
+        res = elu(self.conv1(x))
+        res = self.bn1(res)
+        res = self.drop(res)
+
+        res = elu(self.conv2(res))
+        res = self.bn2(res)
+        res = self.drop(res)
+
+        res = res.view(-1, 50 * 2 * 2)
+
+        res = self.fc1(res)
+        # res = self.bn3(res)
 
         return res
 
@@ -76,8 +100,8 @@ class DeepEvaluator(Evaluator):
         # self.model.apply(init_weights)
 
         # self.optimizer = Adam(self.model.parameters(), lr=0.07)
-        self.optimizer = SGD(self.model.parameters(), lr=0.01)
         self.criterion = MSELoss()
+        self.optimizer = SGD(self.model.parameters(), lr=0.01)
 
         # defining the number of epochs
         self.n_epochs = 50
@@ -182,7 +206,7 @@ class DeepEvaluator(Evaluator):
 
         return train_data, test_data
 
-    def train(self, epoch, train_X, train_y):
+    def train(self, train_X, train_y):
         # self.model.train()
         self.optimizer.zero_grad()
 
@@ -220,7 +244,7 @@ if __name__ == "__main__":
         dataset=train_data, batch_size=batch_size, shuffle=True, num_workers=2)
 
     test_loader = DataLoader(
-        dataset=test_data, batch_size=batch_size, shuffle=True, num_workers=2)
+        dataset=test_data, batch_size=batch_size, shuffle=False, num_workers=2)
 
     # X_batch, y_batch = next(iter(train_loader))
     # X_test, y_test = next(iter(train_loader))
@@ -229,12 +253,13 @@ if __name__ == "__main__":
 
     for epoch in range(evaluator.n_epochs):
         running_loss = 0.0
+
         for i, data in enumerate(train_loader, 0):
             X_batch, y_batch = data
             X_batch = X_batch.to(device)
             y_batch = y_batch.to(device)
 
-            loss = evaluator.train(epoch, X_batch, y_batch)
+            loss = evaluator.train(X_batch, y_batch)
             running_loss += loss
         # X_batch = X_batch.to(device)
         # y_batch = y_batch.to(device)
