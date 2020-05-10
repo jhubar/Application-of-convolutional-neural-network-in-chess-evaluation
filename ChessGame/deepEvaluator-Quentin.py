@@ -104,10 +104,10 @@ class CustomNet(Module):
 
 class DeepEvaluator(Evaluator):
     def __init__(self):
-        if torch.cuda.device_count() > 1:
-            print("Let's use", torch.cuda.device_count(), "GPUs!")
-            # dim = 0 [30, xxx] -> [10, ...], [10, ...], [10, ...] on 3 GPUs
-            self.model = CustomNet().DataParallel(self.model)
+        # if torch.cuda.device_count() > 1:
+        #     print("Let's use", torch.cuda.device_count(), "GPUs!")
+        #     # dim = 0 [30, xxx] -> [10, ...], [10, ...], [10, ...] on 3 GPUs
+        #     self.model = CustomNet().DataParallel(self.model)
         self.model = CustomNet().to(device)
         # self.model.apply(init_weights)
         self.model.apply(weight_init)
