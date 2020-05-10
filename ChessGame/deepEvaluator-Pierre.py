@@ -210,10 +210,10 @@ class DeepEvaluator(Evaluator):
         pass
 
     def loadDataset(self):
-        with open("Data/chessInput", "rb") as file:
+        with open("Data/chessInput-julien", "rb") as file:
             trainInput = pickle.load(file)
 
-        with open("Data/chessOutput", "rb") as file:
+        with open("Data/chessOutput-julien", "rb") as file:
             trainOutput = pickle.load(file)
 
         # train_X, val_X, train_y, val_y = train_test_split(
