@@ -17,7 +17,7 @@ import numpy as np
 
 import torch
 from torch.nn import Linear, Sequential, ReLU, Conv2d, BatchNorm1d, BatchNorm2d, Module, MSELoss, ELU, Softmax, Dropout
-from torch.nn.functional import elu, relu
+from torch.nn.functional import elu, relu, softmax
 from torch.nn.init import xavier_uniform_, zeros_, calculate_gain
 from torch.optim import Adam, SGD
 from torch.utils.data import TensorDataset, DataLoader
@@ -87,7 +87,7 @@ class CustomNet(Module):
 
         res = res.view(-1, 50 * 2 * 2)
 
-        res = self.fc1(res)
+        res = softmax(self.fc1(res))
         # res = self.bn3(res)
 
         return res
@@ -199,8 +199,8 @@ class DeepEvaluator(Evaluator):
         train_y -= torch.min(train_y)
         train_y /= torch.max(train_y)
 
-        train_X = train_X
-        train_y = train_y
+        train_X = train_X[:32728]
+        train_y = train_y[:32728]
 
         splitFactor = 0.9
         split = math.floor(len(train_X) * splitFactor)
