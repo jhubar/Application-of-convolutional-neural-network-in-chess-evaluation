@@ -199,8 +199,8 @@ class DeepEvaluator(Evaluator):
         train_y -= torch.min(train_y)
         train_y /= torch.max(train_y)
 
-        train_X = train_X[:16384]
-        train_y = train_y[:16384]
+        train_X = train_X
+        train_y = train_y
 
         splitFactor = 0.9
         split = math.floor(len(train_X) * splitFactor)
