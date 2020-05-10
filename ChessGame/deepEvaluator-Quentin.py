@@ -17,7 +17,8 @@ import numpy as np
 
 import torch
 from torch.nn import Linear, Sequential, ReLU, Conv2d, BatchNorm1d, BatchNorm2d, Module, MSELoss, ELU, Softmax, Dropout
-from torch.nn.functional import elu
+from torch.nn.functional import elu, relu
+from torch.nn.init import xavier_uniform_, zeros_, calculate_gain
 from torch.optim import Adam, SGD
 from torch.utils.data import TensorDataset, DataLoader
 from torchvision.transforms import Compose, Normalize
@@ -30,12 +31,10 @@ device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 # print(device)
 
 
-def init_weights(m):
-    classname = m.__class__.__name__
-
-    if classname.find('Conv') != -1 or classname.find('Linear') != -1:
-        torch.nn.init.kaiming_uniform_(m.weight)
-        m.bias.data.fill_(0.01)
+def weight_init(m):
+    if isinstance(m, Conv2d) or isinstance(m, Linear):
+        xavier_uniform_(m.weight, gain=calculate_gain('relu'))
+        zeros_(m.bias)
 
 
 class CustomNet(Module):
@@ -78,11 +77,11 @@ class CustomNet(Module):
         # # xflat = xconv.flatten()
         # xflat = xconv.view(xconv.size(0), -1)
         # res = self.fcModel(xflat)
-        res = elu(self.conv1(x))
+        res = relu(self.conv1(x))
         res = self.bn1(res)
         res = self.drop(res)
 
-        res = elu(self.conv2(res))
+        res = relu(self.conv2(res))
         res = self.bn2(res)
         res = self.drop(res)
 
@@ -98,6 +97,7 @@ class DeepEvaluator(Evaluator):
     def __init__(self):
         self.model = CustomNet().to(device)
         # self.model.apply(init_weights)
+        self.model.apply(weight_init)
 
         # self.optimizer = Adam(self.model.parameters(), lr=0.07)
         self.criterion = MSELoss()
@@ -197,6 +197,9 @@ class DeepEvaluator(Evaluator):
 
         train_y -= torch.min(train_y)
         train_y /= torch.max(train_y)
+
+        # train_X = train_X[:2048]
+        # train_y = train_y[:2048]
 
         splitFactor = 0.9
         split = math.floor(len(train_X) * splitFactor)
