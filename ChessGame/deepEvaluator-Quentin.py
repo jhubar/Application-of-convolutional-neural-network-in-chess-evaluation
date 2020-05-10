@@ -16,7 +16,7 @@ import pickle
 import numpy as np
 
 import torch
-from torch.nn import Linear, Sequential, ReLU, Conv2d, BatchNorm1d, BatchNorm2d, Module, MSELoss, ELU, Softmax, Dropout
+from torch.nn import Linear, Sequential, ReLU, Conv2d, BatchNorm1d, BatchNorm2d, Module, MSELoss, ELU, Softmax, Dropout, DataParallel
 from torch.nn.functional import elu, relu
 from torch.nn.init import xavier_uniform_, zeros_, calculate_gain
 from torch.optim import Adam, SGD
@@ -107,7 +107,7 @@ class DeepEvaluator(Evaluator):
         if torch.cuda.device_count() > 1:
             print("Let's use", torch.cuda.device_count(), "GPUs!")
             # dim = 0 [30, xxx] -> [10, ...], [10, ...], [10, ...] on 3 GPUs
-            self.model = CustomNet().DataParallel(self.model)
+            self.model = DataParallel(self.model)
         self.model = CustomNet().to(device)
         # self.model.apply(init_weights)
         self.model.apply(weight_init)
