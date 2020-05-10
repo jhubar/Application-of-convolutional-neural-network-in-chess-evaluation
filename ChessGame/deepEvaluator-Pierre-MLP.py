@@ -28,7 +28,7 @@ print(device)
 
 dropout = 0.3
 learning_rate = 0.01
-nb_epochs = 1000
+nb_epochs = 100
 batch  = 128
 
 com = "Relu_14layers_" # additional commentary or smth
