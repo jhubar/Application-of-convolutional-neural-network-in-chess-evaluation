@@ -10,7 +10,6 @@
 #SBATCH --time=0-72:00:00
 #SBATCH --mem-per-cpu=32g
 #SBATCH --partition=all
-#SBATCH --partition=gpu --qos=gpu
 #SBATCH --gres=gpu:4
 
 python3 deepEvaluator-Quentin.py
