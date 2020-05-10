@@ -63,7 +63,7 @@ class CustomNet(Module):
 
         self.fcModel = Sequential(
             Dropout(p=dropout),
-            Linear(30*11*11, 300),
+            Linear(12*8*8, 300),
             Dropout(p=dropout),
             Linear(300, 100),
             Dropout(p=dropout),
@@ -77,9 +77,10 @@ class CustomNet(Module):
         self.fcModel.apply(init_weights)
 
     def forward(self, x):
-        xconv = self.cnnModel(x)
+        # xconv = self.cnnModel(x)
+        #x = x.view(x.size(0), -1)
 	    # xflat = xconv.flatten()
-        xflat = xconv.view(xconv.size(0), -1)
+        xflat = x.view(x.size(0), -1)
         res = self.fcModel(xflat)
 
         return res
