@@ -101,7 +101,7 @@ class DeepEvaluator(Evaluator):
 
         # self.optimizer = Adam(self.model.parameters(), lr=0.07)
         self.criterion = MSELoss()
-        self.optimizer = SGD(self.model.parameters(), lr=0.01)
+        self.optimizer = SGD(self.model.parameters(), lr=0.001)
 
         # defining the number of epochs
         self.n_epochs = 50
@@ -186,6 +186,7 @@ class DeepEvaluator(Evaluator):
 
         train_X = torch.stack(trainInput)
         train_y = torch.FloatTensor(trainOutput)
+        train_y = train_y.view(-1, 1)
 
         train_X.to(device)
         train_y.to(device)
@@ -198,8 +199,8 @@ class DeepEvaluator(Evaluator):
         train_y -= torch.min(train_y)
         train_y /= torch.max(train_y)
 
-        # train_X = train_X[:2048]
-        # train_y = train_y[:2048]
+        train_X = train_X[:16384]
+        train_y = train_y[:16384]
 
         splitFactor = 0.9
         split = math.floor(len(train_X) * splitFactor)
@@ -217,7 +218,7 @@ class DeepEvaluator(Evaluator):
         # X_train = Variable(train_X)
         # y_train = Variable(train_y)
         X_train = train_X
-        y_train = train_y.view(-1, 1)
+        y_train = train_y
 
         # prediction for training and validation set
         output_train = self.model(X_train)
@@ -277,11 +278,13 @@ if __name__ == "__main__":
                 running_loss = 0.0
 
     plt.plot(train_losses)
-    plt.savefig("Graph/deq_ds{}_bs{}_ne{}_ps{}".format(len(train_data),
+    plt.savefig("Graph/deq_ds{}_bs{}_ne{}_ps{}_2".format(len(train_data),
                                                        batch_size, evaluator.n_epochs, print_step))
     # plt.show()
 
     mse = []
+    outs = []
+    thruth = []
     with torch.no_grad():
         for data in test_loader:
             X, y = data
@@ -289,7 +292,16 @@ if __name__ == "__main__":
             y = y.to(device)
             y = y.view(-1, 1)
             outputs = evaluator.model(X)
+            outs.extend(outputs.numpy())
+            thruth.extend(y.numpy())
             mse.append(evaluator.criterion(outputs, y).item())
 
     print("Accuracy of the network on the test set: {:.2%}, {}".format(
         statistics.mean(mse), statistics.mean(mse)))
+    plt.clf()
+    plt.plot(outs)
+    plt.plot(thruth)
+    plt.savefig("Graph/deq_ds{}_bs{}_ne{}_ps{}_3".format(len(train_data),
+                                                         batch_size, evaluator.n_epochs, print_step))
+    # plt.show()
+
