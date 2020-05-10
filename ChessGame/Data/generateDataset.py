@@ -14,7 +14,7 @@ def loadData(isWindows: bool):
     """
     Loads the data from a pgn file
     """
-    filePath = "2010_10.pgn"
+    filePath = "2010_896221.pgn"
 
     with open(filePath) as pgn:
         nbGames = 0
@@ -89,7 +89,7 @@ if __name__ == "__main__":
 
     X, y = loadData(isWindows)
 
-    save(X, "chessInput")
-    save(y, "chessOutput")
+    save(X, "chessInput-julien")
+    save(y, "chessOutput-julien")
 
     print("Completed. {} states have been generated\n".format(len(X)))
