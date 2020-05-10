@@ -31,6 +31,7 @@ device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 # print(device)
 
 
+
 def weight_init(m):
     if isinstance(m, Conv2d) or isinstance(m, Linear):
         xavier_uniform_(m.weight, gain=calculate_gain('relu'))
@@ -95,6 +96,10 @@ class CustomNet(Module):
 
 class DeepEvaluator(Evaluator):
     def __init__(self):
+        if torch.cuda.device_count() > 1:
+            print("Let's use", torch.cuda.device_count(), "GPUs!")
+            # dim = 0 [30, xxx] -> [10, ...], [10, ...], [10, ...] on 3 GPUs
+            self.model = CustomNet().DataParallel(self.model)
         self.model = CustomNet().to(device)
         # self.model.apply(init_weights)
         self.model.apply(weight_init)
@@ -239,7 +244,7 @@ if __name__ == "__main__":
 
     train_data, test_data = evaluator.loadDataset()
 
-    batch_size = 128
+    batch_size = 32
     # print 2 times per epoch
     # print_step = len(train_data) // batch_size // 2
     print_step = 20
