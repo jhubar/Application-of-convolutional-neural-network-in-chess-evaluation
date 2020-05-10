@@ -292,8 +292,8 @@ if __name__ == "__main__":
             y = y.to(device)
             y = y.view(-1, 1)
             outputs = evaluator.model(X)
-            outs.extend(outputs.numpy())
-            thruth.extend(y.numpy())
+            outs.extend(outputs.cpu().numpy())
+            thruth.extend(y.cpu().numpy())
             mse.append(evaluator.criterion(outputs, y).item())
 
     print("Accuracy of the network on the test set: {:.2%}, {}".format(
