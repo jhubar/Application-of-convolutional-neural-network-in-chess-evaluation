@@ -19,3 +19,5 @@ ChessGame/Data/*.pgn
 ChessGame/Graph/
 ChessGame/Data/chessInput
 ChessGame/Data/chessOutput
+ChessGame/Data/chessInput-julien
+ChessGame/Data/chessOutput-julien

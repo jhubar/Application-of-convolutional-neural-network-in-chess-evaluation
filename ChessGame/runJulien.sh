@@ -12,4 +12,4 @@
 #SBATCH --partition=all
 #SBATCH --gres=gpu:4
 
-python3 deepEvaluator-Quentin.py
+python3 deepEvaluator-Julien.py
