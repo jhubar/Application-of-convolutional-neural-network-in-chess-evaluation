@@ -3,7 +3,7 @@ import chess.engine
 
 from evaluator import Evaluator
 from simpleEvaluator import SimpleEvaluator
-from deepEvaluator import DeepEvaluator
+from deepEvaluatorQuentin import DeepEvaluator
 
 from minimax import searchNextMove
 
@@ -31,6 +31,9 @@ class Game:
 
     def simpleAIScore(self):
         return SimpleEvaluator().evaluate(self.board)
+
+    def deepAIMove(self):
+        return searchNextMove(self.board, self.depth, DeepEvaluator())
 
     def engineMove(self):
         return self.engine.play(self.board, chess.engine.Limit(depth=self.depth)).move

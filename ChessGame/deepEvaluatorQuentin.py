@@ -30,6 +30,7 @@ device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 # device = 'cpu'
 # print(device)
 
+MODELPATH = "./deqModel.pth"
 
 
 def weight_init(m):
@@ -180,13 +181,19 @@ class DeepEvaluator(Evaluator):
         return tensor
 
     def evaluate(self, board: chess.Board):
+        if board.turn is chess.BLACK:
+            board = board.mirror()
         tensor = DeepEvaluator.boardToTensor(board)
-        # TODO
-        # model = ?
+        self.model.load_state_dict(torch.load(MODELPATH))
+
+        output = self.model(tensor)
         # model.load_state_dict(torch.load(MODELPATH))
         # return model.eval(tensor)
 
-        pass
+        if board.turn is chess.BLACK:
+            output = -output
+
+        return output
 
     def loadDataset(self):
         with open("Data/chessInput", "rb") as file:
@@ -330,4 +337,6 @@ if __name__ == "__main__":
     plt.legend(['Outputs', 'Ground truth'], loc='upper right')
     plt.savefig("Graph/deq_ds{}_bs{}_ne{}_ps{}_2".format(len(train_data),
                                                          batch_size, evaluator.n_epochs, print_step))
+
+    torch.save(evaluator.model.state_dict(), MODELPATH)
     # plt.show()
