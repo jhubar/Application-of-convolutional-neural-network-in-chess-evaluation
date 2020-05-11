@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-#SBATCH --job-name=Chess-deepEvaluator-Pierre
+#SBATCH --job-name= Conv
 #SBATCH --output=output-Pierre.txt
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=1

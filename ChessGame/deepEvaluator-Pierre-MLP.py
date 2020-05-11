@@ -31,7 +31,7 @@ learning_rate = 0.01
 nb_epochs = 100
 batch  = 128
 
-com = "MLP_7layers_" # additional commentary or smth
+com = "MLP_4layers_" # additional commentary or smth
 stringName  = com + "dropout_" + str(dropout) + "_lr_" + str(learning_rate) + "_epochs_" +  str(nb_epochs) + "_batch_" + str(batch) + ".png"
 
 print(" with dropout = " + str(dropout) + " and learning_rate = " + str(learning_rate) + " for " + str(nb_epochs) + " epochs " + com )
@@ -58,15 +58,9 @@ class CustomNet(Module):
             Dropout(p=dropout),
             Linear(12*8*8, 500),
             Dropout(p=dropout),
-            Linear(500, 300),
+            Linear(500, 100),
             Dropout(p=dropout),
-            Linear(300, 100),
-            Dropout(p=dropout),
-            Linear(100, 50),
-            Dropout(p=dropout),
-            Linear(50, 10),
-            Dropout(p=dropout),
-            Linear(10, 1),
+            Linear(100, 1),
             Softmax(1),
         )
         self.fcModel.apply(init_weights)

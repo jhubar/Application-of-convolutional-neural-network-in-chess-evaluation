@@ -26,12 +26,12 @@ device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 # device = 'cpu'
 print(device)
 
-dropout = 0.1
+dropout = 0.3
 learning_rate = 0.01
 nb_epochs = 100
 batch  = 128
 
-com = "Relu_11layers_Pooling" # additional commentary or smth
+com = "Relu_4layers_Pooling" # additional commentary or smth
 stringName  = com + "dropout_" + str(dropout) + "_lr_" + str(learning_rate) + "_epochs_" +  str(nb_epochs) + "_batch_" + str(batch) + ".png"
 
 print(" with dropout = " + str(dropout) + " and learning_rate = " + str(learning_rate) + " for " + str(nb_epochs) + " epochs " + com )
@@ -63,37 +63,9 @@ class CustomNet(Module):
             Dropout(p=dropout),
             Conv2d(30, 60, kernel_size=2, stride=1, padding=1), # 10 - 2 + 1 + 2 = 11
             ReLU(inplace=True),
-            AvgPool2d(kernel_size=2, stride=1 ),               # 11 -2 +1 = 9
-            # ELU(),
-            # third layer
-            Dropout(p=dropout),
-            Conv2d(60, 90, kernel_size=2, stride=1, padding=1), # 9- 2 + 1 + 2 = 10
-            ReLU(inplace=True),
-            AvgPool2d(kernel_size=2, stride=1),                # 10 - 2 +1 = 8
-            #ELU(),
-            #4th layer
-            Dropout(p=dropout),
-            Conv2d(90, 120, kernel_size=2, stride=1, padding=1), # 8- 2 + 1 + 2 = 9
-            ReLU(inplace=True),
-            AvgPool2d(kernel_size=2, stride=1),                 # 9 - 2 +1 = 7
-            # ELU(),
-            # 5th layer
-            Dropout(p=dropout),
-            Conv2d(120, 150, kernel_size=2, stride=1, padding=1), # 7 - 2 + 1 + 2 = 8
-            ReLU(inplace=True),
-            AvgPool2d(kernel_size=2, stride=1),                  # 8 - 2 +1 = 6
-            # ELU(),
-            # 6th layer
-            Dropout(p=dropout),
-            Conv2d(150, 150, kernel_size=2, stride=1, padding=1), # 6 - 2 + 1 + 2 = 7
-            ReLU(inplace=True),
-            AvgPool2d(kernel_size=2, stride=1),                  # 7 - 2 +1 = 5
-            # ELU(),
-            # 6th layer
-            Dropout(p=dropout),
-            Conv2d(150, 150, kernel_size=3, stride=1, padding=1), # 5 - 3 + 1 + 2 = 5
-            ReLU(inplace=True),
-            AvgPool2d(kernel_size=3, stride=1),                  # 5 - 3 +1 = 2
+            AvgPool2d(kernel_size=3, stride=2 ),               # (11 -3 +2 )/2= 5
+
+
 
 
 
@@ -102,15 +74,9 @@ class CustomNet(Module):
 
         self.fcModel = Sequential(
             Dropout(p=dropout),
-            Linear(9600, 300),
+            Linear(5*5*60, 100),
             Dropout(p=dropout),
-            Linear(300, 100),
-            Dropout(p=dropout),
-            Linear(100, 50),
-            Dropout(p=dropout),
-            Linear(50, 10),
-            Dropout(p=dropout),
-            Linear(10, 1),
+            Linear(100, 1),
             Softmax(1),
         )
         self.fcModel.apply(init_weights)

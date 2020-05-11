@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-#SBATCH --job-name=Chess-deepEvaluator-Pierre
+#SBATCH --job-name=Pooling
 #SBATCH --output=output-Pierre-Pooling.txt
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=1
