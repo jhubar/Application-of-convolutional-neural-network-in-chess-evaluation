@@ -1,7 +1,7 @@
 #!/bin/bash
 #
 #SBATCH --job-name=MLP
-#SBATCH --output=output-Pierre-MLP.txt
+#SBATCH --output=output-Pierre-MLP-MediumDS.txt
 #SBATCH --job-name=Chess-deepEvaluator-Pierre
 #SBATCH --output=output-Pierre-MLP-LargeDS.txt
 #SBATCH --ntasks=1
