@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-#SBATCH --job-name= Conv
+#SBATCH --job-name=Conv
 #SBATCH --output=output-Pierre-Drop01.txt
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=1
