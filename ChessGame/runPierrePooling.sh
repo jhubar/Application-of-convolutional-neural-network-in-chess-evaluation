@@ -1,7 +1,7 @@
 #!/bin/bash
 #
 #SBATCH --job-name=Pooling
-#SBATCH --output=output-Pierre-Pooling-mediumDS.txt
+#SBATCH --output=output-Pierre-Pooling-Drop01.txt
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=1
 #SBATCH --ntasks-per-node=1
