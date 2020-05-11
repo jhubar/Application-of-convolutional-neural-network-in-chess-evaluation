@@ -1,12 +1,9 @@
 #!/bin/bash
 #
-<<<<<<< HEAD
 #SBATCH --job-name=MLP
 #SBATCH --output=output-Pierre-MLP.txt
-=======
 #SBATCH --job-name=Chess-deepEvaluator-Pierre
 #SBATCH --output=output-Pierre-MLP-LargeDS.txt
->>>>>>> c65f7b6bca501285b4173e65256dad81be4294bd
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=1
 #SBATCH --ntasks-per-node=1
