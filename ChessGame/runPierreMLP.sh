@@ -2,8 +2,6 @@
 #
 #SBATCH --job-name=MLP
 #SBATCH --output=output-Pierre-MLP.txt
-#SBATCH --job-name=Chess-deepEvaluator-Pierre
-#SBATCH --output=output-Pierre-MLP-LargeDS.txt
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=1
 #SBATCH --ntasks-per-node=1
