@@ -234,5 +234,6 @@ if __name__ == "__main__":
         if epoch % 1 == 0:
             print('Epoch : ', epoch+1, '\t', 'loss :', train_losses[-1])
 
-    plt.plot(train_losses)
+    plt.plot(train_losses, label='Training loss')
+    plt.legend()
     plt.savefig("Graph/"+stringName)
