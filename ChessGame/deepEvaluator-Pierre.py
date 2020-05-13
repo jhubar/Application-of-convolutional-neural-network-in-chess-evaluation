@@ -27,7 +27,7 @@ device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 print(device)
 
 dropout = 0
-learning_rate = 0.1
+learning_rate = 0.05
 nb_epochs = 100
 batch  = 128
 
