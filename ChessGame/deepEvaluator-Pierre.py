@@ -26,8 +26,8 @@ device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 # device = 'cpu'
 print(device)
 
-dropout = 0.3
-learning_rate = 0.01
+dropout = 0
+learning_rate = 0.05
 nb_epochs = 100
 batch  = 128
 
@@ -234,5 +234,6 @@ if __name__ == "__main__":
         if epoch % 1 == 0:
             print('Epoch : ', epoch+1, '\t', 'loss :', train_losses[-1])
 
-    plt.plot(train_losses)
+    plt.plot(train_losses, 'ro', label='Training loss')
+    plt.legend()
     plt.savefig("Graph/"+stringName)
