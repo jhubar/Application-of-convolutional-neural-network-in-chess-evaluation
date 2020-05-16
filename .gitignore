@@ -16,12 +16,9 @@ ChessGame/chessOutput2014
 ChessGame/chessInput2015
 ChessGame/chessOutput2015
 ChessGame/Data/*.pgn
-
-ChessGame/Data/chessInput
-ChessGame/Data/chessOutput
-ChessGame/Data/chessInput-julien
-ChessGame/Data/chessOutput-julien
-ChessGame/Data/chessInput-medium
-ChessGame/Data/chessOutput-medium
 ChessGame/Graph
 ChessGame/OldGraphs
+ChessGame/Data/chessInput-julien
+ChessGame/Data/chessInput-medium
+ChessGame/Data/chessOutput-julien
+ChessGame/Data/chessOutput-medium
