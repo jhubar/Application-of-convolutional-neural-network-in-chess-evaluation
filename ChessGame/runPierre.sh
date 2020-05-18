@@ -1,7 +1,7 @@
 #!/bin/bash
 #
-#SBATCH --job-name=Conv
-#SBATCH --output=output-Pierre-Conv.txt
+#SBATCH --job-name=C_B_256
+#SBATCH --output=output-Pierre-Conv-Batch256.txt
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=1
 #SBATCH --ntasks-per-node=1
