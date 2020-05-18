@@ -29,7 +29,7 @@ print(device)
 dropout = 0
 learning_rate = 0.01
 nb_epochs = 100
-batch  = 128
+batch  = 256
 
 com = "Normalized_Relu_4layers_Pooling" # additional commentary or smth
 stringName  = com + "dropout_" + str(dropout) + "_lr_" + str(learning_rate) + "_epochs_" +  str(nb_epochs) + "_batch_" + str(batch) + ".png"

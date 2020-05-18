@@ -1,7 +1,7 @@
 #!/bin/bash
 #
-#SBATCH --job-name=Pooling
-#SBATCH --output=output-Pierre-Pooling.txt
+#SBATCH --job-name=PO_B_256
+#SBATCH --output=output-Pierre-Pooling-Batch256.txt
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=1
 #SBATCH --ntasks-per-node=1
