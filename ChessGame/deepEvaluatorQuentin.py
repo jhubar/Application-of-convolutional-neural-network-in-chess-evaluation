@@ -203,10 +203,10 @@ class DeepEvaluator(Evaluator):
         return output
 
     def loadDataset(self):
-        with open("Data/chessInput-medium", "rb") as file:
+        with open("Data/chessInput", "rb") as file:
             trainInput = pickle.load(file)
 
-        with open("Data/chessOutput-medium", "rb") as file:
+        with open("Data/chessOutput", "rb") as file:
             trainOutput = pickle.load(file)
 
         # train_X, val_X, train_y, val_y = train_test_split(
@@ -224,11 +224,11 @@ class DeepEvaluator(Evaluator):
         # train_y = train_y/train_y.sum(0).expand_as(train_y)
         # train_y[torch.isnan(train_y)] = 0
 
-        train_y -= torch.min(train_y)
-        train_y /= torch.max(train_y)
+        # train_y -= torch.min(train_y)
+        # train_y /= torch.max(train_y)
 
-        train_X = train_X
-        train_y = train_y
+        train_X = train_X[:1024]
+        train_y = train_y[:1024]
 
         splitFactor = 0.9
         split = math.floor(len(train_X) * splitFactor)
@@ -267,82 +267,85 @@ if __name__ == "__main__":
 
     train_data, test_data = evaluator.loadDataset()
 
-    batch_size = 128
+    batch_size = 1024
     # print 2 times per epoch
     # print_step = len(train_data) // batch_size // 2
     print_step = 20
 
     train_loader = DataLoader(
-        dataset=train_data, batch_size=batch_size, shuffle=True, num_workers=2)
+        dataset=train_data, batch_size=batch_size, shuffle=False, num_workers=2)
 
     test_loader = DataLoader(
         dataset=test_data, batch_size=batch_size, shuffle=False, num_workers=2)
 
-    # X_batch, y_batch = next(iter(train_loader))
-    # X_test, y_test = next(iter(train_loader))
+    X_batch, y_batch = next(iter(train_loader))
+    X_test, y_test = next(iter(train_loader))
 
-    train_losses = []
-    epoch_losses = [0]
-    epochs = [0]
+    plt.plot(y_batch)
+    plt.show()
 
-    for epoch in range(evaluator.n_epochs):
-        running_loss = 0.0
-        tmp = []
+    # train_losses = []
+    # epochs = [0]
+    # epoch_losses = [1]
 
-        for i, data in enumerate(train_loader, 0):
-            X_batch, y_batch = data
-            X_batch = X_batch.to(device)
-            y_batch = y_batch.to(device)
+    # for epoch in range(evaluator.n_epochs):
+    #     running_loss = 0.0
+    #     tmp = []
 
-            loss = evaluator.train(X_batch, y_batch)
-            running_loss += loss
-        # X_batch = X_batch.to(device)
-        # y_batch = y_batch.to(device)
-        # loss = evaluator.train(epoch, X_batch, y_batch)
-            train_losses.append(loss)
-            tmp.append(loss)
+    #     for i, data in enumerate(train_loader, 0):
+    #         X_batch, y_batch = data
+    #         X_batch = X_batch.to(device)
+    #         y_batch = y_batch.to(device)
 
-            if i % print_step == print_step - 1:
-                # print("Epoch : {}\tBatch : {}\tLoss : {:.3f}".format(epoch+1, i+1, train_losses[-1]))
-                print("Epoch : {}\tBatch : {}\tLoss : {:.3f}".format(
-                    epoch+1, i+1, running_loss / print_step))
-                # train_losses.append(running_loss / print_step)
-                running_loss = 0.0
+    #         loss = evaluator.train(X_batch, y_batch)
+    #         running_loss += loss
+    #     # X_batch = X_batch.to(device)
+    #     # y_batch = y_batch.to(device)
+    #     # loss = evaluator.train(epoch, X_batch, y_batch)
+    #         train_losses.append(loss)
+    #         tmp.append(loss)
 
-        epochs.append(len(train_losses))
-        epoch_losses.append(statistics.mean(tmp))
+    #         if i % print_step == print_step - 1:
+    #             # print("Epoch : {}\tBatch : {}\tLoss : {:.3f}".format(epoch+1, i+1, train_losses[-1]))
+    #             print("Epoch : {}\tBatch : {}\tLoss : {:.3f}".format(
+    #                 epoch+1, i+1, running_loss / print_step))
+    #             # train_losses.append(running_loss / print_step)
+    #             running_loss = 0.0
 
-    # epochs = np.arange(evaluator.n_epochs)
-    # mean_num_train = len(train_losses) / len(epochs)
-    # epochs = epochs * mean_num_train
-    plt.plot(train_losses)
-    plt.plot(epochs, epoch_losses)
-    plt.savefig("Graph/deq_ds{}_bs{}_ne{}_ps{}_1".format(len(train_data),
-                                                       batch_size, evaluator.n_epochs, print_step))
-    # plt.show()
+    #     epochs.append(len(train_losses))
+    #     epoch_losses.append(statistics.mean(tmp))
 
-    mse = []
-    outs = []
-    truth = []
-    with torch.no_grad():
-        for data in test_loader:
-            X, y = data
-            X = X.to(device)
-            y = y.to(device)
-            y = y.view(-1, 1)
-            outputs = evaluator.model(X)
-            outs.extend(outputs.cpu().numpy())
-            truth.extend(y.cpu().numpy())
-            mse.append(evaluator.criterion(outputs, y).item())
+    # # epochs = np.arange(evaluator.n_epochs)
+    # # mean_num_train = len(train_losses) / len(epochs)
+    # # epochs = epochs * mean_num_train
+    # plt.plot(train_losses)
+    # plt.plot(epochs, epoch_losses)
+    # plt.savefig("Graph/deq_ds{}_bs{}_ne{}_ps{}_1".format(len(train_data),
+    #                                                    batch_size, evaluator.n_epochs, print_step))
+    # # plt.show()
 
-    print("Average mean square error of the network on the test set: {}".format(statistics.mean(mse)))
-    print("Ground truth : min = {}, max = {}, mean = {}".format(min(truth), max(truth), np.mean(truth)))
-    plt.clf()
-    plt.plot(outs[:10000], '.')
-    plt.plot(truth[:10000], '.')
-    plt.legend(['Outputs', 'Ground truth'], loc='upper right')
-    plt.savefig("Graph/deq_ds{}_bs{}_ne{}_ps{}_2".format(len(train_data),
-                                                         batch_size, evaluator.n_epochs, print_step))
+    # mse = []
+    # outs = []
+    # truth = []
+    # with torch.no_grad():
+    #     for data in test_loader:
+    #         X, y = data
+    #         X = X.to(device)
+    #         y = y.to(device)
+    #         y = y.view(-1, 1)
+    #         outputs = evaluator.model(X)
+    #         outs.extend(outputs.cpu().numpy())
+    #         truth.extend(y.cpu().numpy())
+    #         mse.append(evaluator.criterion(outputs, y).item())
 
-    torch.save(evaluator.model.state_dict(), MODELPATH)
+    # print("Average mean square error of the network on the test set: {}".format(statistics.mean(mse)))
+    # print("Ground truth : min = {}, max = {}, mean = {}".format(min(truth), max(truth), np.mean(truth)))
+    # plt.clf()
+    # plt.plot(outs[:10000], '.')
+    # plt.plot(truth[:10000], '.')
+    # plt.legend(['Outputs', 'Ground truth'], loc='upper right')
+    # plt.savefig("Graph/deq_ds{}_bs{}_ne{}_ps{}_2".format(len(train_data),
+    #                                                      batch_size, evaluator.n_epochs, print_step))
+
+    # torch.save(evaluator.model.state_dict(), MODELPATH)
     # plt.show()

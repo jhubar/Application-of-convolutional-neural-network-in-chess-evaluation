@@ -138,7 +138,8 @@ class MainWindow(QWidget):
                         # print("LastMoveScore : ", -self.lastMoveScore)
 
                         # aiMove = self.game.simpleAIMove()
-                        aiMove = self.game.deepAIMove()
+                        # aiMove = self.game.deepAIMove()
+                        aiMove = self.game.engineMove()
 
                         self.game.move(aiMove)
 
