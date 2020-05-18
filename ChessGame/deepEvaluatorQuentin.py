@@ -125,7 +125,7 @@ class DeepEvaluator(Evaluator):
         self.optimizer = SGD(self.model.parameters(), lr=0.001)
 
         # defining the number of epochs
-        self.n_epochs = 50
+        self.n_epochs = 5
         # empty list to store training losses
         # self.train_losses = []
         # empty list to store validation losses
