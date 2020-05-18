@@ -229,6 +229,7 @@ if __name__ == "__main__":
         dataset=train_data, batch_size=batch, shuffle=True)
 
     train_losses = []
+    losses = []
 
     for epoch in range(evaluator.n_epochs):
         for X_batch, y_batch in train_loader:
@@ -239,7 +240,10 @@ if __name__ == "__main__":
 
         if epoch % 1 == 0:
             print('Epoch : ', epoch+1, '\t', 'loss :', train_losses[-1])
+            losses.append(train_losses[-1])
 
-    plt.plot(train_losses, 'ro',label='Training loss')
+    plt.plot(losses,  label='Training loss')
     plt.legend()
+    plt.ylabel('MSE')
+    plt.xlabel('epochs')
     plt.savefig("Graph/"+stringName)
