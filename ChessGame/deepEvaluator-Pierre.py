@@ -27,8 +27,8 @@ device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 print(device)
 
 dropout = 0
-learning_rate = 0.05
-nb_epochs = 100
+learning_rate = 0.01
+nb_epochs = 10
 batch  = 1024
 
 com = "Relu_4layers_" # additional commentary or smth
