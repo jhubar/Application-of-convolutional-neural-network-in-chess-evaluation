@@ -282,8 +282,8 @@ if __name__ == "__main__":
     # X_test, y_test = next(iter(train_loader))
 
     train_losses = []
-    epoch_losses = []
-    epochs = []
+    epoch_losses = [0]
+    epochs = [0]
 
     for epoch in range(evaluator.n_epochs):
         running_loss = 0.0
