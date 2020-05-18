@@ -28,10 +28,10 @@ print(device)
 
 dropout = 0
 learning_rate = 0.01
-nb_epochs = 10
-batch  = 1024
+nb_epochs = 100
+batch  = 128
 
-com = "MLP_4layers_" # additional commentary or smth
+com = "Normalized_MLP_4layers_" # additional commentary or smth
 stringName  = com + "dropout_" + str(dropout) + "_lr_" + str(learning_rate) + "_epochs_" +  str(nb_epochs) + "_batch_" + str(batch) + ".png"
 
 print(" with dropout = " + str(dropout) + " and learning_rate = " + str(learning_rate) + " for " + str(nb_epochs) + " epochs " + com )
@@ -54,13 +54,13 @@ class CustomNet(Module):
 
         self.fcModel = Sequential(
             Dropout(p=dropout),
-            Linear(12*8*8, 12*8*8),
+            Linear(12*8*8, 1024),
             Dropout(p=dropout),
-            Linear(12*8*8, 500),
+            Linear(1024, 1024),
             Dropout(p=dropout),
-            Linear(500, 100),
+            Linear(1024, 128),
             Dropout(p=dropout),
-            Linear(100, 1),
+            Linear(128, 1),
             Softmax(1),
         )
         self.fcModel.apply(init_weights)
