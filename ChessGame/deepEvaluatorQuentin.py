@@ -104,15 +104,21 @@ class CustomNet(Module):
 
 
 class DeepEvaluator(Evaluator):
-    def __init__(self):
+    def __init__(self, evalMode: bool):
         self.model = CustomNet().to(device)
+
+        if evalMode:
+            self.model.load_state_dict(torch.load(
+                MODELPATH, map_location=torch.device('cpu')))
+            self.model.eval()
+        else:
         # if torch.cuda.device_count() > 1:
         #     print("Let's use", torch.cuda.device_count(), "GPUs!")
         #     # dim = 0 [30, xxx] -> [10, ...], [10, ...], [10, ...] on 3 GPUs
         #     self.model = DataParallel(self.model)
         # self.model = self.model.to(device)
         # self.model.apply(init_weights)
-        self.model.apply(weight_init)
+            self.model.apply(weight_init)
 
         # self.optimizer = Adam(self.model.parameters(), lr=0.07)
         self.criterion = MSELoss()
@@ -181,10 +187,11 @@ class DeepEvaluator(Evaluator):
         return tensor
 
     def evaluate(self, board: chess.Board):
+
         if board.turn is chess.BLACK:
             board = board.mirror()
         tensor = DeepEvaluator.boardToTensor(board)
-        self.model.load_state_dict(torch.load(MODELPATH))
+        tensor = tensor.view(1, 12, 8, 8)
 
         output = self.model(tensor)
         # model.load_state_dict(torch.load(MODELPATH))
@@ -256,7 +263,7 @@ class DeepEvaluator(Evaluator):
 
 
 if __name__ == "__main__":
-    evaluator = DeepEvaluator()
+    evaluator = DeepEvaluator(False)
 
     train_data, test_data = evaluator.loadDataset()
 

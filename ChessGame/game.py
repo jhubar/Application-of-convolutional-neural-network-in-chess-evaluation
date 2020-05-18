@@ -33,7 +33,7 @@ class Game:
         return SimpleEvaluator().evaluate(self.board)
 
     def deepAIMove(self):
-        return searchNextMove(self.board, self.depth, DeepEvaluator())
+        return searchNextMove(self.board, self.depth, DeepEvaluator(True))
 
     def engineMove(self):
         return self.engine.play(self.board, chess.engine.Limit(depth=self.depth)).move
@@ -50,5 +50,5 @@ class Game:
     def run(self):
         while not self.isGameOver():
             self.move(self.simpleAIMove())
-            self.move(self.engineMove())
+            self.move(self.deepAIMove())
         print(self.board.result())
