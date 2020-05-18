@@ -94,10 +94,10 @@ class CustomNet(Module):
         # res = res.view(50 * 2 *2, -1)
         res = res.view(-1, 50 * 2 *2)
 
-        # res = elu(self.fc1(res))
-        # res = self.fc2(res)
+        res = elu(self.fc1(res))
+        res = self.fc2(res)
 
-        res = self.fc3(res)
+        # res = self.fc3(res)
         # res = self.bn3(res)
 
         return res
@@ -203,10 +203,10 @@ class DeepEvaluator(Evaluator):
         return output
 
     def loadDataset(self):
-        with open("Data/chessInput-julien", "rb") as file:
+        with open("Data/chessInput-medium", "rb") as file:
             trainInput = pickle.load(file)
 
-        with open("Data/chessOutput-julien", "rb") as file:
+        with open("Data/chessOutput-medium", "rb") as file:
             trainOutput = pickle.load(file)
 
         # train_X, val_X, train_y, val_y = train_test_split(
