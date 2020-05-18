@@ -179,6 +179,10 @@ class DeepEvaluator(Evaluator):
         train_X.to(device)
         train_y.to(device)
 
+        #normalization of outputs
+        train_y -= torch.min(train_y)
+        train_y /= torch.max(train_y)
+
         train_data = TensorDataset(train_X, train_y)
 
         return train_data
@@ -223,20 +227,23 @@ if __name__ == "__main__":
         dataset=train_data, batch_size=batch, shuffle=True)
 
     train_losses = []
-    losses = []
+    avg_losses = []
 
     for epoch in range(evaluator.n_epochs):
+        losses = []
         for X_batch, y_batch in train_loader:
             X_batch = X_batch.to(device)
             y_batch = y_batch.to(device)
             loss = evaluator.train(epoch, X_batch, y_batch)
             train_losses.append(loss)
+            losses.append(loss)
 
         if epoch % 1 == 0:
             print('Epoch : ', epoch+1, '\t', 'loss :', train_losses[-1])
-            losses.append(train_losses[-1])
+            avg = sum(losses) / len(losses)
+            avg_losses.append(avg)
 
-    plt.plot(losses,  label='Training loss')
+    plt.plot(avg_losses,  label='Training loss')
     plt.legend()
     plt.ylabel('MSE')
     plt.xlabel('epochs')
