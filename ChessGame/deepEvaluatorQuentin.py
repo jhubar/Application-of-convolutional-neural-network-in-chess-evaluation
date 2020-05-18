@@ -94,10 +94,10 @@ class CustomNet(Module):
         # res = res.view(50 * 2 *2, -1)
         res = res.view(-1, 50 * 2 *2)
 
-        res = elu(self.fc1(res))
-        res = self.fc2(res)
+        # res = elu(self.fc1(res))
+        # res = self.fc2(res)
 
-        # res = self.fc3(res)
+        res = self.fc3(res)
         # res = self.bn3(res)
 
         return res
@@ -338,8 +338,8 @@ if __name__ == "__main__":
     print("Average mean square error of the network on the test set: {}".format(statistics.mean(mse)))
     print("Ground truth : min = {}, max = {}, mean = {}".format(min(truth), max(truth), np.mean(truth)))
     plt.clf()
-    plt.plot(outs[:50000], '.')
-    plt.plot(truth[:50000], '.')
+    plt.plot(outs[:10000], '.')
+    plt.plot(truth[:10000], '.')
     plt.legend(['Outputs', 'Ground truth'], loc='upper right')
     plt.savefig("Graph/deq_ds{}_bs{}_ne{}_ps{}_2".format(len(train_data),
                                                          batch_size, evaluator.n_epochs, print_step))
