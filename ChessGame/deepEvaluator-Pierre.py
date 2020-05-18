@@ -29,7 +29,7 @@ print(device)
 dropout = 0
 learning_rate = 0.01
 nb_epochs = 100
-batch  = 1024
+batch  = 128
 
 com = "Normalized_Relu_4layers_" # additional commentary or smth
 stringName  = com + "dropout_" + str(dropout) + "_lr_" + str(learning_rate) + "_epochs_" +  str(nb_epochs) + "_batch_" + str(batch) + ".png"
@@ -249,4 +249,4 @@ if __name__ == "__main__":
     plt.legend()
     plt.ylabel('MSE')
     plt.xlabel('epochs')
-    plt.savefig("Graph/"+stringName)
+    plt.savefig("Graph/Normalized_Pierre/"+stringName)
