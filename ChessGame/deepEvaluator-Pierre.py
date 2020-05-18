@@ -27,9 +27,9 @@ device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 print(device)
 
 dropout = 0
-learning_rate = 0.05
-nb_epochs = 100
-batch  = 128
+learning_rate = 0.01
+nb_epochs = 10
+batch  = 1024
 
 com = "Relu_4layers_" # additional commentary or smth
 stringName  = com + "dropout_" + str(dropout) + "_lr_" + str(learning_rate) + "_epochs_" +  str(nb_epochs) + "_batch_" + str(batch) + ".png"
@@ -223,6 +223,7 @@ if __name__ == "__main__":
         dataset=train_data, batch_size=batch, shuffle=True)
 
     train_losses = []
+    losses = []
 
     for epoch in range(evaluator.n_epochs):
         for X_batch, y_batch in train_loader:
@@ -233,7 +234,10 @@ if __name__ == "__main__":
 
         if epoch % 1 == 0:
             print('Epoch : ', epoch+1, '\t', 'loss :', train_losses[-1])
+            losses.append(train_losses[-1])
 
-    plt.plot(train_losses, 'ro', label='Training loss')
+    plt.plot(losses,  label='Training loss')
     plt.legend()
+    plt.ylabel('MSE')
+    plt.xlabel('epochs')
     plt.savefig("Graph/"+stringName)

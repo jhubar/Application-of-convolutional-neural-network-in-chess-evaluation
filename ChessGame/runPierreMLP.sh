@@ -1,7 +1,7 @@
 #!/bin/bash
 #
 #SBATCH --job-name=MLP
-#SBATCH --output=output-Pierre-MLP-lr005.txt
+#SBATCH --output=output-Pierre-MLP-test.txt
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=1
 #SBATCH --ntasks-per-node=1
