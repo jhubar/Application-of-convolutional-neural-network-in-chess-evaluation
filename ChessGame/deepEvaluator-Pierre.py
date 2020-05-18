@@ -68,9 +68,11 @@ class CustomNet(Module):
 
         self.fcModel = Sequential(
             Dropout(p=dropout),
-            Linear(60*12*12, 100),
+            Linear(60*12*12, 2048),
             Dropout(p=dropout),
-            Linear(100, 1),
+            Linear(2048, 128),
+            Dropout(p=dropout),
+            Linear(128, 1),
             Softmax(1),
         )
         self.fcModel.apply(init_weights)
