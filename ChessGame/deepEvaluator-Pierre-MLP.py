@@ -26,12 +26,12 @@ device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 # device = 'cpu'
 print(device)
 
-dropout = 0.3
-learning_rate = 0.01
+dropout = 0
+learning_rate = 0.05
 nb_epochs = 100
 batch  = 128
 
-com = "MLP_7layers_" # additional commentary or smth
+com = "MLP_4layers_" # additional commentary or smth
 stringName  = com + "dropout_" + str(dropout) + "_lr_" + str(learning_rate) + "_epochs_" +  str(nb_epochs) + "_batch_" + str(batch) + ".png"
 
 print(" with dropout = " + str(dropout) + " and learning_rate = " + str(learning_rate) + " for " + str(nb_epochs) + " epochs " + com )
@@ -58,15 +58,9 @@ class CustomNet(Module):
             Dropout(p=dropout),
             Linear(12*8*8, 500),
             Dropout(p=dropout),
-            Linear(500, 300),
+            Linear(500, 100),
             Dropout(p=dropout),
-            Linear(300, 100),
-            Dropout(p=dropout),
-            Linear(100, 50),
-            Dropout(p=dropout),
-            Linear(50, 10),
-            Dropout(p=dropout),
-            Linear(10, 1),
+            Linear(100, 1),
             Softmax(1),
         )
         self.fcModel.apply(init_weights)
@@ -161,10 +155,10 @@ class DeepEvaluator(Evaluator):
         pass
 
     def loadDataset(self):
-        with open("Data/chessInput-julien", "rb") as file:
+        with open("Data/chessInput-medium", "rb") as file:
             trainInput = pickle.load(file)
 
-        with open("Data/chessOutput-julien", "rb") as file:
+        with open("Data/chessOutput-medium", "rb") as file:
             trainOutput = pickle.load(file)
 
         # train_X, val_X, train_y, val_y = train_test_split(
@@ -231,5 +225,6 @@ if __name__ == "__main__":
         if epoch % 1 == 0:
             print('Epoch : ', epoch+1, '\t', 'loss :', train_losses[-1])
 
-    plt.plot(train_losses)
+    plt.plot(train_losses,'ro', label='Training loss')
+    plt.legend()
     plt.savefig("Graph/"+stringName)
