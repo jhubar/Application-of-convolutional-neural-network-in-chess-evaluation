@@ -336,7 +336,7 @@ if __name__ == "__main__":
             mse.append(evaluator.criterion(outputs, y).item())
 
     print("Average mean square error of the network on the test set: {}".format(statistics.mean(mse)))
-    print("Ground truth : min = {}, max = {}, mean = {}".format(min(truth), max(truth), statistics.mean(truth)))
+    print("Ground truth : min = {}, max = {}, mean = {}".format(min(truth), max(truth), np.mean(truth)))
     plt.clf()
     plt.plot(outs, '.')
     plt.plot(truth, '.')
