@@ -338,8 +338,8 @@ if __name__ == "__main__":
     print("Average mean square error of the network on the test set: {}".format(statistics.mean(mse)))
     print("Ground truth : min = {}, max = {}, mean = {}".format(min(truth), max(truth), np.mean(truth)))
     plt.clf()
-    plt.plot(outs, '.')
-    plt.plot(truth, '.')
+    plt.plot(outs[:50000], '.')
+    plt.plot(truth[:50000], '.')
     plt.legend(['Outputs', 'Ground truth'], loc='upper right')
     plt.savefig("Graph/deq_ds{}_bs{}_ne{}_ps{}_2".format(len(train_data),
                                                          batch_size, evaluator.n_epochs, print_step))
