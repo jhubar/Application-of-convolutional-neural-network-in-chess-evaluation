@@ -1,7 +1,7 @@
 #!/bin/bash
 #
-#SBATCH --job-name=FCB256
-#SBATCH --output=output-Pierre-MLPBatch256.txt
+#SBATCH --job-name=FCB512
+#SBATCH --output=output-Pierre-MLPBatch512.txt
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=1
 #SBATCH --ntasks-per-node=1
