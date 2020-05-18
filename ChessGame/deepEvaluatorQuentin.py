@@ -125,7 +125,7 @@ class DeepEvaluator(Evaluator):
         self.optimizer = SGD(self.model.parameters(), lr=0.001)
 
         # defining the number of epochs
-        self.n_epochs = 5
+        self.n_epochs = 2
         # empty list to store training losses
         # self.train_losses = []
         # empty list to store validation losses
@@ -283,6 +283,7 @@ if __name__ == "__main__":
 
     train_losses = []
     epoch_losses = []
+    epochs = []
 
     for epoch in range(evaluator.n_epochs):
         running_loss = 0.0
@@ -308,11 +309,12 @@ if __name__ == "__main__":
                 # train_losses.append(running_loss / print_step)
                 running_loss = 0.0
 
+        epochs.append(len(train_losses))
         epoch_losses.append(statistics.mean(tmp))
 
-    epochs = np.arange(evaluator.n_epochs)
-    mean_num_train = len(train_losses) / len(epochs)
-    epochs = epochs * mean_num_train
+    # epochs = np.arange(evaluator.n_epochs)
+    # mean_num_train = len(train_losses) / len(epochs)
+    # epochs = epochs * mean_num_train
     plt.plot(train_losses)
     plt.plot(epochs, epoch_losses)
     plt.savefig("Graph/deq_ds{}_bs{}_ne{}_ps{}_1".format(len(train_data),
@@ -322,25 +324,22 @@ if __name__ == "__main__":
     mse = []
     outs = []
     truth = []
-    mean = []
     with torch.no_grad():
         for data in test_loader:
             X, y = data
             X = X.to(device)
             y = y.to(device)
             y = y.view(-1, 1)
-            mean.append(torch.mean(y).item())
             outputs = evaluator.model(X)
             outs.extend(outputs.cpu().numpy())
             truth.extend(y.cpu().numpy())
             mse.append(evaluator.criterion(outputs, y).item())
 
-    print("Average mean square error of the network on the test set: {:.2%}, {}".format(
-        statistics.mean(mse), statistics.mean(mse)))
-    print("Ground truth : min = {}, max = {}, mean = {}".format(min(truth), max(truth), statistics.mean(mean)))
+    print("Average mean square error of the network on the test set: {}".format(statistics.mean(mse)))
+    print("Ground truth : min = {}, max = {}, mean = {}".format(min(truth), max(truth), statistics.mean(truth)))
     plt.clf()
-    plt.plot(outs)
-    plt.plot(truth)
+    plt.plot(outs, '.')
+    plt.plot(truth, '.')
     plt.legend(['Outputs', 'Ground truth'], loc='upper right')
     plt.savefig("Graph/deq_ds{}_bs{}_ne{}_ps{}_2".format(len(train_data),
                                                          batch_size, evaluator.n_epochs, print_step))
