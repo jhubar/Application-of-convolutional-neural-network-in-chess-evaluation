@@ -203,10 +203,10 @@ class DeepEvaluator(Evaluator):
         return output
 
     def loadDataset(self):
-        with open("Data/chessInput", "rb") as file:
+        with open("Data/DS2800K-Input32", "rb") as file:
             trainInput = pickle.load(file)
 
-        with open("Data/chessOutput", "rb") as file:
+        with open("Data/DS2800K-output32", "rb") as file:
             trainOutput = pickle.load(file)
 
         # train_X, val_X, train_y, val_y = train_test_split(
@@ -227,8 +227,8 @@ class DeepEvaluator(Evaluator):
         # train_y -= torch.min(train_y)
         # train_y /= torch.max(train_y)
 
-        train_X = train_X[:1024]
-        train_y = train_y[:1024]
+        train_X = train_X
+        train_y = train_y
 
         splitFactor = 0.9
         split = math.floor(len(train_X) * splitFactor)
