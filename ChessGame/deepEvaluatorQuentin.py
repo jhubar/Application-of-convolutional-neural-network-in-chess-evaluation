@@ -285,9 +285,11 @@ if __name__ == "__main__":
     test_loader = DataLoader(
         dataset=test_data, batch_size=batch_size, shuffle=False, num_workers=2)
 
-    # X_batch, y_batch = next(iter(train_loader))
-    # X_test, y_test = next(iter(train_loader))
+    X_batch, y_batch = next(iter(train_loader))
+    X_test, y_test = next(iter(train_loader))
 
+    plt.plot(y_batch)
+    plt.savefig("Graph/out_viz")
 
     train_losses = []
     epochs = [0]
