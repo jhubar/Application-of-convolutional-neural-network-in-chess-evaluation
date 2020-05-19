@@ -40,7 +40,7 @@ def weight_init(m):
 
 def weight_init_2(m):
     if isinstance(m, Conv2d):
-        kaiming_normal_(m.weight, mode='fan_out', nonlinearity='relu')
+        kaiming_normal_(m.weight, nonlinearity='relu')
         zeros_(m.bias)
 
 
@@ -87,11 +87,11 @@ class CustomNet(Module):
         # # xflat = xconv.flatten()
         # xflat = xconv.view(xconv.size(0), -1)
         # res = self.fcModel(xflat)
-        res = elu(self.conv1(x))
+        res = relu(self.conv1(x))
         res = self.bn1(res)
         res = self.drop(res)
 
-        res = elu(self.conv2(res))
+        res = relu(self.conv2(res))
         res = self.bn2(res)
         res = self.drop(res)
 
