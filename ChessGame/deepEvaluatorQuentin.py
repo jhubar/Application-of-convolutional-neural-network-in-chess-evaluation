@@ -127,7 +127,7 @@ class DeepEvaluator(Evaluator):
 
         # self.optimizer = Adam(self.model.parameters(), lr=0.07)
         self.criterion = MSELoss()
-        self.optimizer = SGD(self.model.parameters(), lr=0.001)
+        self.optimizer = SGD(self.model.parameters(), lr=0.01)
 
         # defining the number of epochs
         self.n_epochs = 3
@@ -290,6 +290,7 @@ if __name__ == "__main__":
 
     plt.plot(y_batch)
     plt.savefig("Graph/out_viz")
+    plt.clf()
 
     train_losses = []
     epochs = [0]
