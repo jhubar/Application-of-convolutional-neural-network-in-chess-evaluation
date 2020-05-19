@@ -40,7 +40,7 @@ def weight_init(m):
 
 def weight_init_2(m):
     if isinstance(m, Conv2d) or isinstance(m, Linear):
-        kaiming_normal_(m.weight, nonlinearity='relu')
+        kaiming_normal_(m.weight, mode='fan_out', nonlinearity='relu')
         zeros_(m.bias)
 
 
