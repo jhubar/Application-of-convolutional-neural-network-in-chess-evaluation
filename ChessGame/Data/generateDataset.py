@@ -90,7 +90,7 @@ if __name__ == "__main__":
 
     X, y = loadData(isWindows)
 
-    save(X, "chessInput-2019-32")
-    save(y, "chessOutput-2019-32")
+    save(X, "DS2800K-Input32767")
+    save(y, "DS2800K-output32767")
 
     print("Completed. {} states have been generated\n".format(len(X)))
