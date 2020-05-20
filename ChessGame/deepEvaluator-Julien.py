@@ -99,10 +99,10 @@ class CustomNet(Module):
         # res = res.view(50 * 2 *2, -1)
         res = res.view(-1, 50 * 2 *2)
 
-        res = softmax(self.fc1(res))
-        res = self.fc2(res)
+        # res = softmax(self.fc1(res))
+        # res = self.fc2(res)
 
-        # res = self.fc3(res)
+        res = self.fc3(res)
         # res = self.bn3(res)
 
         return res
