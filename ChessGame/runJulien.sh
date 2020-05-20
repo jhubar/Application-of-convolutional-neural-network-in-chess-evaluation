@@ -1,8 +1,7 @@
 #!/bin/bash
 #
 #SBATCH --job-name=Chess-deepEvaluator-Quentin
-#SBATCH --output=output-Quentin-medium.txt
-#SBATCH --mail-type=END,FAIL         # Mail events (NONE, BEGIN, END, FAIL, ALL)
+#SBATCH --output=output-julien-2048.txt
 #SBATCH --mail-user=julien1941@live.be
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=1
