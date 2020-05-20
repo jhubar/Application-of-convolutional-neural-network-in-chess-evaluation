@@ -39,7 +39,7 @@ class Game:
         return self.engine.play(self.board, chess.engine.Limit(depth=self.depth)).move
 
     def engineScore(self):
-        return self.engine.analyse(self.board, chess.engine.Limit(depth=self.depth))["score"]
+        return self.engine.analyse(self.board, chess.engine.Limit(depth=self.depth))["score"].white().score(mate_score=32767)
 
     def isGameOver(self):
         return self.board.is_game_over()

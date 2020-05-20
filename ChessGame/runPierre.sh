@@ -1,7 +1,7 @@
 #!/bin/bash
 #
-#SBATCH --job-name=Conv
-#SBATCH --output=output-Pierre-Conv-test.txt
+#SBATCH --job-name=C_B_512
+#SBATCH --output=output-Pierre-Conv-Batch512.txt
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=1
 #SBATCH --ntasks-per-node=1

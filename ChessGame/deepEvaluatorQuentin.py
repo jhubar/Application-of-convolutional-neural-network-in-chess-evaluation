@@ -17,8 +17,8 @@ import numpy as np
 
 import torch
 from torch.nn import Linear, Sequential, ReLU, Conv2d, BatchNorm1d, BatchNorm2d, Module, MSELoss, ELU, Softmax, Dropout, DataParallel
-from torch.nn.functional import elu, relu
-from torch.nn.init import xavier_uniform_, zeros_, calculate_gain
+from torch.nn.functional import elu, relu, softmax
+from torch.nn.init import xavier_uniform_, zeros_, calculate_gain, kaiming_normal_
 from torch.optim import Adam, SGD
 from torch.utils.data import TensorDataset, DataLoader
 from torchvision.transforms import Compose, Normalize
@@ -36,6 +36,11 @@ MODELPATH = "./deqModel.pth"
 def weight_init(m):
     if isinstance(m, Conv2d) or isinstance(m, Linear):
         xavier_uniform_(m.weight, gain=calculate_gain('relu'))
+        zeros_(m.bias)
+
+def weight_init_2(m):
+    if isinstance(m, Conv2d):
+        kaiming_normal_(m.weight, nonlinearity='relu')
         zeros_(m.bias)
 
 
@@ -94,10 +99,10 @@ class CustomNet(Module):
         # res = res.view(50 * 2 *2, -1)
         res = res.view(-1, 50 * 2 *2)
 
-        # res = elu(self.fc1(res))
-        # res = self.fc2(res)
+        res = softmax(self.fc1(res))
+        res = self.fc2(res)
 
-        res = self.fc3(res)
+        # res = self.fc3(res)
         # res = self.bn3(res)
 
         return res
@@ -118,14 +123,14 @@ class DeepEvaluator(Evaluator):
         #     self.model = DataParallel(self.model)
         # self.model = self.model.to(device)
         # self.model.apply(init_weights)
-            self.model.apply(weight_init)
+            self.model.apply(weight_init_2)
 
         # self.optimizer = Adam(self.model.parameters(), lr=0.07)
         self.criterion = MSELoss()
-        self.optimizer = SGD(self.model.parameters(), lr=0.001)
+        self.optimizer = SGD(self.model.parameters(), lr=0.01)
 
         # defining the number of epochs
-        self.n_epochs = 2
+        self.n_epochs = 3
         # empty list to store training losses
         # self.train_losses = []
         # empty list to store validation losses
@@ -203,10 +208,12 @@ class DeepEvaluator(Evaluator):
         return output
 
     def loadDataset(self):
-        with open("Data/chessInput-medium", "rb") as file:
+        # with open("Data/chessInput-2019-32", "rb") as file:
+        with open("Data/DS2800K-Input32", "rb") as file:
             trainInput = pickle.load(file)
 
-        with open("Data/chessOutput-medium", "rb") as file:
+        # with open("Data/chessOutput-2019-32", "rb") as file:
+        with open("Data/DS2800K-output32", "rb") as file:
             trainOutput = pickle.load(file)
 
         # train_X, val_X, train_y, val_y = train_test_split(
@@ -227,8 +234,8 @@ class DeepEvaluator(Evaluator):
         train_y -= torch.min(train_y)
         train_y /= torch.max(train_y)
 
-        train_X = train_X
-        train_y = train_y
+        # train_X = train_X[:32768]
+        # train_y = train_y[:32768]
 
         splitFactor = 0.9
         split = math.floor(len(train_X) * splitFactor)
@@ -278,12 +285,16 @@ if __name__ == "__main__":
     test_loader = DataLoader(
         dataset=test_data, batch_size=batch_size, shuffle=False, num_workers=2)
 
-    # X_batch, y_batch = next(iter(train_loader))
-    # X_test, y_test = next(iter(train_loader))
+    X_batch, y_batch = next(iter(train_loader))
+    X_test, y_test = next(iter(train_loader))
+
+    plt.plot(y_batch)
+    plt.savefig("Graph/out_viz")
+    plt.clf()
 
     train_losses = []
-    epoch_losses = [0]
     epochs = [0]
+    epoch_losses = []
 
     for epoch in range(evaluator.n_epochs):
         running_loss = 0.0
@@ -301,6 +312,9 @@ if __name__ == "__main__":
         # loss = evaluator.train(epoch, X_batch, y_batch)
             train_losses.append(loss)
             tmp.append(loss)
+
+            if i == 0 and epoch == 0:
+                epoch_losses.append(loss)
 
             if i % print_step == print_step - 1:
                 # print("Epoch : {}\tBatch : {}\tLoss : {:.3f}".format(epoch+1, i+1, train_losses[-1]))
@@ -338,8 +352,8 @@ if __name__ == "__main__":
     print("Average mean square error of the network on the test set: {}".format(statistics.mean(mse)))
     print("Ground truth : min = {}, max = {}, mean = {}".format(min(truth), max(truth), np.mean(truth)))
     plt.clf()
-    plt.plot(outs[:10000], '.')
-    plt.plot(truth[:10000], '.')
+    plt.plot(outs[:1000], '.')
+    plt.plot(truth[:1000], '.')
     plt.legend(['Outputs', 'Ground truth'], loc='upper right')
     plt.savefig("Graph/deq_ds{}_bs{}_ne{}_ps{}_2".format(len(train_data),
                                                          batch_size, evaluator.n_epochs, print_step))
