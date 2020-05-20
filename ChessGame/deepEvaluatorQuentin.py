@@ -17,7 +17,7 @@ import numpy as np
 
 import torch
 from torch.nn import Linear, Sequential, ReLU, Conv2d, BatchNorm1d, BatchNorm2d, Module, MSELoss, ELU, Softmax, Dropout, DataParallel
-from torch.nn.functional import elu, relu
+from torch.nn.functional import elu, relu, softmax
 from torch.nn.init import xavier_uniform_, zeros_, calculate_gain, kaiming_normal_
 from torch.optim import Adam, SGD
 from torch.utils.data import TensorDataset, DataLoader
@@ -99,7 +99,7 @@ class CustomNet(Module):
         # res = res.view(50 * 2 *2, -1)
         res = res.view(-1, 50 * 2 *2)
 
-        res = elu(self.fc1(res))
+        res = softmax(self.fc1(res))
         res = self.fc2(res)
 
         # res = self.fc3(res)
