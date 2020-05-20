@@ -87,12 +87,10 @@ class CustomNet(Module):
         # # xflat = xconv.flatten()
         # xflat = xconv.view(xconv.size(0), -1)
         # res = self.fcModel(xflat)
-        res = elu(self.conv1(x))
-        res = self.bn1(res)
+        res = elu(self.bn1(self.conv1(x)))
         res = self.drop(res)
 
-        res = elu(self.conv2(res))
-        res = self.bn2(res)
+        res = elu(self.bn2(self.conv2(res)))
         res = self.drop(res)
 
         # res = res.view(-1, 50 * 2 * 2)
