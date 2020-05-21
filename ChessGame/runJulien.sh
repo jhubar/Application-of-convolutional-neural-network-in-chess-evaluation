@@ -1,7 +1,7 @@
 #!/bin/bash
 #
 #SBATCH --job-name=Chess-deepEvaluator-Quentin
-#SBATCH --output=output-julien-2048.txt
+#SBATCH --output=output-julien-10K.txt
 #SBATCH --mail-user=julien1941@live.be
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=1

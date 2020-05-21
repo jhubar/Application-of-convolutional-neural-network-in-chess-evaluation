@@ -209,11 +209,11 @@ class DeepEvaluator(Evaluator):
 
     def loadDataset(self):
         # with open("Data/chessInput-2019-32", "rb") as file:
-        with open("Data/DS2800K-Input2048", "rb") as file:
+        with open("Data/DS2800K-Input10", "rb") as file:
             trainInput = pickle.load(file)
 
         # with open("Data/chessOutput-2019-32", "rb") as file:
-        with open("Data/DS2800K-output2048", "rb") as file:
+        with open("Data/DS2800K-output10", "rb") as file:
             trainOutput = pickle.load(file)
 
         # train_X, val_X, train_y, val_y = train_test_split(
