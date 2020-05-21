@@ -30,7 +30,7 @@ device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 # device = 'cpu'
 # print(device)
 
-MODELPATH = "./deqModel.pth"
+MODELPATH = "./deqModelDS2800K32.pth"
 
 
 def weight_init(m):
@@ -83,16 +83,10 @@ class CustomNet(Module):
         # )
 
     def forward(self, x):
-        # xconv = self.cnnModel(x)
-        # # xflat = xconv.flatten()
-        # xflat = xconv.view(xconv.size(0), -1)
-        # res = self.fcModel(xflat)
-        res = elu(self.conv1(x))
-        res = self.bn1(res)
+        res = elu(self.bn1(self.conv1(x)))
         res = self.drop(res)
 
-        res = elu(self.conv2(res))
-        res = self.bn2(res)
+        res = elu(self.bn2(self.conv2(res)))
         res = self.drop(res)
 
         # res = res.view(-1, 50 * 2 * 2)
@@ -130,7 +124,7 @@ class DeepEvaluator(Evaluator):
         self.optimizer = SGD(self.model.parameters(), lr=0.01)
 
         # defining the number of epochs
-        self.n_epochs = 3
+        self.n_epochs = 2
         # empty list to store training losses
         # self.train_losses = []
         # empty list to store validation losses
@@ -208,12 +202,12 @@ class DeepEvaluator(Evaluator):
         return output
 
     def loadDataset(self):
-        # with open("Data/chessInput-2019-32", "rb") as file:
-        with open("Data/DS2800K-Input2048", "rb") as file:
+        with open("Data/DS2800K-Input32", "rb") as file:
+        # with open("Data/DS2800K-Input32", "rb") as file:
             trainInput = pickle.load(file)
 
-        # with open("Data/chessOutput-2019-32", "rb") as file:
-        with open("Data/DS2800K-output2048", "rb") as file:
+        with open("Data/DS2800K-output32", "rb") as file:
+        # with open("Data/DS2800K-output32", "rb") as file:
             trainOutput = pickle.load(file)
 
         # train_X, val_X, train_y, val_y = train_test_split(
@@ -226,16 +220,11 @@ class DeepEvaluator(Evaluator):
         train_X.to(device)
         train_y.to(device)
 
-        # train_y = (train_y - torch.mean(train_y)) / torch.std(train_y)
-
-        # train_y = train_y/train_y.sum(0).expand_as(train_y)
-        # train_y[torch.isnan(train_y)] = 0
-
         train_y -= torch.min(train_y)
         train_y /= torch.max(train_y)
 
-        # train_X = train_X[:32768]
-        # train_y = train_y[:32768]
+        train_X = train_X
+        train_y = train_y
 
         splitFactor = 0.9
         split = math.floor(len(train_X) * splitFactor)
@@ -284,13 +273,6 @@ if __name__ == "__main__":
 
     test_loader = DataLoader(
         dataset=test_data, batch_size=batch_size, shuffle=False, num_workers=2)
-
-    X_batch, y_batch = next(iter(train_loader))
-    X_test, y_test = next(iter(train_loader))
-
-    plt.plot(y_batch)
-    plt.savefig("Graph/out_viz")
-    plt.clf()
 
     train_losses = []
     epochs = [0]
