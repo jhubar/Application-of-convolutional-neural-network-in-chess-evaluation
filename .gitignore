@@ -16,7 +16,7 @@ ChessGame/chessOutput2014
 ChessGame/chessInput2015
 ChessGame/chessOutput2015
 ChessGame/Data/*.pgn
-ChessGame/Data/ 
+ChessGame/Data/
 ChessGame/Graph
 ChessGame/OldGraphs
 ChessGame/Data/chessInput-julien
