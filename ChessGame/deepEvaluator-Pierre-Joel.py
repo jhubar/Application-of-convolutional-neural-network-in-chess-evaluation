@@ -28,7 +28,7 @@ print(device)
 
 dropout = 0.3
 learning_rate = 0.01
-nb_epochs = 50
+nb_epochs = 20
 batch  = 128
 
 com = "JoelArchi_" # additional commentary or smth
