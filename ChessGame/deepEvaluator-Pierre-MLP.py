@@ -28,7 +28,7 @@ print(device)
 
 dropout = 0
 learning_rate = 0.01
-nb_epochs = 100
+nb_epochs = 10
 batch  = 512
 
 com = "Normalized_MLP_4layers_" # additional commentary or smth
@@ -155,10 +155,10 @@ class DeepEvaluator(Evaluator):
         pass
 
     def loadDataset(self):
-        with open("Data/chessInput-medium", "rb") as file:
+        with open("Data/DS2800K-Input2048", "rb") as file:
             trainInput = pickle.load(file)
 
-        with open("Data/chessOutput-medium", "rb") as file:
+        with open("Data/DS2800K-output2048", "rb") as file:
             trainOutput = pickle.load(file)
 
         # train_X, val_X, train_y, val_y = train_test_split(

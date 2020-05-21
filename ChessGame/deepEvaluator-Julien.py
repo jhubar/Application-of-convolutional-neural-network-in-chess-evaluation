@@ -30,7 +30,7 @@ device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 # device = 'cpu'
 # print(device)
 
-MODELPATH = "./deqModelDS2800K32.pth"
+MODELPATH = "./deqModelDS2048-3.pth"
 
 
 def weight_init(m):
@@ -202,11 +202,11 @@ class DeepEvaluator(Evaluator):
         return output
 
     def loadDataset(self):
-        with open("Data/DS2800K-Input32", "rb") as file:
+        with open("Data/DS4200K2048-input", "rb") as file:
         # with open("Data/DS2800K-Input32", "rb") as file:
             trainInput = pickle.load(file)
 
-        with open("Data/DS2800K-output32", "rb") as file:
+        with open("Data/DS4200K2048-output", "rb") as file:
         # with open("Data/DS2800K-output32", "rb") as file:
             trainOutput = pickle.load(file)
 
