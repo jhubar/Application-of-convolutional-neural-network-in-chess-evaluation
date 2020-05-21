@@ -1,7 +1,6 @@
 import sys
 import argparse
 
-# import asyncio
 import chess
 import chess.svg
 import chess.engine
