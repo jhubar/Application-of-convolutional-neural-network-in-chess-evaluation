@@ -10,11 +10,10 @@ from stockfishEvaluator import StockfishEvaluator
 from deepEvaluator import DeepEvaluator
 
 
-def loadData(isWindows: bool):
+def loadData():
     """
     Loads the data from a pgn file
     """
-    # filePath = "2010_896221.pgn"
     filePath = "2010_896221.pgn"
 
     with open(filePath) as pgn:
@@ -40,7 +39,7 @@ def loadData(isWindows: bool):
     X = []
     y = []
 
-    stockfish = StockfishEvaluator(isWindows)
+    stockfish = StockfishEvaluator()
 
     for game in games:
         node = game.end()
@@ -76,19 +75,10 @@ if __name__ == "__main__":
     # Create argument parser
     parser = argparse.ArgumentParser(description="Arguments of the Chess Game")
 
-    # Windows mode
-    parser.add_argument("-w",
-                        "--windows",
-                        action="store_true",
-                        help="Flags for windows user")
-
     # Fetch arguments
     args = parser.parse_args()
 
-    # Extract depth
-    isWindows = args.windows
-
-    X, y = loadData(isWindows)
+    X, y = loadData()
 
     save(X, "DS4200K3500-input")
     save(y, "DS4200K3500-output")

@@ -3,25 +3,22 @@ import chess.engine
 
 from evaluator import Evaluator
 from simpleEvaluator import SimpleEvaluator
-from deepEvaluatorQuentin import DeepEvaluator
+from deepEvaluator import DeepEvaluator
 from stockfishEvaluator import StockfishEvaluator
 
 from minimax import searchNextMove
 
 STOCKFISH_PATH = "stockfish"
-STOCKFISH_PATH_WINDOWS = "C:\\Users\\diveb\\Downloads\\stockfish-11-win\\stockfish-11-win\\Windows\\stockfish_20011801_x64.exe"
 
 class Game:
-    def __init__(self, depth: int, isWindows: bool):
+    def __init__(self, depth: int):
         self.depth = depth
 
         self.board = chess.Board()
 
-        if isWindows:
-            self.engine = chess.engine.SimpleEngine.popen_uci(
-                STOCKFISH_PATH_WINDOWS)
-        else:
-            self.engine = chess.engine.SimpleEngine.popen_uci(STOCKFISH_PATH)
+        self.engine = chess.engine.SimpleEngine.popen_uci(STOCKFISH_PATH)
+
+        self.stockfish = StockfishEvaluator()
 
         self.answer = True
 
@@ -48,7 +45,7 @@ class Game:
 
     def quit(self):
         self.engine.quit()
-        # self.stockfish.quit()
+        self.stockfish.quit()
 
     def run(self):
         while not self.isGameOver():

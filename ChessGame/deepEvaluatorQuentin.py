@@ -25,20 +25,11 @@ from torchvision.transforms import Compose, Normalize
 
 from evaluator import Evaluator
 
-#device = 'cuda' if torch.cuda.is_available() else 'cpu'
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-# device = 'cpu'
-# print(device)
 
 MODELPATH = "./deqModel.pth"
 
-
 def weight_init(m):
-    if isinstance(m, Conv2d) or isinstance(m, Linear):
-        xavier_uniform_(m.weight, gain=calculate_gain('relu'))
-        zeros_(m.bias)
-
-def weight_init_2(m):
     if isinstance(m, Conv2d):
         kaiming_normal_(m.weight, nonlinearity='relu')
         zeros_(m.bias)
@@ -51,36 +42,12 @@ class CustomNet(Module):
         self.conv1 = Conv2d(12, 20, 5)
         self.conv2 = Conv2d(20, 50, 3)
 
-        # self.fc1 = Linear(50 * 2 * 2, 1)
-        self.fc1 = Linear(50 * 2 * 2, 500)
-        self.fc2 = Linear(500, 1)
-        self.fc3 = Linear(200, 1)
+        self.fc = Linear(50 * 2 * 2, 1)
 
         self.bn1 = BatchNorm2d(20)
         self.bn2 = BatchNorm2d(50)
-        self.bn3 = BatchNorm1d(500)
 
         self.drop = Dropout(0.3)
-
-        # self.cnnModel = Sequential(
-        #     # First layer
-        #     Conv2d(12, 20, kernel_size=5, stride=1, padding=0),
-        #     BatchNorm2d(20),
-        #     Dropout(p=0.3),
-        #     ELU(),
-        #     # Second layer
-        #     Conv2d(20, 50, kernel_size=3, stride=1, padding=0),
-        #     BatchNorm2d(50),
-        #     Dropout(p=0.3),
-        #     ELU(),
-        # )
-
-        # self.fcModel = Sequential(
-        #     Dropout(p=0.3),
-        #     BatchNorm1d(200),
-        #     Linear(200, 1),
-        #     # Softmax(1),
-        # )
 
     def forward(self, x):
         res = elu(self.bn1(self.conv1(x)))
@@ -89,15 +56,9 @@ class CustomNet(Module):
         res = elu(self.bn2(self.conv2(res)))
         res = self.drop(res)
 
-        # res = res.view(-1, 50 * 2 * 2)
-        # res = res.view(50 * 2 *2, -1)
         res = res.view(-1, 50 * 2 *2)
 
-        # res = softmax(self.fc1(res))
-        # res = self.fc2(res)
-
-        res = self.fc3(res)
-        # res = self.bn3(res)
+        res = self.fc(res)
 
         return res
 
@@ -111,24 +72,13 @@ class DeepEvaluator(Evaluator):
                 MODELPATH, map_location=torch.device('cpu')))
             self.model.eval()
         else:
-        # if torch.cuda.device_count() > 1:
-        #     print("Let's use", torch.cuda.device_count(), "GPUs!")
-        #     # dim = 0 [30, xxx] -> [10, ...], [10, ...], [10, ...] on 3 GPUs
-        #     self.model = DataParallel(self.model)
-        # self.model = self.model.to(device)
-        # self.model.apply(init_weights)
-            self.model.apply(weight_init_2)
+            self.model.apply(weight_init)
 
-        # self.optimizer = Adam(self.model.parameters(), lr=0.07)
         self.criterion = MSELoss()
         self.optimizer = SGD(self.model.parameters(), lr=0.01)
 
         # defining the number of epochs
         self.n_epochs = 2
-        # empty list to store training losses
-        # self.train_losses = []
-        # empty list to store validation losses
-        # self.val_losses = []
 
     @staticmethod
     def boardToTensor(board):
@@ -193,9 +143,8 @@ class DeepEvaluator(Evaluator):
         tensor = tensor.view(1, 12, 8, 8)
 
         output = self.model(tensor)
-        # model.load_state_dict(torch.load(MODELPATH))
-        # return model.eval(tensor)
         output = output.item()
+
         if board.turn is chess.BLACK:
             output = -output
 
@@ -205,16 +154,11 @@ class DeepEvaluator(Evaluator):
         return output
 
     def loadDataset(self):
-        with open("Data/chessInput-2019-32", "rb") as file:
-        # with open("Data/DS2800K-Input32", "rb") as file:
+        with open("Data/DS2800K-Input2048", "rb") as file:
             trainInput = pickle.load(file)
 
-        with open("Data/chessOutput-2019-32", "rb") as file:
-        # with open("Data/DS2800K-output32", "rb") as file:
+        with open("Data/DS2800K-output2048", "rb") as file:
             trainOutput = pickle.load(file)
-
-        # train_X, val_X, train_y, val_y = train_test_split(
-        #     trainInput, trainOutput, test_size=0.1)
 
         train_X = torch.stack(trainInput)
         train_y = torch.FloatTensor(trainOutput)
@@ -237,15 +181,8 @@ class DeepEvaluator(Evaluator):
 
         return train_data, test_data
 
-    def train(self, train_X, train_y):
-        # self.model.train()
+    def train(self, X_train, y_train):
         self.optimizer.zero_grad()
-
-        # # getting the training set
-        # X_train = Variable(train_X)
-        # y_train = Variable(train_y)
-        X_train = train_X
-        y_train = train_y
 
         # prediction for training and validation set
         output_train = self.model(X_train)
@@ -267,8 +204,6 @@ if __name__ == "__main__":
     train_data, test_data = evaluator.loadDataset()
 
     batch_size = 128
-    # print 2 times per epoch
-    # print_step = len(train_data) // batch_size // 2
     print_step = 20
 
     train_loader = DataLoader(
@@ -292,9 +227,6 @@ if __name__ == "__main__":
 
             loss = evaluator.train(X_batch, y_batch)
             running_loss += loss
-        # X_batch = X_batch.to(device)
-        # y_batch = y_batch.to(device)
-        # loss = evaluator.train(epoch, X_batch, y_batch)
             train_losses.append(loss)
             tmp.append(loss)
 
@@ -302,23 +234,17 @@ if __name__ == "__main__":
                 epoch_losses.append(loss)
 
             if i % print_step == print_step - 1:
-                # print("Epoch : {}\tBatch : {}\tLoss : {:.3f}".format(epoch+1, i+1, train_losses[-1]))
                 print("Epoch : {}\tBatch : {}\tLoss : {:.3f}".format(
                     epoch+1, i+1, running_loss / print_step))
-                # train_losses.append(running_loss / print_step)
                 running_loss = 0.0
 
         epochs.append(len(train_losses))
         epoch_losses.append(statistics.mean(tmp))
 
-    # epochs = np.arange(evaluator.n_epochs)
-    # mean_num_train = len(train_losses) / len(epochs)
-    # epochs = epochs * mean_num_train
     plt.plot(train_losses)
     plt.plot(epochs, epoch_losses)
-    plt.savefig("Graph/deq_ds{}_bs{}_ne{}_ps{}_1".format(len(train_data),
-                                                       batch_size, evaluator.n_epochs, print_step))
-    # plt.show()
+    plt.savefig("Graph/ds{}_bs{}_ne{}_ps{}_1".format(len(train_data),
+                                                     batch_size, evaluator.n_epochs, print_step))
 
     mse = []
     outs = []
@@ -335,13 +261,11 @@ if __name__ == "__main__":
             mse.append(evaluator.criterion(outputs, y).item())
 
     print("Average mean square error of the network on the test set: {}".format(statistics.mean(mse)))
-    print("Ground truth : min = {}, max = {}, mean = {}".format(min(truth), max(truth), np.mean(truth)))
     plt.clf()
     plt.plot(outs[:1000], '.')
     plt.plot(truth[:1000], '.')
     plt.legend(['Outputs', 'Ground truth'], loc='upper right')
-    plt.savefig("Graph/deq_ds{}_bs{}_ne{}_ps{}_2".format(len(train_data),
-                                                         batch_size, evaluator.n_epochs, print_step))
+    plt.savefig("Graph/ds{}_bs{}_ne{}_ps{}_2".format(len(train_data),
+                                                     batch_size, evaluator.n_epochs, print_step))
 
     torch.save(evaluator.model.state_dict(), MODELPATH)
-    # plt.show()

@@ -53,22 +53,6 @@ class MainWindow(QWidget):
     def closeEvent(self, event):
         self.game.quit()
 
-    # def evaluateMove(self):
-    #     if self.lastMoveScore < self.currentScore:
-    #         return "a bad move."
-    #     elif self.lastMoveScore == self.currentScore:
-    #         return "a not bad move."
-    #     else:
-    #         return "a good move."
-
-    # def whoIsWinning(self):
-    #     if self.currentBlackScore < self.currentWhiteScore:
-    #         return "The whites are winning."
-    #     elif -self.currentBlackScore == self.currentWhiteScore:
-    #         return "Black and white are equal ."
-    #     else:
-    #         return "The black are winning."
-
     @pyqtSlot(QWidget)
     def mousePressEvent(self, event):
         """
@@ -94,31 +78,14 @@ class MainWindow(QWidget):
                     # Square selected
                     square = chess.square(column, row)
 
-                    # if self.game.answer:
-                    #     print("MinMax move proposition: ", self.game.simpleAIMove())
-
-                    #     print("stockfish move proposition", self.game.engineMove())
-                    #     print("stockfish score evaluation", self.game.engineScore())
-
-                    #     self.game.answer = False
-
                     # If there is a previously selected square and
                     # if the selected square belongs to the set of legal squares
                     if self.legalSquares is not None and square in self.legalSquares:
-                        # self.game.answer = True
                         # Creates move
                         move = chess.Move(self.selectedSquare, square)
-                        # save last move score
-                        # self.lastMoveScore = self.game.simpleAIScore()
 
                         # Make move
                         self.game.move(move)
-                        # Save current score
-                        # self.currentScore = self.game.simpleAIScore()
-
-                        # self.currentWhiteScore = self.currentScore
-
-                        # print("White plays",self.evaluateMove(),"The current white score is: ", "%.2f" % round((self.currentWhiteScore/9999)*20,2))
 
                         # Unset temporary variables
                         self.selectedSquare = None
@@ -132,23 +99,9 @@ class MainWindow(QWidget):
 
                         # AI TURN
                         # Make move
-                        # self.lastBlackScore = self.game.simpleAIScore()
-
-                        # print("LastMoveScore : ", -self.lastMoveScore)
-
-                        # aiMove = self.game.simpleAIMove()
                         aiMove = self.game.deepAIMove()
-                        # aiMove = self.game.engineMove()
 
                         self.game.move(aiMove)
-
-                        # self.currentScore = self.game.simpleAIScore()
-
-                        # self.currentBlackScore = -self.currentScore
-
-                        # print("Black plays", self.evaluateMove() ,"The current black score is: ", "%.2f" % round((self.currentBlackScore/9999)*20,2))
-
-                        # print(self.whoIsWinning())
 
                         # Register last move
                         self.lastMove = aiMove
@@ -215,24 +168,17 @@ if __name__ == "__main__":
                         action="store_true",
                         help="Flag for the hidden window mode")
 
-    # Windows mode
-    parser.add_argument("-w",
-                        "--windows",
-                        action="store_true",
-                        help="Flags for windows user")
-
     # Fetch arguments
     args = parser.parse_args()
 
     # Extract depth
     depth = args.depth
     isSilent = args.silent
-    isWindows = args.windows
 
     # Create Qt application
     chessGame = QApplication(sys.argv)
 
-    game = Game(depth, isWindows)
+    game = Game(depth)
 
     if isSilent:
         game.run()

@@ -81,15 +81,16 @@ class MainWindow(QWidget):
                     # If there is a previously selected square and
                     # if the selected square belongs to the set of legal squares
                     if self.legalSquares is not None and square in self.legalSquares:
-                        # self.game.answer = True
                         # Creates move
                         move = chess.Move(self.selectedSquare, square)
+
                         # Make move
                         self.game.move(move)
 
                         # Unset temporary variables
                         self.selectedSquare = None
                         self.legalSquares = None
+
                         # Check game end
                         if self.game.isGameOver():
                             print("White wins")
@@ -99,7 +100,9 @@ class MainWindow(QWidget):
                         # AI TURN
                         # Make move
                         aiMove = self.game.deepAIMove()
+
                         self.game.move(aiMove)
+
                         # Register last move
                         self.lastMove = aiMove
 
@@ -165,24 +168,17 @@ if __name__ == "__main__":
                         action="store_true",
                         help="Flag for the hidden window mode")
 
-    # Windows mode
-    parser.add_argument("-w",
-                        "--windows",
-                        action="store_true",
-                        help="Flags for windows user")
-
     # Fetch arguments
     args = parser.parse_args()
 
     # Extract depth
     depth = args.depth
     isSilent = args.silent
-    isWindows = args.windows
 
     # Create Qt application
     chessGame = QApplication(sys.argv)
 
-    game = Game(depth, isWindows)
+    game = Game(depth)
 
     if isSilent:
         game.run()
