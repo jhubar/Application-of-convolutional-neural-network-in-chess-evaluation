@@ -26,7 +26,7 @@ class StockfishEvaluator(Evaluator):
         A score as an integer from -9999 to 9999
         """
 
-        return self.engine.analyse(board, chess.engine.Limit(depth=2))["score"].white().score(mate_score=32767)
+        return self.engine.analyse(board, chess.engine.Limit(depth=2))["score"].white().score(mate_score=2048)
 
     def quit(self):
         self.engine.quit()

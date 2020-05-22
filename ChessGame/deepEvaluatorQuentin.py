@@ -124,7 +124,7 @@ class DeepEvaluator(Evaluator):
         self.optimizer = SGD(self.model.parameters(), lr=0.01)
 
         # defining the number of epochs
-        self.n_epochs = 3
+        self.n_epochs = 2
         # empty list to store training losses
         # self.train_losses = []
         # empty list to store validation losses
@@ -198,6 +198,9 @@ class DeepEvaluator(Evaluator):
 
         if board.turn is chess.BLACK:
             output = -output
+
+        output = output * 2 * 2048
+        output = output - 2048
 
         return output
 

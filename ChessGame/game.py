@@ -4,6 +4,7 @@ import chess.engine
 from evaluator import Evaluator
 from simpleEvaluator import SimpleEvaluator
 from deepEvaluatorQuentin import DeepEvaluator
+from stockfishEvaluator import StockfishEvaluator
 
 from minimax import searchNextMove
 
@@ -17,9 +18,12 @@ class Game:
         self.board = chess.Board()
 
         if isWindows:
-            self.engine = chess.engine.SimpleEngine.popen_uci(STOCKFISH_PATH_WINDOWS)
+            self.engine = chess.engine.SimpleEngine.popen_uci(
+                STOCKFISH_PATH_WINDOWS)
         else:
             self.engine = chess.engine.SimpleEngine.popen_uci(STOCKFISH_PATH)
+
+        # self.stockfish = StockfishEvaluator(isWindows=isWindows)
 
         self.answer = True
 
@@ -36,19 +40,21 @@ class Game:
         return searchNextMove(self.board, self.depth, DeepEvaluator(True))
 
     def engineMove(self):
-        return self.engine.play(self.board, chess.engine.Limit(depth=self.depth)).move
+        # return self.engine.play(self.board, chess.engine.Limit(depth=self.depth)).move
+        return searchNextMove(self.board, self.depth, self.stockfish)
 
     def engineScore(self):
-        return self.engine.analyse(self.board, chess.engine.Limit(depth=self.depth))["score"].white().score(mate_score=32767)
+        return self.engine.analyse(self.board, chess.engine.Limit(depth=self.depth))["score"].white().score(mate_score=2048)
 
     def isGameOver(self):
         return self.board.is_game_over()
 
     def quit(self):
         self.engine.quit()
+        # self.stockfish.quit()
 
     def run(self):
         while not self.isGameOver():
-            self.move(self.simpleAIMove())
             self.move(self.deepAIMove())
+            self.move(self.engineMove())
         print(self.board.result())
