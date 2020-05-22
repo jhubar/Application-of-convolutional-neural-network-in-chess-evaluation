@@ -14,7 +14,7 @@ def loadData():
     """
     Loads the data from a pgn file
     """
-    filePath = "2010_896221.pgn"
+    filePath = "2010_1322361.pgn"
 
     with open(filePath) as pgn:
         nbGames = 0
@@ -80,7 +80,7 @@ if __name__ == "__main__":
 
     X, y = loadData()
 
-    save(X, "DS4200K3500-input") # TODO
-    save(y, "DS4200K3500-output")
+    save(X, "DS4200K2048-input")
+    save(y, "DS4200K2048-output")
 
     print("Completed. {} states have been generated\n".format(len(X)))

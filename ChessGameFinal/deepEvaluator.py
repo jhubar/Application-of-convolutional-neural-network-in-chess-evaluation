@@ -203,10 +203,10 @@ class DeepEvaluator(Evaluator):
         train_data:
         test_data:
         """
-        with open("Data/chessInput-2019-32", "rb") as file: # TODO
+        with open("Data/DS4200K2048-input", "rb") as file:  # TODO
             trainInput = pickle.load(file)
 
-        with open("Data/chessOutput-2019-32", "rb") as file:
+        with open("Data/DS4200K2048-output", "rb") as file:
             trainOutput = pickle.load(file)
 
         train_X = torch.stack(trainInput)
