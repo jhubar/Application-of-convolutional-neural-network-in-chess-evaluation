@@ -38,7 +38,7 @@ def weight_init(m):
     m:
     Return:
     -------
-    
+
     """
     if isinstance(m, Conv2d):
         kaiming_normal_(m.weight, nonlinearity='relu')
@@ -47,6 +47,9 @@ def weight_init(m):
 
 class CustomNet(Module):
     def __init__(self):
+        """
+        Initialize the custom network.
+        """
         super(CustomNet, self).__init__()
 
         self.conv1 = Conv2d(12, 20, 5)

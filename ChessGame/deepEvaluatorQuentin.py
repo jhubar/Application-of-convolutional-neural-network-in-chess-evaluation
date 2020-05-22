@@ -195,7 +195,7 @@ class DeepEvaluator(Evaluator):
         output = self.model(tensor)
         # model.load_state_dict(torch.load(MODELPATH))
         # return model.eval(tensor)
-
+        output = output.item()
         if board.turn is chess.BLACK:
             output = -output
 
