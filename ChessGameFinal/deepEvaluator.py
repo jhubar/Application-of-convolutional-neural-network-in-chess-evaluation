@@ -27,18 +27,9 @@ from evaluator import Evaluator
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
-MODELPATH = "./deqModel.pth"
+MODELPATH = "ModelDS4200K2048.pth"
 
 def weight_init(m):
-    """
-
-    Arguments:
-    ----------
-    m:
-    Return:
-    -------
-
-    """
     if isinstance(m, Conv2d):
         kaiming_normal_(m.weight, nonlinearity='relu')
         zeros_(m.bias)
@@ -69,7 +60,7 @@ class CustomNet(Module):
         x: The input that passes through all the layers
         Return:
         -------
-        res:
+        res: output of forward
         """
         res = elu(self.bn1(self.conv1(x)))
         res = self.drop(res)
@@ -196,17 +187,15 @@ class DeepEvaluator(Evaluator):
 
     def loadDataset(self):
         """
-
-
         Return:
         -------
-        train_data:
-        test_data:
+        train_data: The trainning dataset
+        test_data: The testing dataset
         """
-        with open("Data/DS4200K2048-input", "rb") as file:  # TODO
+        with open("DS4200K2048-input", "rb") as file:  # TODO
             trainInput = pickle.load(file)
 
-        with open("Data/DS4200K2048-output", "rb") as file:
+        with open("DS4200K2048-output", "rb") as file:
             trainOutput = pickle.load(file)
 
         train_X = torch.stack(trainInput)
@@ -233,11 +222,10 @@ class DeepEvaluator(Evaluator):
     def train(self, X_train, y_train):
         """
 
-
         Arguments:
         ----------
-        train_X:
-        train_y:
+        train_X: Batch output
+        train_y: Batch input
 
         Return:
         -------
@@ -303,7 +291,7 @@ if __name__ == "__main__":
 
     plt.plot(train_losses)
     plt.plot(epochs, epoch_losses)
-    plt.savefig("Graph/ds{}_bs{}_ne{}_ps{}_1".format(len(train_data),
+    plt.savefig("ds{}_bs{}_ne{}_ps{}_1".format(len(train_data),
                                                      batch_size, evaluator.n_epochs, print_step))
 
     mse = []
@@ -325,7 +313,7 @@ if __name__ == "__main__":
     plt.plot(outs[:1000], '.')
     plt.plot(truth[:1000], '.')
     plt.legend(['Outputs', 'Ground truth'], loc='upper right')
-    plt.savefig("Graph/ds{}_bs{}_ne{}_ps{}_2".format(len(train_data),
+    plt.savefig("ds{}_bs{}_ne{}_ps{}_2".format(len(train_data),
                                                      batch_size, evaluator.n_epochs, print_step))
 
     torch.save(evaluator.model.state_dict(), MODELPATH)
