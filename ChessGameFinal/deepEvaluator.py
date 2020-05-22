@@ -62,6 +62,7 @@ class CustomNet(Module):
         x: The input that passes through all the layers
         Return:
         -------
+        res:
         """
         res = elu(self.bn1(self.conv1(x)))
         res = self.drop(res)
@@ -189,11 +190,11 @@ class DeepEvaluator(Evaluator):
     def loadDataset(self):
         """
 
-        Arguments:
-        ----------
 
         Return:
         -------
+        train_data:
+        test_data:
         """
         with open("Data/chessInput-2019-32", "rb") as file:
             trainInput = pickle.load(file)
@@ -229,7 +230,8 @@ class DeepEvaluator(Evaluator):
 
         Arguments:
         ----------
-
+        train_X
+        train_y
         Return:
         -------
         """
