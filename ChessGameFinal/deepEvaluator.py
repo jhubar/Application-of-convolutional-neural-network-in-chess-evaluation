@@ -31,11 +31,6 @@ MODELPATH = "./deqModel.pth"
 
 
 def weight_init(m):
-    if isinstance(m, Conv2d) or isinstance(m, Linear):
-        xavier_uniform_(m.weight, gain=calculate_gain('relu'))
-        zeros_(m.bias)
-
-def weight_init_2(m):
     if isinstance(m, Conv2d):
         kaiming_normal_(m.weight, nonlinearity='relu')
         zeros_(m.bias)
@@ -60,6 +55,14 @@ class CustomNet(Module):
 
 
     def forward(self, x):
+        """
+
+        Arguments:
+        ----------
+        x: The input that passes through all the layers
+        Return:
+        -------
+        """
         res = elu(self.bn1(self.conv1(x)))
         res = self.drop(res)
 
@@ -82,7 +85,7 @@ class DeepEvaluator(Evaluator):
                 MODELPATH, map_location=torch.device('cpu')))
             self.model.eval()
         else:
-            self.model.apply(weight_init_2)
+            self.model.apply(weight_init)
 
         self.criterion = MSELoss()
         self.optimizer = SGD(self.model.parameters(), lr=0.01)
@@ -93,6 +96,15 @@ class DeepEvaluator(Evaluator):
 
     @staticmethod
     def boardToTensor(board):
+        """
+        Arguments:
+        ----------
+        board : A chess.Board object representing the position to evaluate
+
+        Return:
+        -------
+        A tensor of chess.Board
+        """
         tensor = torch.zeros(12, 8, 8)
 
         for wp in board.pieces(chess.PAWN, chess.WHITE):
@@ -147,6 +159,17 @@ class DeepEvaluator(Evaluator):
         return tensor
 
     def evaluate(self, board: chess.Board):
+        """
+        Evaluate a given position
+
+        Arguments:
+        ----------
+        board : A chess.Board object representing the position to evaluate
+
+        Return:
+        -------
+        A score as an integer from -9999 to 9999
+        """
 
         if board.turn is chess.BLACK:
             board = board.mirror()
@@ -164,6 +187,14 @@ class DeepEvaluator(Evaluator):
         return output
 
     def loadDataset(self):
+        """
+
+        Arguments:
+        ----------
+
+        Return:
+        -------
+        """
         with open("Data/chessInput-2019-32", "rb") as file:
             trainInput = pickle.load(file)
 
@@ -193,7 +224,15 @@ class DeepEvaluator(Evaluator):
         return train_data, test_data
 
     def train(self, train_X, train_y):
+        """
 
+
+        Arguments:
+        ----------
+
+        Return:
+        -------
+        """
         self.optimizer.zero_grad()
 
         X_train = train_X
