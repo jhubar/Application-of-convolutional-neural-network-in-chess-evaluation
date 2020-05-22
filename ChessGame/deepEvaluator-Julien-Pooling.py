@@ -18,6 +18,7 @@ import numpy as np
 import torch
 from torch.nn import Linear, Sequential, ReLU, Conv2d, BatchNorm1d, BatchNorm2d, Module, MSELoss, ELU, Softmax, Dropout, DataParallel
 from torch.nn.functional import elu, relu, softmax
+from torch.nn import MaxPool2d, BatchNorm2d, Module, CrossEntropyLoss, MSELoss, ELU, Softmax, Dropout, AvgPool2d
 from torch.nn.init import xavier_uniform_, zeros_, calculate_gain, kaiming_normal_
 from torch.optim import Adam, SGD
 from torch.utils.data import TensorDataset, DataLoader
@@ -30,9 +31,9 @@ device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 # device = 'cpu'
 # print(device)
 
-MODELPATH = "./deqModelDS2048-Poolings.pth"
+MODELPATH = "./deqModel.pth"
 
-
+dropout = 0
 def weight_init(m):
     if isinstance(m, Conv2d) or isinstance(m, Linear):
         xavier_uniform_(m.weight, gain=calculate_gain('relu'))
@@ -42,6 +43,7 @@ def weight_init_2(m):
     if isinstance(m, Conv2d):
         kaiming_normal_(m.weight, nonlinearity='relu')
         zeros_(m.bias)
+
 
 class CustomNet(Module):
     def __init__(self):
@@ -83,6 +85,7 @@ class CustomNet(Module):
         res = self.fcModel(xflat)
 
         return res
+
 
 class DeepEvaluator(Evaluator):
     def __init__(self, evalMode: bool):
@@ -177,18 +180,21 @@ class DeepEvaluator(Evaluator):
         output = self.model(tensor)
         # model.load_state_dict(torch.load(MODELPATH))
         # return model.eval(tensor)
-
+        output = output.item()
         if board.turn is chess.BLACK:
             output = -output
+
+        output = output * 2 * 2048
+        output = output - 2048
 
         return output
 
     def loadDataset(self):
-        with open("Data/DS4200K2048-input", "rb") as file:
+        with open("Data/DS2800K-Input2048", "rb") as file:
         # with open("Data/DS2800K-Input32", "rb") as file:
             trainInput = pickle.load(file)
 
-        with open("Data/DS4200K2048-output", "rb") as file:
+        with open("Data/DS2800K-output2048", "rb") as file:
         # with open("Data/DS2800K-output32", "rb") as file:
             trainOutput = pickle.load(file)
 
