@@ -31,6 +31,15 @@ MODELPATH = "./deqModel.pth"
 
 
 def weight_init(m):
+    """
+
+    Arguments:
+    ----------
+    m:
+    Return:
+    -------
+    
+    """
     if isinstance(m, Conv2d):
         kaiming_normal_(m.weight, nonlinearity='relu')
         zeros_(m.bias)
@@ -230,8 +239,9 @@ class DeepEvaluator(Evaluator):
 
         Arguments:
         ----------
-        train_X
-        train_y
+        train_X:
+        train_y:
+
         Return:
         -------
         """
