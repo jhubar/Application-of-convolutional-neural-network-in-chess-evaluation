@@ -19,6 +19,9 @@
 - [Batch Normalisations](https://www.youtube.com/watch?v=em6dfRxYkYU)
 - [convolutionnal with Anchor Boxes](https://www.youtube.com/watch?v=RTlwl2bv0Tg)
 
+# Authors
+[Julien HUbar](https://github.com/jhubar)
+
 
 
 
