@@ -9,9 +9,9 @@
 
 
 # Authors
-[Julien HUbar](https://github.com/jhubar)
-[Pierre Hockers]
-[Quentin Lowette]
+  1.[Julien HUbar](https://github.com/jhubar)
+  1.[Pierre Hockers]
+  1.[Quentin Lowette]
 
 
 
