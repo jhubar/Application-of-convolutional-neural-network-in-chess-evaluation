@@ -1,10 +1,9 @@
 # Deep-Learning-Project
-<img src=Image/starwars_small.gif width=100% />
 
 ## Liens vers les différents rapport.
-- [Rapport project](https://www.overleaf.com/6328664843mtvcjzzmryzz)
+- [Rapport project](https://github.com/jhubar/Deep-Learning-Project/blob/master/Deep_Learning_Project_Report.pdf)
 - [Rapport reading assignement](https://www.overleaf.com/1241231948txqpkmphvrgq)
-- [Proposal project](https://fr.overleaf.com/8691937656zdttxqfydzys)
+
 
 
 ## Documentations.
@@ -21,6 +20,8 @@
 
 # Authors
 [Julien HUbar](https://github.com/jhubar)
+[Pierre Hockers]
+[Quentin Lowette]
 
 
 
