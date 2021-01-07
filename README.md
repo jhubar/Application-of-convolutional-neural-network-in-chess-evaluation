@@ -10,8 +10,8 @@
 
 # Authors
   1.[Julien HUbar](https://github.com/jhubar)
-  1.[Pierre Hockers]
-  1.[Quentin Lowette]
+  1.[Pierre Hockers](https://github.com/Lastshadows)
+  1.[Quentin Lowette](https://github.com/quentinlowette)
 
 
 
