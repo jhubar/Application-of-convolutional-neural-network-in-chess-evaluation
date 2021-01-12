@@ -9,7 +9,7 @@
 
 
 # Authors
- 1. [Julien Hubar](https://github.com/jhubar)
+ 1. [Julien Hubar](https://jhubar.github.io)
  1. [Pierre Hockers](https://github.com/Lastshadows)
  1. [Quentin Lowette](https://github.com/quentinlowette)
 
